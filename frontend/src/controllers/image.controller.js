@@ -1,0 +1,24 @@
+import chunkingSystem from "@/utils/chunking.utils";
+import imageService from "@/services/images.service";
+
+const imageController = {
+    methods: {
+        uploadImage: async function (imageBase64, toFile) {
+            let imageId = '';
+
+            //chunking system
+            const chunks = this.chunkString(imageBase64);
+            if (chunks.length > 1) {
+                const response = await this.sendChunks(chunks, 'image/add', { isChunked: true, toFile: toFile });
+                imageId = response.data.documentId;
+            } else { //regular image upload
+                const response = await this.saveNewImageOnServer(imageBase64, toFile);
+                imageId = response.documentId;
+            }
+            return imageId;
+        }
+    },
+    mixins: [chunkingSystem, imageService]
+}
+
+export default imageController;
