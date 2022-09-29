@@ -1,4 +1,4 @@
-const maxResponseCount = 20;
+const maxResponseCount = 100;
 
 //////////////////////
 //Define here search paths for filters

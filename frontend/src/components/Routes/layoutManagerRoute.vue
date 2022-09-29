@@ -18,9 +18,24 @@ export default {
 		PageGrid,
 	},
 
-	mounted: async function () {
-		this.currentLayout = this.$route.query.layout;
-		store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t(this.currentLayout));
+	watch: {
+		"$route.params": {
+			handler: function () {
+				this.loadNewLayout();
+			},
+			deep: true,
+		},
+	},
+
+	methods: {
+		loadNewLayout: function () {
+			this.currentLayout = this.$route.params.layoutName;
+			store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t(this.currentLayout));
+		},
+	},
+
+	mounted: function () {
+		this.loadNewLayout();
 	},
 };
 </script>

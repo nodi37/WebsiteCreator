@@ -30,7 +30,7 @@ async function firstRunLayoutsCreator() {
     try {
         const topLayout = await Layout.countDocuments({ name: "TopLayout" });
 
-        if (topLayout === 0) {
+        if (!!topLayout) {
             console.log('[AppInit] Basic layouts data not exists! Creating...');
             await saveNewLayout({
                 name: "topLayout",

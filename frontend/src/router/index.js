@@ -23,7 +23,7 @@ const routes = [
         component: GlobalRoute
       },
       {
-        path: 'layout-manager',
+        path: 'layout-manager/:layoutName',
         name: 'layoutManager',
         component: layoutManagerRoute
       },

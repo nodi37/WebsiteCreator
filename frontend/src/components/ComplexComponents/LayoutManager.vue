@@ -132,6 +132,7 @@ export default {
 	<div class="w-full flex flex-col gap-6">
 		<skeleton-loader :isLoading="isLoading" />
 		<template v-if="isLoaded">
+			<span v-if="!layoutData.isRequired">This will be layout conifg box</span>
 			<double-state-snackbar
 				:text="snackBarStates.text"
 				:visible="snackBarVisible"
