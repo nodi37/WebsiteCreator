@@ -40,7 +40,6 @@ const addImage = async (req: Request, res: Response) => {
 
 const deleteImage = async (req: Request, res: Response) => {
     try {
-        console.log(req)
         const response = await deleteSingleImage(req.params.id);
         if (response) {
             res.status(200).json({ data: response });

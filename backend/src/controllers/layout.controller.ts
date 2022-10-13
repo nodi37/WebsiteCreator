@@ -62,7 +62,6 @@ const deleteLayout = async (req: Request, res: Response) => {
         const response = await deleteSingleLayout(req.params.id);
         if (response) {
             res.status(200).json({ data: response });
-            //Delete all components related
         } else {
             res.status(404).json({ error: "Resource not found" });
         }

@@ -27,6 +27,10 @@ const layoutController = {
 
         updateLayout: async function (layoutDoc) {
             return await this.updateLayoutRequest(layoutDoc);
+        },
+
+        deleteLayout: async function (layoutDoc) {
+            return await this.deleteLayoutRequest(layoutDoc);
         }
     },
     mixins: [layoutService]

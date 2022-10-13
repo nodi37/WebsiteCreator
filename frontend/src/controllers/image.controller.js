@@ -16,6 +16,10 @@ const imageController = {
                 imageId = response.documentId;
             }
             return imageId;
+        },
+
+        deleteImage: async function (imageId) {
+            return await this.deleteImageRequest(imageId);
         }
     },
     mixins: [chunkingSystem, imageService]

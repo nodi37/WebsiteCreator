@@ -2,6 +2,7 @@ import componentService from "@/services/component.service";
 import createPropsObj from "@/helpers/componentPropsCreator";
 
 import store from "@/store";
+import imageController from "./image.controller";
 
 const componentController = {
     methods: {
@@ -30,8 +31,15 @@ const componentController = {
             const newComponentData = await this.saveNewComponentRequest(newComponent);
             return newComponentData;
         },
-        
-        deleteComponentFromServer: async function (component) {
+
+        deleteComponentWithDataFromServer: async function (component) {
+            const cmpModel = this.getComponentModel(component.name);
+
+            for (const imgProp of cmpModel.props.images) {
+                const imgId = component.props[imgProp.name];
+                if (!!imgId) this.deleteImage(imgId)
+            }
+
             return await this.deleteComponentRequest(component);
         },
     },
@@ -40,7 +48,7 @@ const componentController = {
             return store.state.componentsModels;
         },
     },
-    mixins: [componentService, createPropsObj]
+    mixins: [componentService, imageController, createPropsObj]
 }
 
 export default componentController;

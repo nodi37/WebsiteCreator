@@ -10,7 +10,12 @@ const imageService = {
                 toFile: toFile
             });
             return response.data;
-        }
+        },
+        
+        deleteImageRequest: async function (imageId) {
+            const request = await axios.delete(`${api}image/delete/${imageId}`);
+            return request.data.data ? request.data.data : null;
+        },
     }
 }
 

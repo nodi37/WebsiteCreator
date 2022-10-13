@@ -5,7 +5,7 @@ import AddSubpageRoute from '@/components/Routes/AddSubpageRoute.vue';
 import ArticlesRoute from '@/components/Routes/ArticlesRoute.vue';
 import GalleriesRoute from '@/components/Routes/GalleriesRoute.vue';
 import GlobalRoute from '@/components/Routes/GlobalRoute.vue';
-import layoutManagerRoute from '@/components/Routes/layoutManagerRoute.vue';
+import LayoutManagerRoute from '@/components/Routes/LayoutManagerRoute.vue';
 import LoginView from '@/views/LoginView';
 import MainView from '@/views/MainView';
 
@@ -25,7 +25,7 @@ const routes = [
       {
         path: 'layout-manager/:layoutName',
         name: 'layoutManager',
-        component: layoutManagerRoute
+        component: LayoutManagerRoute
       },
       {
         path: 'articles',

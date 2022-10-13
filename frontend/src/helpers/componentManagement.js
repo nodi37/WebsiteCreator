@@ -150,7 +150,7 @@ const componentManagement = {
         //Complex server management tasks
         deleteComponentAndUpdateLayoutOnServer: async function (component) {
 
-            const deleteTask = await this.deleteComponentFromServer(component);
+            const deleteTask = await this.deleteComponentWithDataFromServer(component);
 
             if (!deleteTask.success) return;
 

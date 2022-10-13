@@ -1,5 +1,8 @@
 import { createCanvas, Image } from "canvas";
 
+//REcreate to sharp
+//https://www.npmjs.com/package/sharp
+
 function resizeImage(imageBase64: string, width: number): Promise<string> {
     return new Promise(async (resolve, reject) => {
         const img = new Image();

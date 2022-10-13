@@ -11,6 +11,7 @@ import SkeletonLoader from "@/components/UI/SkeletonLoader.vue";
 import DoubleStateSnackbar from "@/components/UI/DoubleStateSnackbar.vue";
 
 import componentManagement from "@/helpers/componentManagement";
+import LayoutConfigBox from "./LayoutConfigBox.vue";
 
 export default {
 	name: "LayoutManager",
@@ -39,7 +40,11 @@ export default {
 		addComponentToLayout(component) {
 			this.queueBusy = true;
 			this.addComponentsDialogVisible = false;
-			this.layoutComponents.push({ name: component.name, order: this.layoutComponents.length, props: {} });
+			this.layoutComponents.push({
+				name: component.name,
+				order: this.layoutComponents.length,
+				props: {},
+			});
 		},
 
 		onCompModifiedHandler() {
@@ -123,6 +128,7 @@ export default {
 		ErrorOverlay,
 		SkeletonLoader,
 		DoubleStateSnackbar,
+		LayoutConfigBox,
 	},
 	mixins: [componentManagement],
 };
@@ -132,7 +138,31 @@ export default {
 	<div class="w-full flex flex-col gap-6">
 		<skeleton-loader :isLoading="isLoading" />
 		<template v-if="isLoaded">
-			<span v-if="!layoutData.isRequired">This will be layout conifg box</span>
+			
+			<!-- Layout settings -->
+			<layout-config-box v-if="!layoutData.isRequired" :layoutData="layoutData" @errored="$emit('error')" />
+
+			<!-- Components -->
+			<component-config-card
+				v-for="(doc, i) in componentsByOrder"
+				:key="'top-' + i"
+				:order="i"
+				:document="doc"
+				:actionsDisabled="taskInProgress"
+				:queueBusy="queueBusy"
+				:model="getComponentModel(doc.name)"
+				@save="saveBtnHanler(doc)"
+				@delete="deleteBtnHandler(doc)"
+				@moveUp="moveUpComponent(doc)"
+				@modified="onCompModifiedHandler()"
+			/>
+
+			<!-- Plus button for components -->
+			<component-holder :class="queueBusy ? 'opacity-50' : ''">
+				<add-btn :disabled="queueBusy" v-on:click="triggerSelectionDialog()" />
+			</component-holder>
+
+			<!-- State snackbar -->
 			<double-state-snackbar
 				:text="snackBarStates.text"
 				:visible="snackBarVisible"
@@ -155,26 +185,6 @@ export default {
 					@click="addComponentToLayout(c)"
 				/>
 			</dialog-box>
-
-			<!-- Components on top -->
-			<component-config-card
-				v-for="(doc, i) in componentsByOrder"
-				:key="'top-' + i"
-				:order="i"
-				:document="doc"
-				:actionsDisabled="taskInProgress"
-				:queueBusy="queueBusy"
-				:model="getComponentModel(doc.name)"
-				@save="saveBtnHanler(doc)"
-				@delete="deleteBtnHandler(doc)"
-				@moveUp="moveUpComponent(doc)"
-				@modified="onCompModifiedHandler()"
-			/>
-
-			<!-- Plus button for components on the top -->
-			<component-holder :class="queueBusy ? 'opacity-50' : ''">
-				<add-btn :disabled="queueBusy" v-on:click="triggerSelectionDialog()" />
-			</component-holder>
 		</template>
 	</div>
 </template>

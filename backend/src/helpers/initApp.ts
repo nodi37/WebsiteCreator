@@ -28,9 +28,9 @@ function initApp() {
 
 async function firstRunLayoutsCreator() {
     try {
-        const topLayout = await Layout.countDocuments({ name: "TopLayout" });
-
-        if (!!topLayout) {
+        const topLayout = await Layout.countDocuments({ name: "topLayout" });
+        
+        if (!topLayout) {
             console.log('[AppInit] Basic layouts data not exists! Creating...');
             await saveNewLayout({
                 name: "topLayout",
@@ -91,7 +91,7 @@ function startChunkingBufferCleaner() {
 
 
 ///NEEEDS REFACTORING
-//Or i will remove this and make something more smart
+//Probably not needeed already, images are removed togheder with components
 async function startImageCleaner() {
     if (!imagesCleanerActive) return;
     console.log(`[Image Cleaner] Image cleaner is active with ${imagesCleanerIntervalMinutes} minutes interval.`);

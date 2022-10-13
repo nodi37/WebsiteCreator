@@ -4,7 +4,7 @@ const api = process.env.VUE_APP_API_PATH;
 const layoutService = {
     methods: {
         getManyLayoutsRequest: async function () {
-             //this needs to be prepared to use skip/limit/etc if needed!
+            //this needs to be prepared to use skip/limit/etc if needed!
             const request = await axios.get(`${api}layout/get-many`);
             return request.data.data ? request.data.data : [];
         },
@@ -25,6 +25,11 @@ const layoutService = {
 
         updateLayoutRequest: async function (layoutDoc) {
             const request = await axios.patch(`${api}layout/edit/${layoutDoc._id}`, layoutDoc);
+            return request.data.data ? request.data.data : null;
+        },
+
+        deleteLayoutRequest: async function (layoutDoc) {
+            const request = await axios.delete(`${api}layout/delete/${layoutDoc._id}`);
             return request.data.data ? request.data.data : null;
         },
     }
