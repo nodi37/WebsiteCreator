@@ -47,7 +47,7 @@ const chunkingSystem = {
             });
         },
         chunkString: function (dataString) {
-            const chunkLength = 1186364; //Ca 256kb 
+            const chunkLength = 345000 * 2; //Ca 256kb * 2
             const chunksCount = Math.ceil(dataString.length / chunkLength);
             const chunks = [];
 

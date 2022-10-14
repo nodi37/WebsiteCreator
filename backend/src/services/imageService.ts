@@ -17,6 +17,7 @@ const addNewImage = async (body: IImage) => {
         const catchedError = error as IQueryError;
         if (catchedError.code != 11000) {
             console.log(error);
+            throw error;
         }
         const err = new Error('Duplicate key error!') as IQueryError;
         err.code = catchedError.code;
