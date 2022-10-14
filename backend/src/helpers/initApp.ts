@@ -91,7 +91,8 @@ function startChunkingBufferCleaner() {
 
 
 ///NEEEDS REFACTORING
-//Probably not needeed already, images are removed togheder with components
+//Probably not needeed already, images are removed on component changes already
+//But i will leave this in case of mistakes in code
 async function startImageCleaner() {
     if (!imagesCleanerActive) return;
     console.log(`[Image Cleaner] Image cleaner is active with ${imagesCleanerIntervalMinutes} minutes interval.`);

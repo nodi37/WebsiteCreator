@@ -23,6 +23,15 @@ export default {
 				this.document.modifiedProps.push(prop);
 			}
 		},
+		pushToRemove(prop) {
+			if (!this.document.propsToRemove) {
+				this.document.propsToRemove = [];
+			}
+
+			if (!this.document.propsToRemove.includes(prop)) {
+				this.document.propsToRemove.push(prop);
+			}
+		},
 	},
 	computed: {
 		toSave: function () {
@@ -53,7 +62,12 @@ export default {
 			</template>
 
 			<template v-if="model.props.images">
-				<images-list :images="model.props.images" v-model="document.props" @modified="pushModified" />
+				<images-list
+					:images="model.props.images"
+					v-model="document.props"
+					@modified="pushModified"
+					@toremove="pushToRemove"
+				/>
 				<v-divider />
 			</template>
 
@@ -65,17 +79,18 @@ export default {
 			not-saved!
 		</v-alert>
 		<template v-slot:actions>
-			<v-btn @click="$emit('moveUp')" :disabled="!document._id || actionsDisabled || queueBusy" color="secondary"
-				>Move Up
+			<v-btn @click="$emit('moveUp')" :disabled="!document._id || actionsDisabled || queueBusy" color="secondary">
+				Move Up
 			</v-btn>
-			<v-btn @click="$emit('delete')" :disabled="actionsDisabled || (queueBusy && !toSave)" color="error"
-				>Delete
+			<v-btn @click="$emit('delete')" :disabled="actionsDisabled || (queueBusy && !toSave)" color="error">
+				Delete
 			</v-btn>
 			<v-btn
 				@click="$emit('save')"
 				:disabled="!toSave || (queueBusy && !toSave) || actionsDisabled"
 				color="success"
-				>Save
+			>
+				Save
 			</v-btn>
 		</template>
 	</titled-card>

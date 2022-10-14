@@ -70,6 +70,7 @@ const componentManagement = {
                 await this.setTasksState('taskState', 0, 1, 'updating-component', true);
 
                 const updatedDoc = await this.updateComponentOnServer(doc, this.layoutData.isGlobal);
+                this.removeOldPropsData(doc.propsToRemove);
                 this.replaceOrDeleteLocalComponent(doc, updatedDoc);
 
                 await this.setTasksState('taskState', 1, 1, 'task-finished', false);
@@ -104,7 +105,7 @@ const componentManagement = {
                     if (!updatedComponent._id) {
                         this.saveNewComponent(updatedComponent);
                     } else {
-                       this.updateComponent(updatedComponent);
+                        this.updateComponent(updatedComponent);
                     }
                 }
 
@@ -116,13 +117,26 @@ const componentManagement = {
             }
         },
 
+        removeOldPropsData: async function (propsToRemoveArr) {
+            for (const prop of propsToRemoveArr) {
+                console.log(prop)
+                switch (prop.type) {
+                    case 'image':
+                        await this.deleteImage(prop.id);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        },
 
         moveUpComponent: async function (doc) {
             try {
                 await this.setTasksState('taskState', 0, 1, 'moving-components', true);
 
                 const newOrder = doc.order - 1;
-                const replacedComp = this.layoutComponents.find((component) => component.order==newOrder);
+                const replacedComp = this.layoutComponents.find((component) => component.order == newOrder);
 
                 const newComps = [
                     { ...doc, order: newOrder },
