@@ -10,6 +10,11 @@ const componentController = {
             return this.componentsModels.find((doc) => doc.name === name);
         },
 
+        getComponentFromServer: async function (id) {
+            const req = await this.getComponentByIdRequest(id)
+            return req;
+        },
+
         updateComponentOnServer: async function (modifiedComponent, isGlobal) {
             const props = await this.createPropsObj(modifiedComponent, isGlobal);
             const newComponent = {
@@ -34,6 +39,7 @@ const componentController = {
 
         deleteComponentWithDataFromServer: async function (component) {
             const cmpModel = this.getComponentModel(component.name);
+            console.log(cmpModel)
 
             for (const imgProp of cmpModel.props.images) {
                 const imgId = component.props[imgProp.name];

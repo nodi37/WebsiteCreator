@@ -3,6 +3,11 @@ const api = process.env.VUE_APP_API_PATH;
 
 const componentService = {
     methods: {
+        getComponentByIdRequest: async function (id) {
+            const req = await axios.get(api + "component/get/" + id);
+            return req.data.data;
+        },
+
         saveNewComponentRequest: async function (component) {
             const req = await axios.post(api + "component/add", component);
             return req.data.data;

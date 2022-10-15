@@ -90,9 +90,11 @@ function startChunkingBufferCleaner() {
 
 
 
-///NEEEDS REFACTORING
-//Probably not needeed already, images are removed on component changes already
-//But i will leave this in case of mistakes in code
+///NEEEDS REFACTORING 
+//Images are removed on component changes already but its safety feature
+//If image will be saved and component will be not due to connection brake or server error, this function will clean unnecessary files
+
+//NEEEDS TO BE EXPANDED FOR galleries/articles!!!!
 async function startImageCleaner() {
     if (!imagesCleanerActive) return;
     console.log(`[Image Cleaner] Image cleaner is active with ${imagesCleanerIntervalMinutes} minutes interval.`);

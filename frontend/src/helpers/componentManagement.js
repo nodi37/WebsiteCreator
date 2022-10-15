@@ -119,7 +119,6 @@ const componentManagement = {
 
         removeOldPropsData: async function (propsToRemoveArr) {
             for (const prop of propsToRemoveArr) {
-                console.log(prop)
                 switch (prop.type) {
                     case 'image':
                         await this.deleteImage(prop.id);

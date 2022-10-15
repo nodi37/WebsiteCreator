@@ -27,7 +27,8 @@ export default {
 
 			try {
 				for (const compId of this.layoutData.components) {
-					await this.deleteComponentWithDataFromServer({ _id: compId });
+					const componentData = await this.getComponentFromServer(compId);
+					await this.deleteComponentWithDataFromServer(componentData);
 				}
 				await this.deleteLayout(this.layoutData);
 
