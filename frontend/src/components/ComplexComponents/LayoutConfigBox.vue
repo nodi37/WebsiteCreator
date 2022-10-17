@@ -16,7 +16,7 @@ export default {
 	methods: {
 		deleteHandler: async function () {
 			const ok = await this.$refs.deleteDialog.show({
-				text: "all-components-will-be-deleted",
+				text: "are-you-sure-to-delete",
 				confirmBtnText: "delete",
 				cancelBtnText: "cancel",
 				confirmBtnColor: "error",
@@ -24,6 +24,16 @@ export default {
 			});
 
 			if (!ok) return;
+
+			const ok2 = await this.$refs.deleteDialog.show({
+				text: "all-components-will-be-deleted",
+				confirmBtnText: "im-sure-delete",
+				cancelBtnText: "cancel",
+				confirmBtnColor: "error",
+				cancelBtnColor: "primary",
+			});
+
+			if (!ok2) return;
 
 			try {
 				for (const compId of this.layoutData.components) {

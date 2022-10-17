@@ -8,7 +8,7 @@ export default {
   name: "AddLayoutForm",
   data: () => ({
     name: "",
-    nameAvailable: false,
+    nameAvailable: true,
     isChecking: false,
     isError: false,
   }),
@@ -87,8 +87,9 @@ export default {
       :loading="isChecking"
       prepend-icon="mdi-form-textbox"
       label="new-layout-name"
-      hint="layout-name-hint"
+      :hint="nameAvailable?'layout-name-hint':'this-name-is-taken'"
       :success="nameValid"
+      :error="!nameAvailable"
       v-model="nameMiddleware"
     ></v-text-field>
     <template v-slot:actions>

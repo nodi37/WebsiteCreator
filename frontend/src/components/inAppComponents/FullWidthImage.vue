@@ -1,7 +1,9 @@
 <script>
+import ImageLoader from './Misc/ImageLoader.vue';
 export default {
   name: "FullWidthImage",
   props: ["image", "primaryText", "secondaryText"],
+  components: { ImageLoader },
 };
 </script>
 <template>
@@ -11,6 +13,6 @@ export default {
             <span v-if="secondaryText" class="text-white text-lg font-medium">{{secondaryText}}</span>
         </div>
 
-        <img :src="image" class="absolute w-full h-full object-cover object-center">
+        <image-loader :imageId="image" class="absolute w-full h-full object-cover object-center" />
     </div>
 </template>

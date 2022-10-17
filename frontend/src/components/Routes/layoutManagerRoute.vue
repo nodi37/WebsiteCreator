@@ -5,7 +5,7 @@ import PageGrid from "@/components/UI/PageGrid.vue";
 import store from "@/store";
 
 export default {
-	name: "HomePageRoute",
+	name: "LayoutManagerRoute",
 	data: function () {
 		return {
 			layoutErrored: false,

@@ -39,7 +39,6 @@ const componentController = {
 
         deleteComponentWithDataFromServer: async function (component) {
             const cmpModel = this.getComponentModel(component.name);
-            console.log(cmpModel)
 
             for (const imgProp of cmpModel.props.images) {
                 const imgId = component.props[imgProp.name];

@@ -8,6 +8,7 @@ import GlobalRoute from '@/components/Routes/GlobalRoute.vue';
 import LayoutManagerRoute from '@/components/Routes/LayoutManagerRoute.vue';
 import LoginView from '@/views/LoginView';
 import MainView from '@/views/MainView';
+import SubpageView from '@/views/SubpageView';
 
 Vue.use(VueRouter)
 
@@ -52,7 +53,14 @@ const routes = [
   {
     path: '/',
     name: 'main',
-    component: MainView
+    component: MainView,
+    children: [
+      {
+        path: ':layoutName',
+        name: 'subpageView',
+        component: SubpageView
+      },
+    ]
   },
 
   // {
