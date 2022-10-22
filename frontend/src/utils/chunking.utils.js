@@ -27,7 +27,7 @@ const chunkingSystem = {
                             chunk: chunk,
                             size: chunks.length,
                             ...reqBody
-                        });
+                        }, { withCredentials: true });
 
                         if (i === 0) taskId = response.data.taskId;
 
@@ -35,7 +35,7 @@ const chunkingSystem = {
                             this.chunkingSystemState.current = this.chunkingSystemState.count;
                             resolve(response);
                         };
-                        
+
                         i++;
                     };
 

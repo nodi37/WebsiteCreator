@@ -4,11 +4,26 @@ import { base64toFile } from '../utils/fs.utils';
 import { paths } from '../config/appConfig';
 
 import {
+    getOneImage,
     addNewImage,
     getManyImages,
     deleteSingleImage
 } from "../services/imageService";
 
+const getOne = async (req: Request, res: Response) => {
+    try {
+        const response = await getOneImage(req.params.id);
+
+        if (response) {
+            res.status(200).json({ data: response });
+        } else {
+            res.status(404).json({ error: "Resource not found" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
 
 const addImage = async (req: Request, res: Response) => {
     try {
@@ -68,6 +83,7 @@ const getMany = async (req: Request, res: Response) => {
 }
 
 export {
+    getOne,
     addImage,
     getMany,
     deleteImage

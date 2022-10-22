@@ -6,7 +6,7 @@ export default {
 </script>
 <template>
 	<v-card>
-		<v-toolbar color="primary white--text">{{ title }}</v-toolbar>
+		<v-toolbar v-if="title" color="primary white--text">{{ title }}</v-toolbar>
 		<v-card-text class="pa-2">
 			<slot>
 				<!-- Here will be content -->

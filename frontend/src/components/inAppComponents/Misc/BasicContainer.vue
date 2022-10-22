@@ -7,7 +7,7 @@ export default {
 
 <template>
 	<section :style="{ backgroundColor: backgroundColor }">
-		<div class="mx-auto h-12 max-w-7xl">
+		<div class="mx-auto max-w-7xl">
 			<slot></slot>
 		</div>
 	</section>

@@ -1,13 +1,14 @@
 <script>
 import compsImporter from "@/helpers/inAppCompsImporter";
-import axios from "axios";
+import LayoutView from "@/views/LayoutView.vue";
 
 export default {
 	name: "Main",
 	data: () => ({
-		isLoaded: false,
 		topComponents: [],
 		bottomComponents: [],
+		userLayout: "",
+		isLoaded: false,
 	}),
 	computed: {
 		topByOrder() {
@@ -18,37 +19,21 @@ export default {
 		},
 	},
 	mounted: async function () {
-		const api = process.env.VUE_APP_API_PATH;
-		//Testing
-		const topComponents = await axios.get(api + "layout-components/get-by-name/topLayout");
-		const bottomComponents = await axios.get(api + "layout-components/get-by-name/bottomLayout");
-
-		this.topComponents = topComponents.data.data || [];
-		this.bottomComponents = bottomComponents.data.data || [];
 		if (this.$route.path === "/") {
-			this.$router.push({ name: "subpageView", params: { layoutName: "home" } });
+			this.userLayout = "homeLayout";
 		}
-		//this.isLoaded = true;
+
+		this.isLoaded = true;
 	},
+	components: { LayoutView },
 	mixins: [compsImporter],
 };
 </script>
 <template>
 	<div>
-		<component
-			v-for="(component, index) in topByOrder"
-			:key="'top-' + index"
-			v-bind:is="component.name"
-			v-bind="component.props"
-		/>
-
-		<router-view />
-
-		<component
-			v-for="(component, index) in bottomByOrder"
-			:key="'btm-' + index"
-			v-bind:is="component.name"
-			v-bind="component.props"
-		/>
+		<!-- need to add some loader -->
+		<layout-view v-if="isLoaded" layoutName="topLayout" />
+		<layout-view v-if="isLoaded" :layoutName="userLayout" />
+		<layout-view v-if="isLoaded" layoutName="bottomLayout" />
 	</div>
 </template>

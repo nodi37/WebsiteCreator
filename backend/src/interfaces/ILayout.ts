@@ -1,8 +1,8 @@
-import IComponent from "./IComponent"
+import { Types } from "mongoose"
 
 export default interface ILayout {
     name: string,
-    components: Array<IComponent>,
+    components: Array<Types.ObjectId>,
     isGlobal: Boolean,
     isRequired: Boolean
 }

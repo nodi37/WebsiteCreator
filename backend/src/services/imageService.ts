@@ -8,6 +8,15 @@ import { createQueryObject } from '../helpers/queryObjectCreators';
 import { deleteFile } from '../utils/fs.utils';
 
 
+const getOneImage = async (id: string) => {
+    try {
+        const response = await Image.findById(id);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const addNewImage = async (body: IImage) => {
     try {
         const response = await new Image(body).save();
@@ -51,6 +60,7 @@ const getManyImages = async (params: IParams) => {
 }
 
 export {
+    getOneImage,
     addNewImage,
     getManyImages,
     deleteSingleImage

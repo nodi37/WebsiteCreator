@@ -5,6 +5,7 @@ import ImagesList from "@/components/ComplexComponents/ConfigLists/ImagesList.vu
 import BooleansList from "@/components/ComplexComponents/ConfigLists/BooleansList.vue";
 import ExpansionPanel from "@/components/UI/ExpansionPanel.vue";
 import ColorsList from "./ConfigLists/ColorsList.vue";
+import JsonList from "./ConfigLists/JsonList.vue";
 
 export default {
 	name: "ComponenConfigCard",
@@ -54,43 +55,60 @@ export default {
 		BooleansList,
 		ExpansionPanel,
 		ColorsList,
+		JsonList,
 	},
 };
 </script>
 
 <template>
 	<titled-card :title="model.name">
-		<expansion-panel :disabled="queueBusy && !toSave" header="settings">
-			<!-- Config lists -->
-			<template v-if="containsProps(model.props.texts)">
-				<texts-list :texts="model.props.texts" v-model="document.props" @modified="pushModified" />
-				<v-divider />
-			</template>
+		<v-expansion-panels :disabled="queueBusy && !toSave">
+			<v-expansion-panel v-if="containsProps(model.props.texts)">
+				<v-expansion-panel-header>{{ $t("texts") }}</v-expansion-panel-header>
+				<v-expansion-panel-content>
+					<texts-list :texts="model.props.texts" v-model="document.props" @modified="pushModified" />
+				</v-expansion-panel-content>
+			</v-expansion-panel>
 
-			<template v-if="containsProps(model.props.images)">
-				<images-list
-					:images="model.props.images"
-					v-model="document.props"
-					@modified="pushModified"
-					@toremove="pushToRemove"
-				/>
-				<v-divider />
-			</template>
+			<v-expansion-panel v-if="containsProps(model.props.images)">
+				<v-expansion-panel-header>{{ $t("images") }}</v-expansion-panel-header>
+				<v-expansion-panel-content>
+					<images-list
+						:images="model.props.images"
+						v-model="document.props"
+						@modified="pushModified"
+						@toremove="pushToRemove"
+					/>
+				</v-expansion-panel-content>
+			</v-expansion-panel>
 
-			<template v-if="containsProps(model.props.colors)">
-				<colors-list
-					:colors="model.props.colors"
-					v-model="document.props"
-					@modified="pushModified"
-					@toremove="pushToRemove"
-				/>
-				<v-divider />
-			</template>
+			<v-expansion-panel v-if="containsProps(model.props.colors)">
+				<v-expansion-panel-header>{{ $t("colors") }}</v-expansion-panel-header>
+				<v-expansion-panel-content>
+					<colors-list
+						:colors="model.props.colors"
+						v-model="document.props"
+						@modified="pushModified"
+						@toremove="pushToRemove"
+					/>
+				</v-expansion-panel-content>
+			</v-expansion-panel>
 
-			<template v-if="containsProps(model.props.booleans)">
-				<booleans-list :booleans="model.props.booleans" v-model="document.props" @modified="pushModified" />
-			</template>
-		</expansion-panel>
+			<v-expansion-panel v-if="containsProps(model.props.booleans)">
+				<v-expansion-panel-header>{{ $t("booleans") }}</v-expansion-panel-header>
+				<v-expansion-panel-content>
+					<booleans-list :booleans="model.props.booleans" v-model="document.props" @modified="pushModified" />
+				</v-expansion-panel-content>
+			</v-expansion-panel>
+
+			<v-expansion-panel v-if="containsProps(model.props.json)">
+				<v-expansion-panel-header>{{ $t("json-data") }}</v-expansion-panel-header>
+				<v-expansion-panel-content>
+					<json-list :jsons="model.props.json" v-model="document.props" @modified="pushModified" />
+				</v-expansion-panel-content>
+			</v-expansion-panel>
+		</v-expansion-panels>
+
 		<v-alert v-if="toSave" class="my-0 mt-2 mr-auto" type="error" elevation="4" icon="mdi-alert">
 			not-saved!
 		</v-alert>

@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 
 const validateRequestBody = (schema: yup.ObjectSchema<any>) => async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const striped = await schema.cast(req.body, { stripUnknown: true });
+        const striped = schema.cast(req.body, { stripUnknown: true });
         await schema.validate(striped);
         req.body = striped;
         return next();
@@ -16,7 +16,7 @@ const validateRequestBody = (schema: yup.ObjectSchema<any>) => async (req: Reque
 const validateRequestParams = (schema: yup.ObjectSchema<any>) => async (req: Request, res: Response, next: NextFunction) => {
 
     try {
-        const striped = await schema.cast(req.params, { stripUnknown: true });
+        const striped = schema.cast(req.params, { stripUnknown: true });
         await schema.validate(striped);
         req.params = striped;
         return next();
@@ -28,7 +28,7 @@ const validateRequestParams = (schema: yup.ObjectSchema<any>) => async (req: Req
 
 const validateRequestQuery = (schema: yup.ObjectSchema<any>) => async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const striped = await schema.cast(req.query, { stripUnknown: true });
+        const striped = schema.cast(req.query, { stripUnknown: true });
         await schema.validate(striped);
         req.query = striped;
         return next();

@@ -18,10 +18,10 @@ export default {
 	<v-color-picker
 		:value="model"
 		@input="model = $event"
-		hide-canvas
 		hide-mode-switch
-		hide-inputs
+		mode="hexa"
 		dot-size="20"
-		elevation="5"
+		elevation="3"
+		class="mb-4"
 	/>
 </template>

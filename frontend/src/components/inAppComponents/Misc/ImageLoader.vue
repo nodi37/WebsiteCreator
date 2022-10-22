@@ -1,5 +1,5 @@
 <script>
-import axios from "axios";
+import imageController from '@/controllers/image.controller';
 
 export default {
 	name: "ImageLoader",
@@ -9,10 +9,10 @@ export default {
 	}),
 	mounted: async function () {
 		const api = process.env.VUE_APP_API_PATH;
-		const imageRequest = await axios.get(api + "image/get/" + this.imageId);
-		const imgDoc = imageRequest.data.data;
+		const imgDoc = await this.getImageById(this.imageId);
 		this.imageData = imgDoc.isFile ? api + imgDoc.data : imgDoc.data;
 	},
+	mixins: [imageController]
 };
 </script>
 

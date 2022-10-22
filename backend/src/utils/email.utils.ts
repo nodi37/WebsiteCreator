@@ -6,7 +6,7 @@ async function sendEmail(template: string, emailSubject: string, recipientEmail:
         const transponder = nodemailer.createTransport(emailConfig);
 
         transponder.sendMail({
-            from: '"Delator.no"<no-reply@delator.no>',
+            from: '"WebsiteCreator"<no-reply>',
             to: recipientEmail,
             subject: emailSubject,
             html: template

@@ -9,17 +9,17 @@ const componentService = {
         },
 
         saveNewComponentRequest: async function (component) {
-            const req = await axios.post(api + "component/add", component);
+            const req = await axios.post(api + "component/add", component, {withCredentials: true});
             return req.data.data;
         },
 
         updateComponentRequest: async function (component) {
-            const req = await axios.patch(`${api}component/edit/${component._id}`, component);
+            const req = await axios.patch(`${api}component/edit/${component._id}`, component, {withCredentials: true});
             return req.data.data;
         },
 
         deleteComponentRequest: async function (component) {
-            const req = await axios.delete(`${api}component/delete/${component._id}`);
+            const req = await axios.delete(`${api}component/delete/${component._id}`, {withCredentials: true});
             return req.data;
         },
     }

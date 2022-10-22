@@ -3,7 +3,7 @@ return `
 <pre>
 <b>Hello!</b>
 <p>
-This is your new password in delator: ${plainTextPass}
+This is your new password to website control panel: ${plainTextPass}
 </p>
 </pre>
 `

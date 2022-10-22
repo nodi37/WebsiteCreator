@@ -3,6 +3,10 @@ import imageService from "@/services/images.service";
 
 const imageController = {
     methods: {
+        getImageById: async function (id) {
+            return await this.getImageRequest(id);
+        },
+
         uploadImage: async function (imageBase64, toFile) {
             let imageId = '';
 
@@ -12,7 +16,7 @@ const imageController = {
                 const response = await this.sendChunks(chunks, 'image/add', { isChunked: true, toFile: toFile });
                 imageId = response.data.documentId;
             } else { //regular image upload
-                const response = await this.saveNewImageOnServer(imageBase64, toFile);
+                const response = await this.saveNewImageRequest(imageBase64, toFile);
                 imageId = response.documentId;
             }
             return imageId;

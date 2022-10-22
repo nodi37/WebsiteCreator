@@ -1,10 +1,11 @@
 PORT: 3005
 COOKIE_SECRET:
+JWT_SECRET:
 
 DB_SERVER: mongodb://localhost:27017/wscreator
 
-SU_NAME: 
-SU_EMAIL: 
+SU_NAME: administrator
+SU_pass: 
 
 
-CORS_ORIGIN: *
+CORS_ORIGIN: 

@@ -10,11 +10,11 @@ const layoutService = {
         },
 
         addNewLayoutRequest: async function (name) {
-            const request = await axios.post(`${api}layout/add`, { name: name });
+            const request = await axios.post(`${api}layout/add`, { name: name }, {withCredentials: true});
             return request.data.data ? request.data.data : null;
         },
         loadLayoutByNameRequest: async function (name) {
-            const request = await axios.get(`${api}layout/get-many?name=${name}`);
+            const request = await axios.get(`${api}layout/get-many?name=${name}`, {withCredentials: true});
             return request.data.data ? request.data.data[0] : null;
         },
 
@@ -24,12 +24,12 @@ const layoutService = {
         },
 
         updateLayoutRequest: async function (layoutDoc) {
-            const request = await axios.patch(`${api}layout/edit/${layoutDoc._id}`, layoutDoc);
+            const request = await axios.patch(`${api}layout/edit/${layoutDoc._id}`, layoutDoc, {withCredentials: true});
             return request.data.data ? request.data.data : null;
         },
 
         deleteLayoutRequest: async function (layoutDoc) {
-            const request = await axios.delete(`${api}layout/delete/${layoutDoc._id}`);
+            const request = await axios.delete(`${api}layout/delete/${layoutDoc._id}`, {withCredentials: true});
             return request.data.data ? request.data.data : null;
         },
     }
