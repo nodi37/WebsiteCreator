@@ -2,9 +2,9 @@ import layoutService from "@/services/layout.service";
 
 const layoutController = {
     methods: {
-        getManyLayouts: async function (name) {
+        getManyLayouts: async function () {
             //this needs to be prepared to use skip/limit/etc if needed!
-            return await this.getManyLayoutsRequest(name);
+            return await this.getManyLayoutsRequest();
         },
 
         addNewLayoutToServer: async function (name) {

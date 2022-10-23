@@ -3,10 +3,27 @@ import express from "express";
 import chunkingSystem from '../middlewares/chunkingSystem';
 const router = express.Router();
 import checkAuth from "../middlewares/authMiddleware";
+import { validateRequestBody, validateRequestParams } from '../middlewares/requestValidationMiddlewares';
+import { idParamSchema } from '../validations/sharedValidations';
+import { addImgBodySchema } from '../validations/imageValidation';
 
-router.get('/get/:id', imageController.getOne);
-router.post('/add', checkAuth, chunkingSystem, imageController.addImage);
-router.delete('/delete/:id', checkAuth, imageController.deleteImage);
+router.get('/get/:id',
+    validateRequestParams(idParamSchema),
+    imageController.getOne
+);
+
+router.post('/add', 
+    checkAuth, 
+    validateRequestBody(addImgBodySchema),
+    chunkingSystem, 
+    imageController.addImage
+);
+
+router.delete('/delete/:id',
+    checkAuth,
+    validateRequestParams(idParamSchema),
+    imageController.deleteImage
+);
 
 
 //router.patch('/edit/:id', layoutController.editLayout); //Updates partial

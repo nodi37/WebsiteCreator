@@ -52,6 +52,17 @@ const componentsModels = [
             json: [{ name: 'data' }]
         }
     },
+    {
+        name: 'Navigation',
+        description: 'Navigation',
+        props: {
+            texts: [],
+            images: [],
+            booleans: [],
+            colors: [],
+            json: [{ name: 'data' }]
+        }
+    },
 ]
 
 

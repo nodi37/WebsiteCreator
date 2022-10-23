@@ -10,6 +10,29 @@ export default {
 		userLayout: "",
 		isLoaded: false,
 	}),
+	methods: {
+		setUserLayout() {
+			const uLayout = this.$route.params.layoutName;
+
+			if (this.$route.path === "/") {
+				this.userLayout = "homeLayout";
+			}
+
+			if (!!uLayout) {
+				this.userLayout = uLayout;
+			}
+
+			this.isLoaded = true;
+		},
+	},
+	watch: {
+		"$route.params.layoutName": function () {
+			this.setUserLayout();
+		},
+	},
+	mounted: async function () {
+		this.setUserLayout();
+	},
 	computed: {
 		topByOrder() {
 			return this.topComponents.sort((a, b) => a.order - b.order);
@@ -18,13 +41,6 @@ export default {
 			return this.bottomComponents.sort((a, b) => a.order - b.order);
 		},
 	},
-	mounted: async function () {
-		if (this.$route.path === "/") {
-			this.userLayout = "homeLayout";
-		}
-
-		this.isLoaded = true;
-	},
 	components: { LayoutView },
 	mixins: [compsImporter],
 };
@@ -32,8 +48,8 @@ export default {
 <template>
 	<div>
 		<!-- need to add some loader -->
-		<layout-view v-if="isLoaded" layoutName="topLayout" />
-		<layout-view v-if="isLoaded" :layoutName="userLayout" />
-		<layout-view v-if="isLoaded" layoutName="bottomLayout" />
+		<layout-view v-if="isLoaded" :isGlobal="true" layoutName="topLayout" />
+		<layout-view v-if="isLoaded" :isGlobal="false" :layoutName="userLayout" />
+		<layout-view v-if="isLoaded" :isGlobal="true" layoutName="bottomLayout" />
 	</div>
 </template>

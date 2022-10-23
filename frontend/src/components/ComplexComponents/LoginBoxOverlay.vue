@@ -8,6 +8,7 @@ export default {
 	data: () => ({
 		username: "",
 		password: "",
+		afterVerify: false,
 		loading: false,
 		disabled: false,
 		error: false,
@@ -16,7 +17,7 @@ export default {
 		success: false,
 	}),
 	methods: {
-		loginHandler: async function() {
+		loginHandler: async function () {
 			try {
 				this.loading = true;
 
@@ -34,41 +35,40 @@ export default {
 					this.passwordError = false;
 				}
 
-                const data = await this.login(this.username, this.password);
+				const data = await this.login(this.username, this.password);
 
-                if (data.error) {
-                    this.error = true;
-                } else {
-                    this.$emit('login', data);
-                }
-
+				if (data.error) {
+					this.error = true;
+				} else {
+					this.$emit("login", data);
+				}
 			} catch (error) {
-                console.log(error)
+				console.log(error);
 				this.error = true;
 			} finally {
-                this.loading = false;
-            }
+				this.loading = false;
+			}
 		},
 	},
 	mounted: async function () {
 		try {
 			const data = await this.verify();
-			if(data.accessToken) {
-				this.$emit('login', data);
+			if (data.accessToken) {
+				this.$emit("login", data);
 			}
 		} catch (error) {
-			return;
+		} finally {
+			this.afterVerify = true;
 		}
-		
 	},
-    mixins: [authController],
+	mixins: [authController],
 	components: { AbsoluteOverlay, TitledCard },
 };
 </script>
 
 <template>
 	<absolute-overlay>
-		<titled-card>
+		<titled-card v-if="afterVerify">
 			<template>
 				<span class="text-lg text-white">{{ $t("please-login") }}</span>
 				<v-text-field

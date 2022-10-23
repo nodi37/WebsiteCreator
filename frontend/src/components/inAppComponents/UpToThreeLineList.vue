@@ -30,7 +30,7 @@ export default {
 		class="py-8 px-4"
 	>
 		<div class="bg-slate-300/20 uppercase text-lg text-center font-semibold tracking-wider mb-2" v-if="header">
-			<span>{{ header }}</span>
+			<span class="cursor-default">{{ header }}</span>
 		</div>
 		<div>
 			<ul class="flex flex-col gap-2">

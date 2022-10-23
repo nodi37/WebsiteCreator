@@ -19,7 +19,7 @@ const layoutService = {
         },
 
         loadLayoutComponentsByLayoutNameRequest: async (layoutName) => {
-            const request = await axios.get(`${api}layout-components/get-by-name/${layoutName}`);
+            const request = await axios.get(`${api}layout/get-components/${layoutName}`);
             return request.data.data ? request.data.data : [];
         },
 
