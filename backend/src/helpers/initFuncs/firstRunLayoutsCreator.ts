@@ -373,7 +373,7 @@ async function temp() {
         'projects'
     ]
 
-    let i = 0;
+    let i = 1;
  
     for(const layout of layouts) {
 
