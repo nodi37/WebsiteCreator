@@ -3,7 +3,7 @@ This is alpha version of my proprietary cms built using Vue v2.
 I wanted to build something that would let me to modify and expand websites quickly, so i build component based system.
 Control panel allows to assign components to layouts and modify props.
 
-Currently it suports: 
+Currently supports: 
 - Setting global and home templates
 - Adding subpages and defining templates for them.
 
@@ -121,7 +121,7 @@ Now component shoud render propertly after adding it to template.
  
 This is just short description because it is alpha version, there is still many things to do.
 First of all i will add posts/galleries/files api to hanlde many types of data.
-After that i need to improve many things like authentication etc, i want to add multi language support, some basic loaders like image loader. I will do something to scale images to screen size before loading them from server for better UX. Something like `srcset`. Maybe dark mode in panel. 
+After that i need to improve many things like authentication etc, i want to add multi language support, some basic loaders like image loader. I will do something to scale images to screen size before loading them from server for better UX. Something like `srcset`. Maybe dark mode in panel. Many things to improve SEO like for example SSR.
 
 No build instructions yet because its not ready yet. 
 
