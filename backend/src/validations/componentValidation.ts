@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+ import * as yup from 'yup';
 
 const saveNewCompBodySchema = yup.object({
     name: yup.string().min(1).max(24).required(),

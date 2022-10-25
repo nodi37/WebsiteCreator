@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+ import * as yup from 'yup';
 
 const nameParamSchema = yup.object({
     name: yup.string().required(),

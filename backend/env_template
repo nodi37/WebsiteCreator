@@ -4,7 +4,7 @@ JWT_SECRET:
 
 DB_SERVER: mongodb://localhost:27017/wscreator
 
-SU_NAME: administrator
+SU_NAME: 
 SU_PASSWORD:
 
 

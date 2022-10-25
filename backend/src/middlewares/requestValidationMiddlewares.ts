@@ -1,4 +1,4 @@
-import yup from 'yup';
+ import * as yup from 'yup';
 import { NextFunction, Request, Response } from 'express';
 
 const validateRequestBody = (schema: yup.ObjectSchema<any>) => async (req: Request, res: Response, next: NextFunction) => {
