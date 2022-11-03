@@ -1,5 +1,5 @@
 <script>
-import imageController from '@/controllers/image.controller';
+import imageController from "@/controllers/image.controller";
 
 export default {
 	name: "ImageLoader",
@@ -9,13 +9,14 @@ export default {
 	}),
 	mounted: async function () {
 		const api = process.env.VUE_APP_API_PATH;
-		const imgDoc = await this.getImageById(this.imageId);
+		const size = window.innerWidth > 1600 ? null : window.innerWidth > 1024 ? "large" : "medium";
+		const imgDoc = await this.getImageById(this.imageId, size);
 		this.imageData = imgDoc.isFile ? api + imgDoc.data : imgDoc.data;
 	},
-	mixins: [imageController]
-};
+	mixins: [imageController],
+}
 </script>
 
 <template>
-	<img :src="imageData" /> 
+	<img :src="imageData" />
 </template>

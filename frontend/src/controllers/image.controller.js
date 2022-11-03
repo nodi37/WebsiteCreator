@@ -3,8 +3,8 @@ import imageService from "@/services/images.service";
 
 const imageController = {
     methods: {
-        getImageById: async function (id) {
-            return await this.getImageRequest(id);
+        getImageById: async function (id, size) {
+            return await this.getImageRequest(id, size);
         },
 
         uploadImage: async function (imageBase64, toFile) {

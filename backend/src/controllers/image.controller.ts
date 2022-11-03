@@ -9,13 +9,26 @@ import {
     getManyImages,
     deleteSingleImage
 } from "../services/imageService";
+import resizeImage from '../utils/image.utils';
+import IImage from '../interfaces/IImage';
+import { imagesWidth } from '../config/imagesRouteConfig';
+
+enum imageSize {
+    mini = imagesWidth.mini,
+    medium = imagesWidth.medium,
+    large = imagesWidth.large
+}
 
 const getOne = async (req: Request, res: Response) => {
     try {
-        const response = await getOneImage(req.params.id);
 
-        if (response) {
-            res.status(200).json({ data: response });
+        const sizeParam = req.query.size as keyof typeof imageSize;
+        const imageDoc = await getOneImage(req.params.id) as IImage;
+
+        if (imageDoc) {
+            const imgDocNewData = (!!sizeParam && !imageDoc.isFile) ? await resizeImage(imageDoc.data, imageSize[sizeParam]) : imageDoc.data;
+            res.status(200).json({ data: { _id: imageDoc._id, isFile: imageDoc.isFile, data: imgDocNewData } });
+
         } else {
             res.status(404).json({ error: "Resource not found" });
         }

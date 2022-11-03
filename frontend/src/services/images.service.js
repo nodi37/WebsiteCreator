@@ -3,8 +3,9 @@ const api = process.env.VUE_APP_API_PATH;
 
 const imageService = {
     methods: {
-        getImageRequest: async function (imageId) {
-            const request = await axios.get(api + "image/get/" + imageId);
+        getImageRequest: async function (imageId, size) {
+            const sizeQuery = !size ? '' : `?size=${size}`;
+            const request = await axios.get(api + "image/get/" + imageId + sizeQuery);
             return request.data.data ? request.data.data : null;
         },
 

@@ -9,7 +9,14 @@ const filtersDefinition = {
     ]
 }
 
+const imagesWidth = {
+    mini: 512,
+    medium: 1024,
+    large: 1600
+}
+
 export {
     maxResponseCount,
-    filtersDefinition
+    filtersDefinition,
+    imagesWidth
 }
