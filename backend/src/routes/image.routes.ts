@@ -3,12 +3,13 @@ import express from "express";
 import chunkingSystem from '../middlewares/chunkingSystem';
 const router = express.Router();
 import checkAuth from "../middlewares/authMiddleware";
-import { validateRequestBody, validateRequestParams } from '../middlewares/requestValidationMiddlewares';
+import { validateRequestBody, validateRequestParams, validateRequestQuery } from '../middlewares/requestValidationMiddlewares';
 import { idParamSchema } from '../validations/sharedValidations';
-import { addImgBodySchema } from '../validations/imageValidation';
+import { addImgBodySchema, getImgQuerySchema } from '../validations/imageValidation';
 
 router.get('/get/:id',
     validateRequestParams(idParamSchema),
+    validateRequestQuery(getImgQuerySchema),
     imageController.getOne
 );
 

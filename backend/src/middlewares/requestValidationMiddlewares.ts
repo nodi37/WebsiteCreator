@@ -12,7 +12,7 @@ const validateRequestBody = (schema: yup.ObjectSchema<any>) => async (req: Reque
 
     } catch (error) {
         //console.log(error);
-        return res.status(400).json({ status: 400, statusText: "Bad request", errors: error });
+        return res.status(400).json({ status: 400, statusText: "Bad request", error: error });
     }
 }
 
@@ -25,7 +25,7 @@ const validateRequestParams = (schema: yup.ObjectSchema<any>) => async (req: Req
         return next();
     } catch (error) {
         // console.log(error);
-        return res.status(400).json({ status: 400, statusText: "Bad request", errors: error });
+        return res.status(400).json({ status: 400, statusText: "Bad request", error: error });
     }
 }
 
@@ -37,7 +37,7 @@ const validateRequestQuery = (schema: yup.ObjectSchema<any>) => async (req: Requ
         return next();
     } catch (error) {
         //console.log(error);
-        return res.status(400).json({ status: 400, statusText: "Bad request", errors: error });
+        return res.status(400).json({ status: 400, statusText: "Bad request", error: error });
     }
 }
 
