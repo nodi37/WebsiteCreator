@@ -7,7 +7,7 @@ const menu = {
     name: "Navigation",
     order: 0,
     props: {
-      "data": "[\n{\"buttonText\":\"cv\", \"layout\":\"\"},\n{\"buttonText\":\"skills\", \"layout\":\"skills\"},\n{\"buttonText\":\"education\", \"layout\":\"education\"},\n{\"buttonText\":\"languages\", \"layout\":\"languages\"},\n{\"buttonText\":\"projects\", \"layout\":\"projects\"}\n]\n\n"
+        "data": "[\n{\"buttonText\":\"cv\", \"layout\":\"\"},\n{\"buttonText\":\"skills\", \"layout\":\"skills\"},\n{\"buttonText\":\"education\", \"layout\":\"education\"},\n{\"buttonText\":\"languages\", \"layout\":\"languages\"},\n{\"buttonText\":\"projects\", \"layout\":\"projects\"}\n]\n\n"
     }
 }
 
@@ -374,14 +374,14 @@ async function temp() {
     ]
 
     let i = 1;
- 
-    for(const layout of layouts) {
 
-        const data = await saveNewComponent(components[i]);
+    for (const layout of layouts) {
+
+        const data = await saveNewComponent({ ...components[i], order: 0 });
 
         await saveNewLayout({
             name: layout,
-            components: [data._id], 
+            components: [data._id],
             isGlobal: false,
             isRequired: false
         });
