@@ -10,20 +10,21 @@ import {
     deleteSingleImage
 } from "../services/imageService";
 import resizeImage from '../utils/image.utils';
-import IImage from '../interfaces/IImage';
+import { IImageDoc } from '../interfaces/IImage';
 import { imagesWidth } from '../config/imagesRouteConfig';
 
 enum imageSize {
     mini = imagesWidth.mini,
     medium = imagesWidth.medium,
-    large = imagesWidth.large
+    large = imagesWidth.large,
+    xlarge = imagesWidth.xlarge
 }
 
 const getOne = async (req: Request, res: Response) => {
     try {
 
         const sizeParam = req.query.size as keyof typeof imageSize;
-        const imageDoc = await getOneImage(req.params.id) as IImage;
+        const imageDoc = await getOneImage(req.params.id) as unknown as IImageDoc; //I should fix types
 
         if (imageDoc) {
             const imgDocNewData = (!!sizeParam && !imageDoc.isFile) ? await resizeImage(imageDoc.data, imageSize[sizeParam]) : imageDoc.data;

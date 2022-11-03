@@ -7,7 +7,7 @@ const addImgBodySchema = chunkingSystemBodySchema.shape({
 });
 
 const getImgQuerySchema = yup.object({
-    size: yup.string().matches(/(mini|medium|large)/, "Size parameter accepts only 'mini' 'medium' or 'large' keywords!")
+    size: yup.string().matches(/(mini|medium|large|xlarge)/, "Size parameter accepts only 'mini', 'medium', 'large' or 'xlarge' keywords!")
 });
 
 export {

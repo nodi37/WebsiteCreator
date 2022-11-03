@@ -12,7 +12,8 @@ const filtersDefinition = {
 const imagesWidth = {
     mini: 512,
     medium: 1024,
-    large: 1600
+    large: 1600,
+    xlarge: 2560
 }
 
 export {
