@@ -1,0 +1,37 @@
+import axios from "axios";
+const api = process.env.VUE_APP_API_PATH;
+
+const articleService = {
+    methods: {
+        getArticleByIdRequest: async function (id) {
+            const req = await axios.get(api + "article/get-by-id/" + id);
+            return req.data.data;
+        },
+
+        getManyArticles: async function (keyword, skip, limit) {
+            const kwdQuery = !keyword ? '?' : `?keyword=${keyword}`;
+            const skipQuery = !keyword ? '' : `?skip=${skip}`;
+            const limitQuery = !keyword ? '' : `?limit=${limit}`;
+
+            const req = await axios.get(api + "article/get-many" + kwdQuery + skipQuery + limitQuery);
+            return req.data.data;
+        },
+
+        saveNewArticleRequest: async function (article) {
+            const req = await axios.post(api + "Article/add", article, { withCredentials: true });
+            return req.data.data;
+        },
+
+        updateArticleRequest: async function (article) {
+            const req = await axios.patch(`${api}article/edit/${article._id}`, article, { withCredentials: true });
+            return req.data.data;
+        },
+
+        deleteArticleRequest: async function (article) {
+            const req = await axios.delete(`${api}article/delete/${article._id}`, { withCredentials: true });
+            return req.data;
+        },
+    }
+}
+
+export default articleService;

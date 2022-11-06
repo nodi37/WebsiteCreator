@@ -3,9 +3,9 @@ import VueRouter from 'vue-router'
 
 import AddSubpageRoute from '@/components/Routes/AddSubpageRoute.vue';
 import ArticlesRoute from '@/components/Routes/ArticlesRoute.vue';
-import GalleriesRoute from '@/components/Routes/GalleriesRoute.vue';
 import GlobalRoute from '@/components/Routes/GlobalRoute.vue';
 import LayoutManagerRoute from '@/components/Routes/LayoutManagerRoute.vue';
+import AddNewArticleRoute from '@/components/Routes/AddNewArticleRoute.vue';
 import MainView from '@/views/MainView';
 
 Vue.use(VueRouter)
@@ -32,9 +32,9 @@ const routes = [
         component: ArticlesRoute
       },
       {
-        path: 'galleries',
-        name: 'galleries',
-        component: GalleriesRoute
+        path: 'article/new',
+        name: 'newArticle',
+        component: AddNewArticleRoute
       },
       {
         path: 'add-subpage',

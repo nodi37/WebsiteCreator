@@ -24,9 +24,7 @@ export default {
 					},
 				},
 			},
-			//Not ready yet!
-			// { text: "Articles", icon: "mdi-file-document-edit-outline", path: { name: "articles" } },
-			// { text: "Galleries", icon: "mdi-camera", path: { name: "galleries" } },
+			{ text: "Articles", icon: "mdi-file-document-edit-outline", path: { name: "articles" } },
 			{ text: "Add subpage", icon: "mdi-plus", path: { name: "addSubpage" } },
 		],
 	}),

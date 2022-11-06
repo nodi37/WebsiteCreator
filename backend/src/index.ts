@@ -39,6 +39,9 @@ app.use('/component', componentRoutes);
 import imageRoutes from "./routes/image.routes";
 app.use('/image', imageRoutes);
 
+import articleRoutes from "./routes/article.routes";
+app.use('/image', articleRoutes);
+
 import authRoutes from './routes/auth.routes';
 app.use('/auth', authRoutes);
 

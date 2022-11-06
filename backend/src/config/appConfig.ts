@@ -10,9 +10,9 @@ const chunkingBufferCleanerIntervalMinutes = 30;
 const chunkingBufferTimeoutMinutes = 10;
 
 //Images cleaner settings
-const imagesCleanerActive = true;
-const imagesCleanerIntervalMinutes = 30; //1440;
-const modelsToLookForImgs = ['Component']
+// const imagesCleanerActive = true;
+// const imagesCleanerIntervalMinutes = 30; //1440;
+// const modelsToLookForImgs = ['Component']
 
 
 
@@ -21,7 +21,7 @@ export {
     chunkingBufferCleanerActive,
     chunkingBufferCleanerIntervalMinutes,
     chunkingBufferTimeoutMinutes,
-    imagesCleanerActive,
-    imagesCleanerIntervalMinutes,
-    modelsToLookForImgs
+    // imagesCleanerActive,
+    // imagesCleanerIntervalMinutes,
+    // modelsToLookForImgs
 }

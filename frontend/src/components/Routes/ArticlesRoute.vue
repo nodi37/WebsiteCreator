@@ -11,6 +11,11 @@ export default {
 		ComponentHolder,
 		AddCompBtn,
 	},
+	methods: {
+		addNewHandler() {
+			this.$router.push({ name: 'newArticle'});
+		},
+	},
 	mounted() {
 		store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t("articles"));
 	},
@@ -20,7 +25,7 @@ export default {
 <template>
 	<page-grid>
 		<component-holder>
-			<add-comp-btn />
+			<add-comp-btn @click="addNewHandler" />
 		</component-holder>
 	</page-grid>
 </template>
