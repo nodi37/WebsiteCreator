@@ -3,6 +3,7 @@ import IImage from '../interfaces/IImage';
 
 const imageSchema = new mongoose.Schema({
     data: { type: String },
+    converted: {type: Object},
     isFile: {
         type: Boolean,
         required: true,

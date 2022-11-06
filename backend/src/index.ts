@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 //inital functions
 import appInit from './helpers/initApp';
 import startChunkingBufferCleaner from './helpers/chunkingBufferCleaner';
-import startImageCleaner from './helpers/oldFilesCleaner';
+//import startImageCleaner from './helpers/oldFilesCleaner';
 import connectDB from './utils/mongo.connection.utils';
 
 //Configs
@@ -45,7 +45,7 @@ app.use('/auth', authRoutes);
 
 //App init!
 startChunkingBufferCleaner();
-startImageCleaner()
+//startImageCleaner()
 
 //Includes functions running only on first run!
 appInit();
