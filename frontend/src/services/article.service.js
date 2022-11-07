@@ -18,7 +18,7 @@ const articleService = {
         },
 
         saveNewArticleRequest: async function (article) {
-            const req = await axios.post(api + "Article/add", article, { withCredentials: true });
+            const req = await axios.post(api + "article/add", article, { withCredentials: true });
             return req.data.data;
         },
 

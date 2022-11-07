@@ -1,74 +1,130 @@
 <script>
-import * as config from "@/configs/articleConfig.js";
-import imageUtils from "@/utils/images.utils.js";
+import articleManagement from "@/helpers/articleManagement";
 import DatePicker from "@/components/UI/Pickers/DatePicker.vue";
+import DoubleStateSnackbar from "@/components/UI/DoubleStateSnackbar.vue";
+import ImagesPreviewContainer from "@/components/ComplexComponents/ImagesPreviewContainer.vue";
+import ImageMiniature from "@/components/ComplexComponents/ImageMiniature.vue";
 
 export default {
 	name: "ArticleEditor",
-	props: ["articleData"],
+	props: ["articleId"],
 	data: () => ({
+		nameError: false,
 		dateDialog: false,
-		articleModel: {
-			mainImageId: "",
-			name: "",
-			content: "",
-			href: "",
-			userDate: "",
-			createDate: "",
-			galleryImgs: [],
-			tags: [],
-			isPublic: false,
-		},
-		imgFilesArr: [],
-		imgsBase64: [],
-		imagesLoading: false,
-	}),
-	watch: {
-		imgFilesArr: async function (nV) {
-			this.imagesLoading = true;
-			const b64s = [];
+		formDataLoading: false,
 
-			for (const img of nV) {
-				const b64 = await this.resizeImage(img, config.imagesWidthPx);
-				b64s.push(b64);
+		imgFilesArr: [],
+		imgsReaded: [],
+
+		//Snackbar states
+		snackBarStates: {
+			sCurr: 0,
+			sState: 0,
+			mainCurr: 0,
+			mainState: 0,
+			text: "",
+		},
+	}),
+	methods: {
+		//Btn handlers
+		saveBtnHandler: async function () {
+			if (this.articleModel.name.length < 1) {
+				this.nameError = true;
+				return;
 			}
 
-			this.imgsBase64 = b64s;
-			this.imagesLoading = false;
+			this.nameError = false;
+
+			if (!this.articleDocId) {
+				const articleData = await this.saveArticleHandler();
+				this.$router.push({ name: "editArticle", query: { id: articleData._id } });
+			} else {
+				console.log('update')
+				//await this.updateArticleHandler();
+				//WORK ON THIS ONE!
+			}
+
+			this.imgFilesArr = [];
+		},
+
+		removeImgFile(imgFile) {
+			this.imgFilesArr.splice(this.imgFilesArr.indexOf(imgFile), 1);
+		},
+
+		//Others
+		setSnackBarMainState: function (newValues) {
+			this.snackBarStates.mainCurr = newValues.current;
+			this.snackBarStates.mainState = newValues.count;
+			const counter = newValues.count > 1 ? `${newValues.current}/${newValues.count}...` : "";
+			this.snackBarStates.text = `${this.$t(newValues.text)} ${counter}`;
 		},
 	},
-	methods: {
-		saveBtnHandler() {
-			console.log(this.imgsBase64);
+	watch: {
+		//Watching images
+		imgFilesArr(nV) {
+			this.formDataLoading = true;
+			const tempArr = [];
+
+			for (const imgFile of nV) {
+				const reader = new FileReader();
+				reader.onload = (e) => {
+					tempArr.push({ src: e.target.result, imgFile: imgFile });
+				};
+				reader.readAsDataURL(imgFile);
+			}
+
+			this.imgsReaded = tempArr;
+			this.formDataLoading = false;
 		},
-		removeQueuedImg(i) {
-			console.log(i);
-			this.imgFilesArr.splice(i, 1);
+
+		//Watching tasks for snackbar
+		taskState: {
+			handler: function (nV) {
+				this.setSnackBarMainState(nV);
+			},
+			deep: true,
+		},
+		imageUploadState: {
+			handler: function (nV) {
+				this.snackBarStates.sCurr = nV.current;
+				this.snackBarStates.sState = nV.count;
+			},
+			deep: true,
 		},
 	},
-	components: { DatePicker },
-	mixins: [imageUtils],
+	mounted() {
+		if (!this.articleId) return;
+		this.articleDocId = this.articleId;
+	},
+	components: { DatePicker, DoubleStateSnackbar, ImagesPreviewContainer, ImageMiniature },
+	mixins: [articleManagement],
 };
 </script>
 
 <template>
 	<div class="pa-4">
 		<v-card elevation="1">
-			<v-card-title>New article</v-card-title>
+			<!--  :disabled="true" :loading="true" -->
+			<v-card-title>{{ !articleModel._id ? "create-article" : "edit article" }}</v-card-title>
 			<div class="pa-2">
-				<v-text-field v-model="articleModel.name" label="article-name" outlined />
+				<v-text-field v-model="articleModel.name" :error="nameError" label="article-name" outlined />
 				<v-textarea v-model="articleModel.content" label="article-content" outlined no-resize auto-grow />
+
+				<!-- DATE INPUT -->
 				<v-text-field
 					v-model="articleModel.userDate"
 					@click="dateDialog = true"
 					label="article-date"
+					readonly
 					outlined
 				/>
 				<date-picker v-model="articleModel.userDate" :visible="dateDialog" @close="dateDialog = false" />
+				<!-- DATE INPUT -->
 
-				<!-- NEW IMAGES -->
+				<!-- Images -->
+				<!-- FILE INPUT -->
 				<v-file-input
-					:loading="imagesLoading"
+					:loading="formDataLoading"
 					v-model="imgFilesArr"
 					accept="image/png, image/jpeg, image/bmp"
 					label="gallery-images"
@@ -79,31 +135,30 @@ export default {
 					show-size
 					truncate-length="10"
 				/>
-				<div
-					v-if="imgsBase64.length > 0"
-					class="flex flex-wrap gap-2 mb-4 pa-2 pt-8 relative border-dotted border-2 border-yellow-500"
-				>
-					<span class="absolute top-1 left-2 font-bold uppercase text-sm text-gray-500">to-save:</span>
-					<figure
-						class="flex-none w-32 h-32 rounded overflow-hidden drop-shadow-lg relative group"
-						v-for="(img, i) in imgsBase64"
-						:key="'not-saved-' + i"
-					>
-						<div
-							class="absolute h-full w-full flex justify-center align-center opacity-0 group-hover:opacity-100 transition"
-						>
-							<v-btn color="error" @click="removeQueuedImg(i)">Delete</v-btn>
-						</div>
-						<img class="w-full h-full object-cover" :src="img" />
-					</figure>
-				</div>
+
+				<!-- PREVIEW CONAINER -->
+
 				<!-- NEW IMAGES -->
-				<!-- OLD IMAGES -->
+				<images-preview-container v-if="imgFilesArr.length > 0" :toSave="true">
+					<image-miniature v-for="(img, i) in imgsReaded" :key="'not-saved-' + i" :imgSrc="img.src">
+						<template v-slot:actions>
+							<v-btn color="error" small @click="removeImgFile(img.imgFile)">Delete</v-btn>
+						</template>
+					</image-miniature>
+				</images-preview-container>
+				<!-- NEW IMAGES -->
 
-			
-
-
-				<!-- OLD IMAGES -->
+				<!-- Loaded IMAGES -->
+				<images-preview-container v-if="articleModel.galleryImgs.length > 0" :toSave="false">
+					<image-miniature v-for="(imgId, i) in articleModel.galleryImgs" :key="'saved-' + i" :imgId="imgId">
+						<template v-slot:actions>
+							<v-btn small color="error">delete</v-btn>
+							<v-btn small color="success">main</v-btn>
+						</template>
+					</image-miniature>
+				</images-preview-container>
+				<!-- Loaded IMAGES -->
+				<!-- Images -->
 
 				<v-combobox v-model="articleModel.tags" label="tags" multiple outlined small-chips />
 				<div class="flex items-bottom">
@@ -120,5 +175,13 @@ export default {
 				<v-btn @click="saveBtnHandler" color="success">save</v-btn>
 			</v-card-actions>
 		</v-card>
+		<double-state-snackbar
+			:text="snackBarStates.text"
+			:visible="taskInProgress"
+			:crclrPrgCurrStep="snackBarStates.sCurr"
+			:crclrPrgStepsCount="snackBarStates.sState"
+			:lnrPrgCurrStep="snackBarStates.mainCurr"
+			:lnrPrgStepsCount="snackBarStates.mainState"
+		/>
 	</div>
 </template>

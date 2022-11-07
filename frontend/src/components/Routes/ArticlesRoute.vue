@@ -13,7 +13,7 @@ export default {
 	},
 	methods: {
 		addNewHandler() {
-			this.$router.push({ name: 'newArticle'});
+			this.$router.push({ name: 'editArticle'});
 		},
 	},
 	mounted() {

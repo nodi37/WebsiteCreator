@@ -5,8 +5,7 @@ const tasksStateUtils = {
             this[name].count = count;
             this[name].current = current;
 
-            if (inProgress) return;
-            this.taskInProgress = false;
+            this.taskInProgress = inProgress;
         },
     }
 }

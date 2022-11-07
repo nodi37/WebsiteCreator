@@ -8,5 +8,6 @@ export default interface IArticle {
     createDate: Date,
     isPublic: boolean,
     tags: [string],
+    mainImageId: Schema.Types.ObjectId,
     galleryImgs: [Schema.Types.ObjectId]
 }

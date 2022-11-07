@@ -1,201 +1,156 @@
-// import tasksStateUtils from "@/utils/task.state.utils";
+import tasksStateUtils from "@/utils/task.state.utils";
+import imageUtils from "@/utils/images.utils";
+import imageController from "@/controllers/image.controller";
+import articleController from "@/controllers/article.controller";
+import * as config from "@/configs/articleConfig";
 
+const articleManagement = {
+    data: function () {
+        return {
+            articleDocId: "",
+            articleImgsMiniatures: [],
+            articleModel: {
+                mainImageId: "",
+                name: "",
+                content: "",
+                href: "",
+                userDate: "",
+                createDate: "",
+                galleryImgs: [],
+                tags: [],
+                isPublic: false,
+            },
 
-// const componentManagement = {
-//     data: function () {
-//         return {
-//             //Management states
-//             isLoading: true,
-//             isError: false,
-//             isLoaded: false,
+            //Management states
+            nameError: false,
+            isLoading: true,
+            isError: false,
+           
+            //Tasks state
+            taskInProgress: false,
+            taskState: {
+                current: 0,
+                count: 0,
+                text: ''
+            },
+            imageUploadState: {
+                current: 0,
+                count: 0
+            }
+        };
+    },
 
-//             //Tasks state
-//             taskInProgress: false,
-//             taskState: {
-//                 current: 0,
-//                 count: 0,
-//                 text: ''
-//             }
-//         };
-//     },
+    methods: {
+        //Complex functions
+        loadArticleByIdHandler: async function () {
+            const articleData = await this.getArticleFromServerById(this.articleDocId);
 
-//     methods: {
-//         //Data loader:
-//         loadData: async function (layoutName) {
-//             try {
-//                 this.layoutData = await this.loadLayoutByName(layoutName);
-//                 this.layoutComponents = await this.loadLayoutComponentsByLayoutName(layoutName);
-//                 this.isLoading = false;
-//                 setTimeout(() => {
-//                     this.isLoaded = true;
-//                 }, 500);
-//             } catch (error) {
-//                 this.isLoading = false;
-//                 this.isError = true;
-//                 console.log(error);
-//             }
-//         },
+            this.articleModel = {
+                ...articleData,
+                userDate: this.createDateInputString(new Date(articleData.userDate)),
+            }
 
-//         //Mixin complex tasks
-//         saveNewComponent: async function (doc) {
-//             try {
-//                 await this.setTasksState('taskState', 0, 1, 'saving-component', true);
+        },
 
-//                 const updatedDocs = await this.saveNewCompAndUpdateLayoutOnServer(doc);
-//                 this.replaceOrDeleteLocalComponent(doc, updatedDocs.uComponent);
-//                 this.layoutData = updatedDocs.uLayout;
+        saveArticleHandler: async function () {
+            this.isLoading = true;
 
-//                 await this.setTasksState('taskState', 1, 1, 'task-finished', false);
-//             } catch (error) {
-//                 console.log(error);
-//                 this.isError = true;
-//             }
-//         },
+            this.setTasksState('taskState', 1, 4, 'saving-images', true);
+            await this.presendImages(this.imgFilesArr);
 
-//         updateComponent: async function (doc) {
-//             try {
-//                 await this.setTasksState('taskState', 0, 1, 'updating-component', true);
+            this.setTasksState('taskState', 2, 4, 'preparing-props', true);
 
-//                 const updatedDoc = await this.updateComponentOnServer(doc, this.layoutData.isGlobal);
-//                 this.removeOldPropsData(doc.propsToRemove);
-//                 this.replaceOrDeleteLocalComponent(doc, updatedDoc);
+            if (this.articleModel.userDate.length < 10) {
+                this.articleModel.userDate = this.createDateInputString(new Date());
+            }
+            this.articleModel.href = this.createHref();
 
-//                 await this.setTasksState('taskState', 1, 1, 'task-finished', false);
-//             } catch (error) {
-//                 console.log(error);
-//                 this.isError = true;
-//             }
-//         },
+            this.setTasksState('taskState', 3, 4, 'saving-document', true);
 
-//         deleteComponent: async function (doc) {
-//             try {
-//                 await this.setTasksState('taskState', 0, 1, 'deleting-component', true);
+            const response = await this.saveNewArticleOnServer({
+                ...this.articleModel,
+                mainImageId: this.articleModel.galleryImgs[0],
+                userDate: new Date(this.articleModel.userDate),
+                createDate: new Date(),
+            });
 
-//                 if (!!doc._id) {
-//                     //remove from server if exists and replace layout
-//                     const newDocs = await this.deleteComponentAndUpdateLayoutOnServer(doc);
-//                     this.layoutDoc = newDocs.uLayout;
-//                 }
+            this.articleDocId = response._id;
 
-//                 //Delete component document from local layoutComps array
-//                 this.replaceOrDeleteLocalComponent(doc, null);
+            this.setTasksState('taskState', 4, 4, 'finished', false);
+            this.isLoading = false;
+            return response;
+        },
 
-//                 //Update other docs order to avoid gaps
-//                 const toUpdate = this.layoutComponents.filter((comp) => comp.order > doc.order);
+        updateArticleHandler: async function () {
+            // this.isLoading = true;
 
-//                 for (const i in toUpdate) {
-//                     const updatedComponent = {
-//                         ...toUpdate[i],
-//                         order: toUpdate[i].order - 1
-//                     }
+            // this.setTasksState('taskState', 1, 4, 'saving-images', true);
+            // await this.presendImages();
 
-//                     if (!updatedComponent._id) {
-//                         this.saveNewComponent(updatedComponent);
-//                     } else {
-//                         this.updateComponent(updatedComponent);
-//                     }
-//                 }
+            // this.setTasksState('taskState', 2, 4, 'preparing-props', true);
 
-//                 await this.setTasksState('taskState', 0, 1, 'task-finished', false);
+            // if (this.articleModel.userDate.length < 10) {
+            //     this.articleModel.userDate = this.createDate();
+            // }
+            // this.articleModel.href = this.createHref();
 
-//             } catch (error) {
-//                 console.log(error);
-//                 this.isError = true;
-//             }
-//         },
+            // this.setTasksState('taskState', 3, 4, 'saving-document', true);
 
-//         removeOldPropsData: async function (propsToRemoveArr) {
-//             if (!propsToRemoveArr) return;
-//             for (const prop of propsToRemoveArr) {
-//                 switch (prop.type) {
-//                     case 'image':
-//                         if (!prop.id) break;
-//                         await this.deleteImage(prop.id);
-//                         break;
+            // const response = await this.saveNewArticleOnServer({
+            //     ...this.articleModel,
+            //     mainImageId: this.articleModel.galleryImgs[0],
+            //     userDate: new Date(this.articleModel.userDate),
+            //     createDate: new Date(),
+            // });
 
-//                     default:
-//                         break;
-//                 }
-//             }
-//         },
+            // this.setTasksState('taskState', 4, 4, 'finished', false);
 
-//         moveUpComponent: async function (doc) {
-//             try {
-//                 await this.setTasksState('taskState', 0, 1, 'moving-components', true);
+            // return response;
+        },
 
-//                 const newOrder = doc.order - 1;
-//                 const replacedComp = this.layoutComponents.find((component) => component.order == newOrder);
+        //help funcs 
+        presendImages: async function (filesArr) {
+            this.imageUploadState.count = filesArr.length;
 
-//                 const newComps = [
-//                     { ...doc, order: newOrder },
-//                     { ...replacedComp, order: doc.order }
-//                 ];
+            let i = 1;
+            for (const img of filesArr) {
+                this.imageUploadState.current = i;
 
-//                 for (const comp of newComps) {
-//                     if (!comp._id) {
-//                         this.saveNewComponent(comp);
-//                     } else {
-//                         this.updateComponent(comp);
-//                     }
-//                 }
+                const b64 = await this.resizeImage(img, config.imagesWidthPx);
+                const newId = await this.uploadImage(b64);
+                this.articleModel.galleryImgs.push(newId);
 
-//                 await this.setTasksState('taskState', 1, 1, 'task-finished', false);
-//             } catch (error) {
-//                 console.log(error);
-//                 this.isError = true;
-//             }
-//         },
+                i++;
+            }
+            return;
+        },
 
-//         //Easy to make moveDownComp
+        createHref() {
+            return this.articleModel.userDate + "/" + this.articleModel.name.toLowerCase().replaceAll(' ', '-').slice(0, 30);
+        },
 
+        createDateInputString(date) {
+            return date.toLocaleString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            }).replaceAll('/', '\\');
+        }
+    },
 
-//         //Complex server management tasks
-//         deleteComponentAndUpdateLayoutOnServer: async function (component) {
+    watch: {
+        articleDocId() {
+            this.loadArticleByIdHandler();
+        }
+    },
 
-//             const deleteTask = await this.deleteComponentWithDataFromServer(component);
+    mixins: [
+        tasksStateUtils,
+        imageUtils,
+        imageController,
+        articleController,
+        imageUtils
+    ],
+}
 
-//             if (!deleteTask.success) return;
-
-//             const newIds = this.layoutData.components.filter(id => id != component._id);
-
-//             const newLayoutDoc = {
-//                 ...this.layoutData,
-//                 components: newIds,
-//             }
-
-//             const newLayout = await this.updateLayout(newLayoutDoc);
-
-//             return { deletedComp: component, uLayout: newLayout };
-//         },
-
-//         saveNewCompAndUpdateLayoutOnServer: async function (component) {
-
-//             //Create component
-//             const newComponent = await this.saveComponentOnServer(component, this.layoutData.isGlobal);
-
-//             //Update layout
-//             const newLayoutDocument = await this.addComponentToLayoutOnServer(this.layoutData, newComponent._id);
-
-//             return { uComponent: newComponent, uLayout: newLayoutDocument }
-//         },
-
-
-//         //Local functions
-//         replaceOrDeleteLocalComponent: function (oldDoc, newDoc) {
-//             const filterOne = this.layoutComponents.filter((doc) => doc != oldDoc);
-//             const newComps = !!oldDoc._id ? filterOne.filter((doc) => doc._id != oldDoc._id) : filterOne;
-//             if (!!newDoc) newComps.push(newDoc);
-//             this.layoutComponents = newComps;
-//             return oldDoc;
-//         },
-//     },
-
-//     mixins: [
-//         layoutController,
-//         componentController,
-//         tasksStateUtils
-//     ],
-// }
-
-
-// export default componentManagement;
+export default articleManagement;

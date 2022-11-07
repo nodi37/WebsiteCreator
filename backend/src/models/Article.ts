@@ -29,7 +29,7 @@ const ArticleSchema = new mongoose.Schema({
         default: false
     },
     mainImageId: {
-        type: { type: mongoose.Schema.Types.ObjectId, ref: 'Image' }
+        type: mongoose.Schema.Types.ObjectId, ref: 'Image'
     },
     galleryImgs: {
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Image' }]

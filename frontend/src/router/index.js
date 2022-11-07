@@ -5,7 +5,7 @@ import AddSubpageRoute from '@/components/Routes/AddSubpageRoute.vue';
 import ArticlesRoute from '@/components/Routes/ArticlesRoute.vue';
 import GlobalRoute from '@/components/Routes/GlobalRoute.vue';
 import LayoutManagerRoute from '@/components/Routes/LayoutManagerRoute.vue';
-import AddNewArticleRoute from '@/components/Routes/AddNewArticleRoute.vue';
+import EditArticleRoute from '@/components/Routes/EditArticleRoute.vue';
 import MainView from '@/views/MainView';
 
 Vue.use(VueRouter)
@@ -32,9 +32,9 @@ const routes = [
         component: ArticlesRoute
       },
       {
-        path: 'article/new',
-        name: 'newArticle',
-        component: AddNewArticleRoute
+        path: 'article/edit',
+        name: 'editArticle',
+        component: EditArticleRoute
       },
       {
         path: 'add-subpage',

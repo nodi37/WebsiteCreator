@@ -1,12 +1,8 @@
-import ArticleService from "@/services/article.service";
+import articleService from "@/services/article.service";
 import imageController from "./image.controller";
 
-const ArticleController = {
+const articleController = {
     methods: {
-        getArticleModel: function (name) {
-            return this.ArticlesModels.find((doc) => doc.name === name);
-        },
-
         getArticleFromServerById: async function (id) {
             const req = await this.getArticleByIdRequest(id)
             return req;
@@ -20,11 +16,11 @@ const ArticleController = {
 
         updateArticleOnServer: async function (modifiedArticle) {
             //Fix
-            const req = await this.updateArticleRequest(newArticle)
+            const req = await this.updateArticleRequest(modifiedArticle)
             return req;
         },
 
-        saveArticleOnServer: async function (article) {
+        saveNewArticleOnServer: async function (article) {
             //Fix
             const newArticleData = await this.saveNewArticleRequest(article);
             return newArticleData;
@@ -40,7 +36,7 @@ const ArticleController = {
             return await this.deleteArticleRequest(Article);
         },
     },
-    mixins: [ArticleService, imageController, createPropsObj]
+    mixins: [articleService, imageController]
 }
 
-export default ArticleController;
+export default articleController;
