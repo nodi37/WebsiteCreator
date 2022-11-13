@@ -3,7 +3,7 @@ import componentController from "@/controllers/component.controller";
 import tasksStateUtils from "@/utils/task.state.utils";
 
 
-const componentManagement = {
+const layoutManagement = {
     data: function () {
         return {
             //Internal data
@@ -211,4 +211,4 @@ const componentManagement = {
 }
 
 
-export default componentManagement;
+export default layoutManagement;

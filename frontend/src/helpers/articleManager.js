@@ -4,7 +4,7 @@ import imageController from "@/controllers/image.controller";
 import articleController from "@/controllers/article.controller";
 import * as config from "@/configs/articleConfig";
 
-const articleManagement = {
+const articleManager = {
     data: function () {
         return {
             articleDocId: "",
@@ -23,9 +23,9 @@ const articleManagement = {
 
             //Management states
             nameError: false,
-            isLoading: true,
+            isLoading: false,
             isError: false,
-           
+
             //Tasks state
             taskInProgress: false,
             taskState: {
@@ -43,6 +43,8 @@ const articleManagement = {
     methods: {
         //Complex functions
         loadArticleByIdHandler: async function () {
+            this.isLoading = true;
+
             const articleData = await this.getArticleFromServerById(this.articleDocId);
 
             this.articleModel = {
@@ -50,13 +52,14 @@ const articleManagement = {
                 userDate: this.createDateInputString(new Date(articleData.userDate)),
             }
 
+            this.isLoading = false;
         },
 
-        saveArticleHandler: async function () {
+        saveArticleHandler: async function (imgsArr) {
             this.isLoading = true;
 
             this.setTasksState('taskState', 1, 4, 'saving-images', true);
-            await this.presendImages(this.imgFilesArr);
+            await this.presendImages(imgsArr);
 
             this.setTasksState('taskState', 2, 4, 'preparing-props', true);
 
@@ -81,31 +84,65 @@ const articleManagement = {
             return response;
         },
 
-        updateArticleHandler: async function () {
-            // this.isLoading = true;
+        updateArticleHandler: async function (imgsArr) {
+            this.isLoading = true;
 
-            // this.setTasksState('taskState', 1, 4, 'saving-images', true);
-            // await this.presendImages();
+            this.setTasksState('taskState', 1, 3, 'saving-images', true);
+            await this.presendImages(imgsArr);
 
-            // this.setTasksState('taskState', 2, 4, 'preparing-props', true);
+            this.setTasksState('taskState', 2, 3, 'saving-document', true);
 
-            // if (this.articleModel.userDate.length < 10) {
-            //     this.articleModel.userDate = this.createDate();
-            // }
-            // this.articleModel.href = this.createHref();
+            this.articleModel.href = this.createHref();
+            const response = await this.updateArticleRequest({
+                _id: this.articleDocId,
+                userDate: new Date(this.articleModel.userDate),
+                ...this.articleModel,
+            });
 
-            // this.setTasksState('taskState', 3, 4, 'saving-document', true);
+            this.setTasksState('taskState', 3, 3, 'finished', false);
 
-            // const response = await this.saveNewArticleOnServer({
-            //     ...this.articleModel,
-            //     mainImageId: this.articleModel.galleryImgs[0],
-            //     userDate: new Date(this.articleModel.userDate),
-            //     createDate: new Date(),
-            // });
+            this.isLoading = false;
+            return response;
+        },
 
-            // this.setTasksState('taskState', 4, 4, 'finished', false);
+        deleteArticleHandler: async function () {
+            this.isLoading = true;
 
-            // return response;
+            this.setTasksState('taskState', 1, 2, 'deleting-article', true);
+
+            for (const imgId of this.articleModel.galleryImgs) {
+                await this.deleteImage(imgId);
+            }
+
+            await this.deleteArticleFromServer(this.articleDocId);
+
+            this.setTasksState('taskState', 2, 2, 'finished', false);
+            this.isLoading = false;
+
+            return true;
+        },
+
+        deleteImageHandler: async function (imgId) {
+            this.isLoading = true;
+
+            await this.deleteImage(imgId);
+
+            const imgIndex = this.articleModel.galleryImgs.indexOf(imgId);
+            this.articleModel.galleryImgs.splice(imgIndex, 1);
+
+            this.updateArticleHandler([]);
+
+            this.isLoading = false;
+        },
+
+        setMainImageHandler: async function (imgId) {
+            this.isLoading = true;
+
+            this.articleModel.mainImageId = imgId;
+
+            this.updateArticleHandler([]);
+
+            this.isLoading = false;
         },
 
         //help funcs 
@@ -134,7 +171,7 @@ const articleManagement = {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
-            }).replaceAll('/', '\\');
+            });
         }
     },
 
@@ -153,4 +190,4 @@ const articleManagement = {
     ],
 }
 
-export default articleManagement;
+export default articleManager;

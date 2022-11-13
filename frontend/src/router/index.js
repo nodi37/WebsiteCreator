@@ -32,7 +32,7 @@ const routes = [
         component: ArticlesRoute
       },
       {
-        path: 'article/edit',
+        path: 'articles/edit',
         name: 'editArticle',
         component: EditArticleRoute
       },

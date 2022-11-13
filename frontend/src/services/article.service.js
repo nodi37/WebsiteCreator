@@ -27,8 +27,8 @@ const articleService = {
             return req.data.data;
         },
 
-        deleteArticleRequest: async function (article) {
-            const req = await axios.delete(`${api}article/delete/${article._id}`, { withCredentials: true });
+        deleteArticleRequest: async function (articleId) {
+            const req = await axios.delete(`${api}article/delete/${articleId}`, { withCredentials: true });
             return req.data;
         },
     }

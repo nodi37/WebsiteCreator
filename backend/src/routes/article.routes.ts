@@ -35,7 +35,16 @@ router.get('/get-by-id/:id',
 );
 
 
-router.get('/get-many', 
+router.get('/get-many',
+    //Auth check if requests all, not public only 
+    // (req, res, next) => {
+    //     const isPublicBool = req.query.isPublic === "true";
+    //     if (isPublicBool) {
+    //         next();
+    //     } else {
+    //         checkAuth(req, res, next);
+    //     }
+    // },
     ArticleController.getMany
 );
 

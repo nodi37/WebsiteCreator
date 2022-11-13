@@ -10,7 +10,7 @@ import ErrorOverlay from "@/components/ComplexComponents/ErrorOverlay.vue";
 import SkeletonLoader from "@/components/UI/SkeletonLoader.vue";
 import DoubleStateSnackbar from "@/components/UI/DoubleStateSnackbar.vue";
 
-import componentManagement from "@/helpers/componentManagement";
+import layoutManagement from "@/helpers/layoutManagement";
 import LayoutConfigBox from "./LayoutConfigBox.vue";
 
 export default {
@@ -130,7 +130,7 @@ export default {
 		DoubleStateSnackbar,
 		LayoutConfigBox,
 	},
-	mixins: [componentManagement],
+	mixins: [layoutManagement],
 };
 </script>
 

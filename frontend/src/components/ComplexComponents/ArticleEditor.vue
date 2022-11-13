@@ -1,9 +1,10 @@
 <script>
-import articleManagement from "@/helpers/articleManagement";
+import articleManager from "@/helpers/articleManager";
 import DatePicker from "@/components/UI/Pickers/DatePicker.vue";
 import DoubleStateSnackbar from "@/components/UI/DoubleStateSnackbar.vue";
 import ImagesPreviewContainer from "@/components/ComplexComponents/ImagesPreviewContainer.vue";
 import ImageMiniature from "@/components/ComplexComponents/ImageMiniature.vue";
+import ConfirmDialog from "@/components/UI/ConfirmDialog.vue";
 
 export default {
 	name: "ArticleEditor",
@@ -36,19 +37,39 @@ export default {
 			this.nameError = false;
 
 			if (!this.articleDocId) {
-				const articleData = await this.saveArticleHandler();
+				const articleData = await this.saveArticleHandler(this.imgFilesArr);
 				this.$router.push({ name: "editArticle", query: { id: articleData._id } });
 			} else {
-				console.log('update')
-				//await this.updateArticleHandler();
-				//WORK ON THIS ONE!
+				await this.updateArticleHandler(this.imgFilesArr);
 			}
 
 			this.imgFilesArr = [];
 		},
 
+		deleteBtnHandler: async function () {
+			const ok = await this.$refs.confirmDeletionDialog.show({
+				text: "are-you-sure",
+				confirmBtnText: "delete",
+				cancelBtnText: "cancel",
+				confirmBtnColor: "error",
+				cancelBtnColor: "primary",
+			});
+
+			if (!ok) return;
+
+			await this.deleteArticleHandler();
+			this.$router.push({ name: "articles" });
+		},
+
 		removeImgFile(imgFile) {
 			this.imgFilesArr.splice(this.imgFilesArr.indexOf(imgFile), 1);
+		},
+
+		deleteImageBtnHandler(imgId) {
+			this.deleteImageHandler(imgId);
+		},
+		setMainImageBtnHandler(imgId) {
+			this.setMainImageHandler(imgId);
 		},
 
 		//Others
@@ -96,14 +117,14 @@ export default {
 		if (!this.articleId) return;
 		this.articleDocId = this.articleId;
 	},
-	components: { DatePicker, DoubleStateSnackbar, ImagesPreviewContainer, ImageMiniature },
-	mixins: [articleManagement],
+	components: { DatePicker, DoubleStateSnackbar, ImagesPreviewContainer, ImageMiniature, ConfirmDialog },
+	mixins: [articleManager],
 };
 </script>
 
 <template>
 	<div class="pa-4">
-		<v-card elevation="1">
+		<v-card elevation="1" :disabled="isLoading" :loading="isLoading">
 			<!--  :disabled="true" :loading="true" -->
 			<v-card-title>{{ !articleModel._id ? "create-article" : "edit article" }}</v-card-title>
 			<div class="pa-2">
@@ -152,8 +173,8 @@ export default {
 				<images-preview-container v-if="articleModel.galleryImgs.length > 0" :toSave="false">
 					<image-miniature v-for="(imgId, i) in articleModel.galleryImgs" :key="'saved-' + i" :imgId="imgId">
 						<template v-slot:actions>
-							<v-btn small color="error">delete</v-btn>
-							<v-btn small color="success">main</v-btn>
+							<v-btn small color="error" @click="deleteImageBtnHandler(imgId)">delete</v-btn>
+							<v-btn small color="success" @click="setMainImageBtnHandler(imgId)">main</v-btn>
 						</template>
 					</image-miniature>
 				</images-preview-container>
@@ -172,6 +193,7 @@ export default {
 				</div>
 			</div>
 			<v-card-actions class="justify-end">
+				<v-btn @click="deleteBtnHandler" :disabled="!articleDocId" color="error">delete</v-btn>
 				<v-btn @click="saveBtnHandler" color="success">save</v-btn>
 			</v-card-actions>
 		</v-card>
@@ -183,5 +205,6 @@ export default {
 			:lnrPrgCurrStep="snackBarStates.mainCurr"
 			:lnrPrgStepsCount="snackBarStates.mainState"
 		/>
+		<confirm-dialog ref="confirmDeletionDialog" />
 	</div>
 </template>

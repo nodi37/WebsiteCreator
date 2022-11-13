@@ -1,5 +1,4 @@
 import articleService from "@/services/article.service";
-import imageController from "./image.controller";
 
 const articleController = {
     methods: {
@@ -26,17 +25,11 @@ const articleController = {
             return newArticleData;
         },
 
-        deleteArticleWithDataFromServer: async function (article) {
-            for (const imgId of article.galleryImgs) {
-                console.log(imgId)
-                // const imgId = Article.props[imgProp.name];
-                // if (!!imgId) this.deleteImage(imgId)
-            }
-
-            return await this.deleteArticleRequest(Article);
+        deleteArticleFromServer: async function (articleId) {
+            return await this.deleteArticleRequest(articleId);
         },
     },
-    mixins: [articleService, imageController]
+    mixins: [articleService]
 }
 
 export default articleController;
