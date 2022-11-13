@@ -63,8 +63,8 @@ const getManyArticles = async (params: IParams) => {
     const sortBy = params.sortBy || 'name';
     const sortOrder = params.sortOrder === 'descending' ? '-' : '';
     const queryObject = createQueryObject(Article, filtersDefinition, params);
-    console.log(params)
-    console.log(queryObject)
+    // console.log(params)
+    // console.log(queryObject)
 
     try {
         const response = await Article.find(queryObject).sort(sortOrder + sortBy).skip(skip).limit(limit);

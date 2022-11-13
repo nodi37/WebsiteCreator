@@ -96,6 +96,7 @@ const articleManager = {
             const response = await this.updateArticleRequest({
                 _id: this.articleDocId,
                 userDate: new Date(this.articleModel.userDate),
+                mainImageId: !this.articleModel.imageId ? this.articleModel.galleryImgs[0] : this.articleModel.imageId,
                 ...this.articleModel,
             });
 

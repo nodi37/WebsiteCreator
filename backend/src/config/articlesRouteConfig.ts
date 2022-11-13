@@ -2,7 +2,9 @@ const maxResponseCount = 10000;
 
 const filtersDefinition = {
     keywordStringType: [
-        'href'
+        'tags',
+        'name',
+        'content',
     ],
     keywordNumberType: [
     ]

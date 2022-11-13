@@ -8,12 +8,8 @@ const articleService = {
             return req.data.data;
         },
 
-        getManyArticles: async function (keyword, skip, limit) {
-            const kwdQuery = !keyword ? '?' : `?keyword=${keyword}`;
-            const skipQuery = !keyword ? '' : `?skip=${skip}`;
-            const limitQuery = !keyword ? '' : `?limit=${limit}`;
-
-            const req = await axios.get(api + "article/get-many" + kwdQuery + skipQuery + limitQuery);
+        getManyArticles: async function (query) {
+            const req = await axios.get(api + "article/get-many?" + query);
             return req.data.data;
         },
 

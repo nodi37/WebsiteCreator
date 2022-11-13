@@ -13,14 +13,26 @@ const articleController = {
             return req;
         },
 
+        getManyArticlesFromServer: async function (queryObject) {
+            let queryString = '';
+
+            for(const key in queryObject) {
+                const value = queryObject[key];
+                if (value!=null) {
+                    queryString += `&${key}=${value}`;
+                }
+            }
+
+            const req = await this.getManyArticles(queryString);
+            return !!req ? req : [];
+        },
+
         updateArticleOnServer: async function (modifiedArticle) {
-            //Fix
             const req = await this.updateArticleRequest(modifiedArticle)
             return req;
         },
 
         saveNewArticleOnServer: async function (article) {
-            //Fix
             const newArticleData = await this.saveNewArticleRequest(article);
             return newArticleData;
         },
