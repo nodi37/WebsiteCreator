@@ -10,7 +10,8 @@ export default new Vuex.Store({
     userLoggedIn: false,
     toolbarTitle: null,
     additionalLayouts: [],
-    componentsModels: componentsModels
+    componentsModels: componentsModels,
+    loadedImages: []
   },
   mutations: {
     setLoginStatus(state, data) {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     pushNewLayout(state, data) {
       state.additionalLayouts.push(data);
+    },
+    pushNewImage(state, data) {
+      state.loadedImages.push(data);
     },
     replaceLayouts(state, data) {
       state.additionalLayouts = data;
@@ -35,6 +39,9 @@ export default new Vuex.Store({
     },
     PUSH_NEW_LAYOUT({ commit }, data) {
       commit('pushNewLayout', data);
+    },
+    PUSH_NEW_IMAGE({ commit }, data) {
+      commit('pushNewImage', data);
     },
     REPLACE_ALL_LAYOUTS({ commit }, data) {
       commit('replaceLayouts', data);

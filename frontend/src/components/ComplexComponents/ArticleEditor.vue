@@ -37,13 +37,16 @@ export default {
 			this.nameError = false;
 
 			if (!this.articleDocId) {
-				const articleData = await this.saveArticleHandler(this.imgFilesArr);
-				this.$router.push({ name: "editArticle", query: { id: articleData._id } });
+				//const articleData =
+				await this.saveArticleHandler(this.imgFilesArr);
+				//this.$router.push({ name: "editArticle", query: { id: articleData._id } });
 			} else {
 				await this.updateArticleHandler(this.imgFilesArr);
 			}
 
-			this.imgFilesArr = [];
+			//this.imgFilesArr = [];
+			
+			this.$router.push({ name: "articles" });
 		},
 
 		deleteBtnHandler: async function () {

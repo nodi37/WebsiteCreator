@@ -1,5 +1,6 @@
 <script>
 import imageController from "@/controllers/image.controller";
+import store from "@/store";
 
 export default {
 	name: "ImageMiniature",
@@ -7,12 +8,26 @@ export default {
 	data: () => ({
 		imageData: "",
 	}),
+	computed: {
+		imgsArr() {
+			return store.state.loadedImages;
+		},
+	},
 	mounted: async function () {
 		if (!this.imgId) {
 			this.imageData = this.imgSrc;
 		} else {
-			const imgDoc = await this.getImageById(this.imgId, "mini");
-			this.imageData = imgDoc.data;
+			//Can add size prop to search
+			//This is smallest size so every bigger size will fit too
+			const loadedImg = this.imgsArr.find((img) => img._id === this.imgId);
+
+			if (!loadedImg) {
+				const imgDoc = await this.getImageById(this.imgId, "mini");
+				store.dispatch("PUSH_NEW_IMAGE", { ...imgDoc, size: "mini" });
+				this.imageData = imgDoc.data;
+			} else {
+				this.imageData = loadedImg.data;
+			}
 		}
 	},
 	mixins: [imageController],
@@ -24,6 +39,7 @@ export default {
 		<div
 			class="absolute h-full w-full flex flex-col gap-1 justify-center align-center opacity-0 group-hover:opacity-100 transition"
 		>
+			{{ imgsArr }}
 			<slot name="actions"></slot>
 		</div>
 		<img class="w-full h-full object-cover" :src="imageData" />

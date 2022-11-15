@@ -2,10 +2,17 @@
 import PageGrid from "@/components/UI/PageGrid.vue";
 import ComponentHolder from "@/components/UI/ComponentHolder.vue";
 import AddCompBtn from "@/components/UI/Buttons/AddBtn.vue";
-import ImageMiniature from "@/components/ComplexComponents/ImageMiniature.vue";
+import ArticleCard from "@/components/ComplexComponents/ArticleCard.vue";
 
 import articleController from "@/controllers/article.controller";
 import store from "@/store";
+
+//I need to make it better
+//Case:
+//Filter is set and load more btn is clicked
+//New articles are loaded but nothing shows because loaded documents not fits the filters
+//Button stays active because more data is avaiable on server
+//If there is a lot of documents and just last one fits filters, user need to click load more many times
 
 export default {
 	name: "ArticlesRoute",
@@ -17,77 +24,133 @@ export default {
 				isPublic: null,
 			},
 
-			skip: 0,
-			limit: 5,
+			//Article loads counts
+			onCompMountCount: 5,
+			loadMoreBtnCount: 10,
 
-			isPublicBtnsValue: 0,
-			isPublicItems: ["all", "not public", "public"],
+			//Skip query
+			skip: 0,
+
+			//Article loading states
+			isFetching: false,
+			nothingMoreToLoad: false,
+
+			// Public/Not public button values
+			isPublicBtnsValue: null,
+			isPublicItems: ["public", "not-public"],
+
+			// Sort button values
+			sortBtnsValue: 0,
+			sortItems: ["recently-created", "article-date"],
 		};
 	},
 	methods: {
+		//Events handlers
 		addNewBtnHandler() {
 			this.$router.push({ name: "editArticle" });
 		},
+
 		editArticleHandler(artId) {
 			this.$router.push({ name: "editArticle", query: { id: artId } });
 		},
-		loadArticles: async function () {
+
+		loadMoreBtnHanlder() {
+			this.loadManyArticles(this.loadMoreBtnCount);
+		},
+
+		//Loading articles
+		//ADD TRY CATCH TO SET ERROR
+		//Add ERROR OVERLAY
+		loadArticle: async function () {
 			const queryObj = {
-				isPublic: this.filters.isPublic,
-				keyword: this.filters.keyword,
 				skip: this.skip,
-				limit: this.limit
+				limit: 1,
+				sortBy: "createDate",
+				sortOrder: "descending",
 			};
 
-			//Need to fix this
 			const newAricles = await this.getManyArticlesFromServer(queryObj);
+
+			this.nothingMoreToLoad = !newAricles[0] ? true : false;
+			this.skip += 1;
 			this.articles = [...this.articles, ...newAricles];
-			//Check length add load more btn and so on
 		},
-		getFormatedDate(date) {
-			return new Date(date).toLocaleString("en-GB", {
-				day: "2-digit",
-				month: "2-digit",
-				year: "numeric",
-			});
+
+		loadManyArticles: async function (count) {
+			this.isFetching = true;
+
+			for (let i = 0; i < count; i++) {
+				await this.loadArticle();
+				if (this.nothingMoreToLoad) break;
+			}
+
+			this.isFetching = false;
 		},
 	},
+	computed: {
+		//Calculating filters
+		filteredArticles() {
+
+			//Filtering by keyword
+			const keywordFilter = this.articles.filter(
+				(art) =>
+					art.name.toLowerCase().includes(this.filters.keyword.toLowerCase()) ||
+					art.tags.includes(this.filters.keyword.toLowerCase())
+			);
+
+			//Filtering by isPublic value
+			const isPublicFilter = this.articles.filter((art) => {
+				const isPublic = this.filters.isPublic;
+				if (isPublic === null) return true;
+				if (isPublic) return art.isPublic;
+				if (!isPublic) return !art.isPublic;
+			});
+
+			//Filtering arrays
+			const filtersArr = [keywordFilter, isPublicFilter];
+			const filteredArticles = filtersArr.reduce((pV, cV) => pV.filter((article) => cV.includes(article)));
+			
+			//Sorting results
+			const filteredAndSorted = filteredArticles.sort((artA, artB)=>{
+				switch (this.sortBtnsValue) {
+					case 1:
+						return new Date(artB.userDate).getTime() - new Date(artA.userDate).getTime();
+					default:
+						return -1
+				}
+			});
+
+			return filteredAndSorted;
+		},
+		//CHANGING SORTING
+	},
 	watch: {
+		//Setting filter value according to btn value
 		isPublicBtnsValue(nV) {
 			switch (nV) {
+				case 0:
+					this.filters.isPublic = true;
+					break;
 				case 1:
 					this.filters.isPublic = false;
 					break;
-
-				case 2:
-					this.filters.isPublic = true;
-					break;
-
 				default:
 					this.filters.isPublic = null;
 					break;
 			}
-		},
-
-		filters: {
-			handler() {
-				this.articles = [];
-				this.loadArticles();
-			},
-			deep: true,
-		},
-	},
-	mounted: async function () {
-		store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t("articles"));
-		this.loadArticles();
+		}
 	},
 	components: {
 		PageGrid,
 		ComponentHolder,
 		AddCompBtn,
-		ImageMiniature,
+		ArticleCard,
 	},
 	mixins: [articleController],
+	mounted: async function () {
+		store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t("articles"));
+		await this.loadManyArticles(this.onCompMountCount);
+	},
 };
 </script>
 
@@ -96,39 +159,53 @@ export default {
 		<component-holder>
 			<add-comp-btn @click="addNewBtnHandler" />
 		</component-holder>
+
+		<!-- search bar -->
 		<div>
-			<div>
-				<v-text-field v-model="filters.keyword" solo label="search" />
-			</div>
-			<div>
-				<v-btn-toggle v-model="isPublicBtnsValue">
-					<v-btn small v-for="(item, i) in isPublicItems" :key="'isPublic-' + i">
-						{{ item }}
-					</v-btn>
-				</v-btn-toggle>
-			</div>
+			<v-text-field v-model="filters.keyword" solo label="search" />
 		</div>
-		<v-card
-			v-for="article in articles"
+		<!-- search bar -->
+
+		<!-- filters -->
+		<div class="-mt-8">
+			<span class="block pa-0 mb-1 text-slate-400">filters</span>
+			<v-btn-toggle v-model="isPublicBtnsValue">
+				<v-btn :disabled="isFetching" small v-for="(item, i) in isPublicItems" :key="'isPublic-' + i">
+					{{ item }}
+				</v-btn>
+			</v-btn-toggle>
+		</div>
+		<!-- filters -->
+
+		<!-- sorting -->
+		<div>
+			<span class="block pa-0 mb-1 text-slate-400">sort by:</span>
+			<v-btn-toggle v-model="sortBtnsValue">
+				<v-btn :disabled="isFetching" small v-for="(item, i) in sortItems" :key="'sortItem-' + i">
+					{{ item }}
+				</v-btn>
+			</v-btn-toggle>
+		</div>
+		<!-- sorting -->
+
+		<!-- Article card -->
+		<article-card
+			v-for="article in filteredArticles"
 			:key="article._id"
+			:articleData="article"
 			@click="editArticleHandler(article._id)"
-			class="pa-2 flex flex-row gap-2"
+		/>
+		<!-- Article card -->
+
+		<!-- Load more btn -->
+		<v-btn
+			class="ma-8"
+			:loading="isFetching"
+			:disabled="nothingMoreToLoad"
+			color="primary"
+			@click="loadMoreBtnHanlder"
+			>Load more</v-btn
 		>
-			<image-miniature :imgId="article.mainImageId" />
-
-			<div class="flex flex-col items-start text-sm">
-				<h3 class="text-slate-700 text-xl font-medium">{{ article.name }}</h3>
-				<span class="text-slate-500">Date: {{ getFormatedDate(article.userDate) }}</span>
-				<div class="text-slate-500">
-					<span>Tags:&nbsp;</span>
-					<span v-for="tag in article.tags" :key="article._id + '-' + tag">{{ tag }},&nbsp;</span>
-				</div>
-				<v-chip class="mt-auto" :color="article.isPublic ? 'success' : 'warning'" label small>
-					{{ article.isPublic ? "public" : "not public" }}
-				</v-chip>
-			</div>
-
-			<v-icon x-large class="ml-auto"> mdi-chevron-right </v-icon>
-		</v-card>
+		<!-- Load more btn -->
 	</page-grid>
 </template>

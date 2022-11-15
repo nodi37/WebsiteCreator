@@ -31,14 +31,14 @@ const editExistingArticle = async (body: IArticle, id: string) => {
     }
 }
 
-const replaceExistingArticle = async (body: IArticle, id: string) => {
-    try {
-        const response = await Article.findOneAndReplace({ _id: id }, body);
-        return response;
-    } catch (error) {
-        console.log(error);
-    }
-}
+// const replaceExistingArticle = async (body: IArticle, id: string) => {
+//     try {
+//         const response = await Article.findOneAndReplace({ _id: id }, body);
+//         return response;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 const deleteSingleArticle = async (id: string) => {
     try {
@@ -78,7 +78,7 @@ const getManyArticles = async (params: IParams) => {
 export {
     saveNewArticle,
     editExistingArticle,
-    replaceExistingArticle,
+    //replaceExistingArticle,
     deleteSingleArticle,
     getOneArticleById,
     getManyArticles

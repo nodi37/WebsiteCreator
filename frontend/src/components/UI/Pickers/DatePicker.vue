@@ -4,31 +4,32 @@ export default {
 	data: () => ({
 		date: "",
 	}),
-    props: ['visible'],
-    methods: {
-        emitDate: function () {
+	props: ["visible"],
+	methods: {
+		emitDate: function () {
 			const [year, month, day] = this.date.split("-");
-            this.value = `${day}/${month}/${year}`;
-            this.visibleModel = false;
-        }
-    },
+			const dateText = `${day}/${month}/${year}`;
+			this.value = dateText
+			this.visibleModel = false;
+		},
+	},
 	computed: {
-        visibleModel: {
-            set: function () {
-                this.$emit('close');
-            },
-            get: function () {
-                return this.visible;
-            }
-        },
-        value: {
-            set: function (value) {
-                this.$emit('input', value)
-            },
-            get: function () {
-                return this.value;
-            }
-        }
+		visibleModel: {
+			set: function () {
+				this.$emit("close");
+			},
+			get: function () {
+				return this.visible;
+			},
+		},
+		value: {
+			set: function (value) {
+				this.$emit("input", value);
+			},
+			get: function () {
+				return this.value;
+			},
+		},
 	},
 };
 </script>

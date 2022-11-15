@@ -4,7 +4,7 @@ import IQueryError from "../interfaces/IQueryError";
 import {
     saveNewArticle,
     editExistingArticle,
-    replaceExistingArticle,
+    //replaceExistingArticle,
     deleteSingleArticle,
     getOneArticleById,
     getManyArticles
@@ -42,19 +42,19 @@ const editArticle = async (req: Request, res: Response) => {
     }
 }
 
-const updateArticle = async (req: Request, res: Response) => {
-    try {
-        const response = await replaceExistingArticle(req.body, req.params.id);
-        if (response) {
-            res.status(200).json({ data: response });
-        } else {
-            res.status(404).json({ error: "Resource not found" });
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-}
+// const updateArticle = async (req: Request, res: Response) => {
+//     try {
+//         const response = await replaceExistingArticle(req.body, req.params.id);
+//         if (response) {
+//             res.status(200).json({ data: response });
+//         } else {
+//             res.status(404).json({ error: "Resource not found" });
+//         }
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({ error: "Internal Server Error" });
+//     }
+// }
 
 const deleteArticle = async (req: Request, res: Response) => {
     try {
@@ -105,7 +105,7 @@ const getMany = async (req: Request, res: Response) => {
 export {
     addArticle,
     editArticle,
-    updateArticle,
+    //updateArticle,
     deleteArticle,
     getOneById,
     getMany

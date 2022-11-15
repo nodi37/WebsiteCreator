@@ -58,52 +58,60 @@ const articleManager = {
         saveArticleHandler: async function (imgsArr) {
             this.isLoading = true;
 
-            this.setTasksState('taskState', 1, 4, 'saving-images', true);
+            //Presending images
+            this.setTasksState('taskState', 1, 3, 'saving-images', true);
             await this.presendImages(imgsArr);
 
-            this.setTasksState('taskState', 2, 4, 'preparing-props', true);
-
+            //Preparing props, 
+            this.setTasksState('taskState', 2, 3, 'saving-document', true);
             if (this.articleModel.userDate.length < 10) {
                 this.articleModel.userDate = this.createDateInputString(new Date());
             }
+
             this.articleModel.href = this.createHref();
+            const dateObj = this.createDateObject(this.articleModel.userDate);
 
-            this.setTasksState('taskState', 3, 4, 'saving-document', true);
-
-            const response = await this.saveNewArticleOnServer({
+            //Saving document
+            const data = await this.saveNewArticleOnServer({
                 ...this.articleModel,
                 mainImageId: this.articleModel.galleryImgs[0],
-                userDate: new Date(this.articleModel.userDate),
+                userDate: dateObj,
                 createDate: new Date(),
             });
 
-            this.articleDocId = response._id;
+            //Applying new article id
+            this.articleDocId = data._id;
 
-            this.setTasksState('taskState', 4, 4, 'finished', false);
+            //Finish
+            this.setTasksState('taskState', 3, 3, 'finished', false);
             this.isLoading = false;
-            return response;
+            return data;
         },
 
         updateArticleHandler: async function (imgsArr) {
             this.isLoading = true;
 
+            //Presending images
             this.setTasksState('taskState', 1, 3, 'saving-images', true);
             await this.presendImages(imgsArr);
 
+            //Preparing props
             this.setTasksState('taskState', 2, 3, 'saving-document', true);
-
             this.articleModel.href = this.createHref();
-            const response = await this.updateArticleRequest({
-                _id: this.articleDocId,
-                userDate: new Date(this.articleModel.userDate),
-                mainImageId: !this.articleModel.imageId ? this.articleModel.galleryImgs[0] : this.articleModel.imageId,
+            const dateObj = this.createDateObject(this.articleModel.userDate);
+
+            //Saving document
+            const data = await this.updateArticleRequest({
                 ...this.articleModel,
+                _id: this.articleDocId,
+                userDate: dateObj,
+                mainImageId: !this.articleModel.imageId ? this.articleModel.galleryImgs[0] : this.articleModel.imageId,
             });
 
+            //Finish-
             this.setTasksState('taskState', 3, 3, 'finished', false);
-
             this.isLoading = false;
-            return response;
+            return data;
         },
 
         deleteArticleHandler: async function () {
@@ -165,6 +173,11 @@ const articleManager = {
 
         createHref() {
             return this.articleModel.userDate + "/" + this.articleModel.name.toLowerCase().replaceAll(' ', '-').slice(0, 30);
+        },
+
+        createDateObject(ddMmYyyy) {
+            const [day, month, year] = ddMmYyyy.split("/");
+            return new Date(`${month}/${day}/${year}`);
         },
 
         createDateInputString(date) {
