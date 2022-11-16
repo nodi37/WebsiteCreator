@@ -23,12 +23,15 @@ export default {
 	data: function () {
 		return {
 			articles: [],
+
+			//When adding new filters remember to open them in validations in backend
 			filters: {
 				keyword: "",
 				isPublic: null,
 			},
 
-			//filtersEmptyObj needs to be copy of >filters< obj
+			//filtersEmptyObj needs to be exact copy of >filters< obj
+			//Required to check if filters are set
 			filtersEmptyObj: {
 				keyword: "",
 				isPublic: null,
