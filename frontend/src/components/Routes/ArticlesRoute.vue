@@ -3,11 +3,10 @@ import PageGrid from "@/components/UI/PageGrid.vue";
 import ComponentHolder from "@/components/UI/ComponentHolder.vue";
 import AddCompBtn from "@/components/UI/Buttons/AddBtn.vue";
 import ArticleCard from "@/components/ComplexComponents/ArticleCard.vue";
-import ErrorOverlay from '../ComplexComponents/ErrorOverlay.vue';
+import ErrorOverlay from "../ComplexComponents/ErrorOverlay.vue";
 
 import articleController from "@/controllers/article.controller";
 import store from "@/store";
-
 
 //	Probably FIXED
 ////	I need to make it better
@@ -74,8 +73,6 @@ export default {
 		},
 
 		//Loading articles
-		//ADD TRY CATCH TO SET ERROR
-		//Add ERROR OVERLAY
 		loadArticle: async function () {
 			try {
 				const queryObj = {
@@ -208,12 +205,8 @@ export default {
 
 <template>
 	<page-grid>
-		<component-holder>
-			<add-comp-btn @click="addNewBtnHandler" />
-		</component-holder>
-
 		<!-- search bar -->
-		<div>
+		<div class="mt-8">
 			<v-text-field v-model="filters.keyword" solo label="search" />
 		</div>
 		<!-- search bar -->
@@ -239,7 +232,8 @@ export default {
 			</v-btn-toggle>
 		</div>
 		<!-- sorting -->
-
+		<v-divider />
+		<add-comp-btn @click="addNewBtnHandler" />
 		<!-- Article card -->
 		<article-card
 			v-for="article in filteredArticles"

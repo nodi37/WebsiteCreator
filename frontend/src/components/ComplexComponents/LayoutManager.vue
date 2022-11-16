@@ -158,9 +158,9 @@ export default {
 			/>
 
 			<!-- Plus button for components -->
-			<component-holder :class="queueBusy ? 'opacity-50' : ''">
+			<!-- <component-holder :class="queueBusy ? 'opacity-50' : ''"> -->
 				<add-btn :disabled="queueBusy" v-on:click="triggerSelectionDialog()" />
-			</component-holder>
+			<!-- </component-holder> -->
 
 			<!-- State snackbar -->
 			<double-state-snackbar
