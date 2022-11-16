@@ -3,9 +3,11 @@ import PageGrid from "@/components/UI/PageGrid.vue";
 import ComponentHolder from "@/components/UI/ComponentHolder.vue";
 import AddCompBtn from "@/components/UI/Buttons/AddBtn.vue";
 import ArticleCard from "@/components/ComplexComponents/ArticleCard.vue";
+import ErrorOverlay from '../ComplexComponents/ErrorOverlay.vue';
 
 import articleController from "@/controllers/article.controller";
 import store from "@/store";
+
 
 //	Probably FIXED
 ////	I need to make it better
@@ -33,8 +35,8 @@ export default {
 			},
 
 			//Article loads counts
-			onCompMountCount: 3,
-			loadMoreBtnCount: 3,
+			onCompMountCount: 5,
+			loadMoreBtnCount: 10,
 
 			//Skip query
 			skip: 0,
@@ -43,6 +45,7 @@ export default {
 			isFetching: false,
 			nothingMoreToLoad: false,
 			allPossibleDataLoaded: false,
+			loadError: false,
 
 			// Public/Not public button values
 			isPublicBtnsValue: null,
@@ -71,25 +74,29 @@ export default {
 		//ADD TRY CATCH TO SET ERROR
 		//Add ERROR OVERLAY
 		loadArticle: async function () {
-			const queryObj = {
-				skip: this.skip,
-				limit: 1,
-				sortBy: "createDate",
-				sortOrder: "descending",
-			};
+			try {
+				const queryObj = {
+					skip: this.skip,
+					limit: 1,
+					sortBy: "createDate",
+					sortOrder: "descending",
+				};
 
-			const queryObjWithFilters = {
-				...queryObj,
-				...this.filters,
-			};
+				const queryObjWithFilters = {
+					...queryObj,
+					...this.filters,
+				};
 
-			const objToSend = this.filtersSet ? queryObjWithFilters : queryObj;
+				const objToSend = this.filtersSet ? queryObjWithFilters : queryObj;
 
-			const newAricles = await this.getManyArticlesFromServer(objToSend);
+				const newAricles = await this.getManyArticlesFromServer(objToSend);
 
-			this.nothingMoreToLoad = !newAricles[0] ? true : false;
-			this.skip += 1;
-			this.articles = [...this.articles, ...newAricles];
+				this.nothingMoreToLoad = !newAricles[0] ? true : false;
+				this.skip += 1;
+				this.articles = [...this.articles, ...newAricles];
+			} catch (error) {
+				this.loadError = true;
+			}
 		},
 
 		loadManyArticles: async function (count) {
@@ -145,9 +152,9 @@ export default {
 		},
 
 		//Calculating disable prop for LoadMoreBtn
-		loadMoreDisabled: function() {
+		loadMoreDisabled: function () {
 			return this.nothingMoreToLoad || this.allPossibleDataLoaded;
-		}
+		},
 	},
 	watch: {
 		//Setting filter value according to btn value
@@ -186,6 +193,7 @@ export default {
 		ComponentHolder,
 		AddCompBtn,
 		ArticleCard,
+		ErrorOverlay,
 	},
 	mixins: [articleController],
 	mounted: async function () {
@@ -248,5 +256,9 @@ export default {
 			>{{ loadMoreDisabled ? "nothing-more-here" : "Load more" }}</v-btn
 		>
 		<!-- Load more btn -->
+
+		<!-- Error overlay -->
+		<error-overlay :isVisible="loadError" />
+		<!-- Error overlay -->
 	</page-grid>
 </template>

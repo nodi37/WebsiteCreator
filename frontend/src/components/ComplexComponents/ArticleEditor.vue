@@ -45,7 +45,7 @@ export default {
 			}
 
 			//this.imgFilesArr = [];
-			
+
 			this.$router.push({ name: "articles" });
 		},
 
@@ -100,6 +100,10 @@ export default {
 			this.imgsReaded = tempArr;
 			this.formDataLoading = false;
 		},
+		//Watching error in articleManager and emiting error
+		isError: function () {
+			if (this.isError) this.emit("error");
+		},
 
 		//Watching tasks for snackbar
 		taskState: {
@@ -128,7 +132,6 @@ export default {
 <template>
 	<div class="pa-4">
 		<v-card elevation="1" :disabled="isLoading" :loading="isLoading">
-			<!--  :disabled="true" :loading="true" -->
 			<v-card-title>{{ !articleModel._id ? "create-article" : "edit article" }}</v-card-title>
 			<div class="pa-2">
 				<v-text-field v-model="articleModel.name" :error="nameError" label="article-name" outlined />

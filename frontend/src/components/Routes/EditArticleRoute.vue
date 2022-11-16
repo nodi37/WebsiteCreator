@@ -1,11 +1,13 @@
 <script>
 import ArticleEditor from "@/components/ComplexComponents/ArticleEditor.vue";
 import store from "@/store";
+import ErrorOverlay from "../ComplexComponents/ErrorOverlay.vue";
 
 export default {
 	name: "AddNewArticleRoute",
 	data: () => ({
 		loaded: false,
+		errored: false,
 		articleId: null,
 	}),
 	mounted() {
@@ -17,11 +19,12 @@ export default {
 		}
 		this.loaded = true;
 	},
-	components: { ArticleEditor },
+	components: { ArticleEditor, ErrorOverlay },
 };
 </script>
 <template>
 	<div>
-		<article-editor v-if="loaded" :articleId="articleId" />
+		<article-editor v-if="loaded" :articleId="articleId" @error="errored = true" />
+		<error-overlay :isVisible="errored" />
 	</div>
 </template>
