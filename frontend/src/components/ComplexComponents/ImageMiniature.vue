@@ -39,7 +39,6 @@ export default {
 		<div
 			class="absolute h-full w-full flex flex-col gap-1 justify-center align-center opacity-0 group-hover:opacity-100 transition"
 		>
-			{{ imgsArr }}
 			<slot name="actions"></slot>
 		</div>
 		<img class="w-full h-full object-cover" :src="imageData" />
