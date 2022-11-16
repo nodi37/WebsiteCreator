@@ -29,6 +29,12 @@ export default {
 				isPublic: null,
 			},
 
+			//To check changes,
+			filtersOldValues: {
+				keyword: "",
+				isPublic: null,
+			},
+
 			//filtersEmptyObj needs to be exact copy of >filters< obj
 			//Required to check if filters are set
 			filtersEmptyObj: {
@@ -44,6 +50,7 @@ export default {
 			skip: 0,
 
 			//Article loading states
+			loadsCounter: 0,
 			isFetching: false,
 			nothingMoreToLoad: false,
 			allPossibleDataLoaded: false,
@@ -89,21 +96,29 @@ export default {
 
 				const objToSend = this.filtersSet ? queryObjWithFilters : queryObj;
 
-				const newAricles = await this.getManyArticlesFromServer(objToSend);
+				const newArticle = await this.getManyArticlesFromServer(objToSend);
 
-				this.nothingMoreToLoad = !newAricles[0] ? true : false;
+				this.nothingMoreToLoad = !newArticle[0] ? true : false;
 				this.skip += 1;
-				this.articles = [...this.articles, ...newAricles];
+
+				return newArticle;
 			} catch (error) {
 				this.loadError = true;
 			}
 		},
 
+		///USE ONLY THIS FUNCTION TO LOAD NEW ARTICLES
+		///IT PREVENTS ADDING DATA FROM OLD REQUESTS
 		loadManyArticles: async function (count) {
 			this.isFetching = true;
+			this.loadsCounter++;
+			const loadIdNum = JSON.parse(JSON.stringify(this.loadsCounter));
 
 			for (let i = 0; i < count; i++) {
-				await this.loadArticle();
+				const newArticle = await this.loadArticle();
+				//Checking if its not old request
+				if (loadIdNum === this.loadsCounter) this.articles = [...this.articles, ...newArticle];
+
 				if (this.nothingMoreToLoad && !this.filtersSet) this.allPossibleDataLoaded = true;
 				if (this.nothingMoreToLoad) break;
 			}
@@ -174,8 +189,13 @@ export default {
 
 		//Watching filters reset
 		filters: {
-			handler: function () {
-				if ((!this.filtersSet || this.filteredArticles.length < 1) && !this.allPossibleDataLoaded) {
+			handler: function (nV) {
+				if (this.allPossibleDataLoaded) return;
+
+				const keywordChanged = this.filtersOldValues.keyword !== nV.keyword;
+				this.filtersOldValues = JSON.parse(JSON.stringify(nV));
+
+				if (!this.filtersSet || this.filteredArticles.length < 1 || keywordChanged) {
 					this.articles = [];
 					this.skip = 0;
 					this.nothingMoreToLoad = false;
