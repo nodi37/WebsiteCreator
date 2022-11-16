@@ -7,12 +7,14 @@ import ArticleCard from "@/components/ComplexComponents/ArticleCard.vue";
 import articleController from "@/controllers/article.controller";
 import store from "@/store";
 
-//I need to make it better
-//Case:
-//Filter is set and load more btn is clicked
-//New articles are loaded but nothing shows because loaded documents not fits the filters
-//Button stays active because more data is avaiable on server
-//If there is a lot of documents and just last one fits filters, user need to click load more many times
+//	Probably FIXED
+////	I need to make it better
+////	Case:
+////	Filter is set and load more btn is clicked
+////	New articles are loaded but nothing shows because loaded documents not fits the filters
+////	Button stays active because more data is avaiable on server
+////	If there is a lot of documents and just last one fits filters, user need to click load more many times
+//	Probably FIXED
 
 export default {
 	name: "ArticlesRoute",
@@ -24,9 +26,15 @@ export default {
 				isPublic: null,
 			},
 
+			//filtersEmptyObj needs to be copy of >filters< obj
+			filtersEmptyObj: {
+				keyword: "",
+				isPublic: null,
+			},
+
 			//Article loads counts
-			onCompMountCount: 5,
-			loadMoreBtnCount: 10,
+			onCompMountCount: 3,
+			loadMoreBtnCount: 3,
 
 			//Skip query
 			skip: 0,
@@ -34,6 +42,7 @@ export default {
 			//Article loading states
 			isFetching: false,
 			nothingMoreToLoad: false,
+			allPossibleDataLoaded: false,
 
 			// Public/Not public button values
 			isPublicBtnsValue: null,
@@ -54,7 +63,7 @@ export default {
 			this.$router.push({ name: "editArticle", query: { id: artId } });
 		},
 
-		loadMoreBtnHanlder() {
+		loadMoreBtnHanlder: function () {
 			this.loadManyArticles(this.loadMoreBtnCount);
 		},
 
@@ -69,7 +78,14 @@ export default {
 				sortOrder: "descending",
 			};
 
-			const newAricles = await this.getManyArticlesFromServer(queryObj);
+			const queryObjWithFilters = {
+				...queryObj,
+				...this.filters,
+			};
+
+			const objToSend = this.filtersSet ? queryObjWithFilters : queryObj;
+
+			const newAricles = await this.getManyArticlesFromServer(objToSend);
 
 			this.nothingMoreToLoad = !newAricles[0] ? true : false;
 			this.skip += 1;
@@ -81,6 +97,7 @@ export default {
 
 			for (let i = 0; i < count; i++) {
 				await this.loadArticle();
+				if (this.nothingMoreToLoad && !this.filtersSet) this.allPossibleDataLoaded = true;
 				if (this.nothingMoreToLoad) break;
 			}
 
@@ -89,8 +106,7 @@ export default {
 	},
 	computed: {
 		//Calculating filters
-		filteredArticles() {
-
+		filteredArticles: function () {
 			//Filtering by keyword
 			const keywordFilter = this.articles.filter(
 				(art) =>
@@ -109,20 +125,29 @@ export default {
 			//Filtering arrays
 			const filtersArr = [keywordFilter, isPublicFilter];
 			const filteredArticles = filtersArr.reduce((pV, cV) => pV.filter((article) => cV.includes(article)));
-			
+
 			//Sorting results
-			const filteredAndSorted = filteredArticles.sort((artA, artB)=>{
+			const filteredAndSorted = filteredArticles.sort((artA, artB) => {
 				switch (this.sortBtnsValue) {
 					case 1:
 						return new Date(artB.userDate).getTime() - new Date(artA.userDate).getTime();
 					default:
-						return -1
+						return -1;
 				}
 			});
 
 			return filteredAndSorted;
 		},
-		//CHANGING SORTING
+
+		//Checking if any filters are set
+		filtersSet: function () {
+			return JSON.stringify(this.filters) !== JSON.stringify(this.filtersEmptyObj);
+		},
+
+		//Calculating disable prop for LoadMoreBtn
+		loadMoreDisabled: function() {
+			return this.nothingMoreToLoad || this.allPossibleDataLoaded;
+		}
 	},
 	watch: {
 		//Setting filter value according to btn value
@@ -138,7 +163,23 @@ export default {
 					this.filters.isPublic = null;
 					break;
 			}
-		}
+		},
+
+		//Watching filters reset
+		filters: {
+			handler: function () {
+				if ((!this.filtersSet || this.filteredArticles.length < 1) && !this.allPossibleDataLoaded) {
+					this.articles = [];
+					this.skip = 0;
+					this.nothingMoreToLoad = false;
+					this.loadManyArticles(this.onCompMountCount);
+				} else {
+					this.skip = this.filteredArticles.length;
+					this.nothingMoreToLoad = false;
+				}
+			},
+			deep: true,
+		},
 	},
 	components: {
 		PageGrid,
@@ -201,10 +242,10 @@ export default {
 		<v-btn
 			class="ma-8"
 			:loading="isFetching"
-			:disabled="nothingMoreToLoad"
+			:disabled="loadMoreDisabled"
 			color="primary"
 			@click="loadMoreBtnHanlder"
-			>Load more</v-btn
+			>{{ loadMoreDisabled ? "nothing-more-here" : "Load more" }}</v-btn
 		>
 		<!-- Load more btn -->
 	</page-grid>
