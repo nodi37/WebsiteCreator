@@ -120,6 +120,16 @@ export default {
 			deep: true,
 		},
 	},
+	computed: {
+		tagsComputed: {
+			get: function () {
+				return this.articleModel.tags;
+			},
+			set: function (value) {
+				this.articleModel.tags = value.map((tag)=>tag.toLowerCase());
+			}
+		}
+	},
 	mounted() {
 		if (!this.articleId) return;
 		this.articleDocId = this.articleId;
@@ -187,7 +197,8 @@ export default {
 				<!-- Loaded IMAGES -->
 				<!-- Images -->
 
-				<v-combobox v-model="articleModel.tags" label="tags" multiple outlined small-chips />
+				<v-combobox v-model="tagsComputed" label="tags" multiple outlined small-chips />
+
 				<div class="flex items-bottom">
 					<span class="mr-2 mt-1">Public: </span>
 					<v-checkbox
