@@ -16,7 +16,7 @@ export default {
 </script>
 <template>
   <v-dialog v-model="dV" scrollable max-width="500">
-    <v-card>
+    <v-card max-height="80vh">
       <v-card-title>{{ title }}</v-card-title>
       <v-divider></v-divider>
       <v-card-text> 

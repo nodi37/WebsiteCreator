@@ -36,8 +36,12 @@ const componentPropsCreator = {
                     this.setTasksState('imageUploadState', i, images.length, 'uploading-images', true);
 
                     const imgData = componentDoc.props[img];
-                    const imageId = await this.uploadImage(imgData, isGlobal);
-
+                    let imageId = null;
+                    
+                    if(imgData) {
+                        imageId = await this.uploadImage(imgData, isGlobal);
+                    }
+                    
                     entries.set(img, imageId);
                     i++;
                 }

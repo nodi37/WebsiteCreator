@@ -22,7 +22,7 @@ const componentController = {
                 order: modifiedComponent.order,
                 props: props,
             }
-            const req = await this.updateComponentRequest(newComponent)
+            const req = await this.updateComponentRequest(newComponent);
             return req;
         },
 
