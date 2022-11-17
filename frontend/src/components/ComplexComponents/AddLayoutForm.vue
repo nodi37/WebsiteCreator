@@ -86,8 +86,8 @@ export default {
       solo
       :loading="isChecking"
       prepend-icon="mdi-form-textbox"
-      label="new-layout-name"
-      :hint="nameAvailable?'layout-name-hint':'this-name-is-taken'"
+      :label="$t('new-layout-name')"
+      :hint="$t(nameAvailable?'layout-name-hint':'this-name-is-taken')"
       :success="nameValid"
       :error="!nameAvailable"
       v-model="nameMiddleware"
@@ -97,7 +97,7 @@ export default {
         color="success"
         :disabled="!nameValid || !nameAvailable"
         @click="saveBtnHandler()"
-        >Save</v-btn
+        >{{$t('save')}}</v-btn
       >
     </template>
   </titled-card>

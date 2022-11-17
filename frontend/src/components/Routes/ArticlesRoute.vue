@@ -217,7 +217,7 @@ export default {
 	},
 	mixins: [articleController],
 	mounted: async function () {
-		store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t("articles"));
+		store.dispatch("SET_NEW_TOOLBAR_TITLE", "articles");
 		await this.loadManyArticles(this.onCompMountCount);
 	},
 };
@@ -227,16 +227,16 @@ export default {
 	<page-grid>
 		<!-- search bar -->
 		<div class="mt-8">
-			<v-text-field v-model="filters.keyword" solo label="search" />
+			<v-text-field v-model="filters.keyword" solo :label="$t('search')" />
 		</div>
 		<!-- search bar -->
 
 		<!-- filters -->
 		<div class="-mt-8">
-			<span class="block pa-0 mb-1 text-slate-400">filters</span>
+			<span class="block pa-0 mb-1 text-slate-400">{{$t('filters')}}</span>
 			<v-btn-toggle v-model="isPublicBtnsValue">
 				<v-btn :disabled="isFetching" small v-for="(item, i) in isPublicItems" :key="'isPublic-' + i">
-					{{ item }}
+					{{ $t(item) }}
 				</v-btn>
 			</v-btn-toggle>
 		</div>
@@ -244,10 +244,10 @@ export default {
 
 		<!-- sorting -->
 		<div>
-			<span class="block pa-0 mb-1 text-slate-400">sort by:</span>
+			<span class="block pa-0 mb-1 text-slate-400">{{$t('sort-by')}}:</span>
 			<v-btn-toggle v-model="sortBtnsValue">
 				<v-btn :disabled="isFetching" small v-for="(item, i) in sortItems" :key="'sortItem-' + i">
-					{{ item }}
+					{{ $t(item) }}
 				</v-btn>
 			</v-btn-toggle>
 		</div>
@@ -270,7 +270,7 @@ export default {
 			:disabled="loadMoreDisabled"
 			color="primary"
 			@click="loadMoreBtnHanlder"
-			>{{ loadMoreDisabled ? "nothing-more-here" : "Load more" }}</v-btn
+			>{{ $t(loadMoreDisabled ? "nothing-more-here" : "load-more") }}</v-btn
 		>
 		<!-- Load more btn -->
 

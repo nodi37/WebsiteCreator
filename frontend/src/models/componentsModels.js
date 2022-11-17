@@ -8,7 +8,8 @@
 const componentsModels = [
     {
         name: 'LogoBar',
-        description: 'Just white bar with logo',
+        visibleName: 'Belka z logo',
+        description: 'Biała belka z obrazkiem logo',
         props: {
             texts: [{ name: 'text' }],
             images: [{ name: 'logoImg', maxSize: 512, format: 'png' }],
@@ -19,7 +20,8 @@ const componentsModels = [
     },
     {
         name: 'FullWidthImage',
-        description: '100% of window width image',
+        visibleName: 'Obrazek z nagłówkami',
+        description: 'Obrazek o pełnej szerokości okna przykryty gradientem z dwoma nagłówkami',
         props: {
             texts: [{ name: 'primaryText' }, { name: 'secondaryText' }],
             images: [
@@ -32,7 +34,8 @@ const componentsModels = [
     },
     {
         name: 'DarkFooter',
-        description: 'Simple dark footer',
+        visibleName: 'Ciemna stopka',
+        description: 'Prosta stopka o ciemnym kolorze',
         props: {
             texts: [],
             images: [],
@@ -43,7 +46,8 @@ const componentsModels = [
     },
     {
         name: 'UpToThreeLineList',
-        description: 'Up to three line list',
+        visibleName: 'Lista trzy stopniowa',
+        description: 'Lista z trzema stopniami tekstu dla każdego punktu oraz ikoną ze zbioru material icons',
         props: {
             texts: [{ name: 'header' }],
             images: [],
@@ -54,7 +58,8 @@ const componentsModels = [
     },
     {
         name: 'Navigation',
-        description: 'Navigation',
+        visibleName: 'Menu nawigacyjne',
+        description: 'Menu nawigacyjne',
         props: {
             texts: [],
             images: [],

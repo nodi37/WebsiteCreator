@@ -13,9 +13,9 @@ export default {
 		layoutsLoaded: false,
 		isError: false,
 		items: [
-			{ text: "Global template", icon: "mdi-page-layout-body", path: { name: "globalTemplate" } },
+			{ text: "globalLayout", icon: "mdi-page-layout-body", path: { name: "globalTemplate" } },
 			{
-				text: "Home page",
+				text: "homeLayout",
 				icon: "mdi-page-layout-header-footer",
 				path: {
 					name: "layoutManager",
@@ -24,8 +24,8 @@ export default {
 					},
 				},
 			},
-			{ text: "Articles", icon: "mdi-file-document-edit-outline", path: { name: "articles" } },
-			{ text: "Add subpage", icon: "mdi-plus", path: { name: "addSubpage" } },
+			{ text: "articles", icon: "mdi-file-document-edit-outline", path: { name: "articles" } },
+			{ text: "add-subpage", icon: "mdi-plus", path: { name: "addSubpage" } },
 		],
 	}),
 	computed: {
@@ -42,7 +42,12 @@ export default {
 			return store.state.pageName;
 		},
 		toolbarTitle() {
-			return store.state.toolbarTitle || "Control Panel";
+			return store.state.toolbarTitle || "control-panel";
+		},
+		toolbarTitleTranslated() {
+			const translated = this.$t(this.toolbarTitle);
+			const capitalized = translated.charAt(0).toUpperCase() + translated.slice(1);
+			return capitalized;
 		},
 		layoutsDocs() {
 			return store.state.additionalLayouts.filter((layout) => !layout.isRequired);
@@ -95,7 +100,7 @@ export default {
 
 			<v-app-bar app>
 				<v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-				<v-toolbar-title>{{ toolbarTitle }}</v-toolbar-title>
+				<v-toolbar-title>{{ toolbarTitleTranslated }}</v-toolbar-title>
 			</v-app-bar>
 
 			<v-main>

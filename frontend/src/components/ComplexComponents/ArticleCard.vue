@@ -37,13 +37,13 @@ export default {
 		<image-miniature v-if="!!articleData.mainImageId" :imgId="articleData.mainImageId" />
 		<div class="flex flex-col items-start text-sm">
 			<h3 class="text-slate-700 text-xl font-medium">{{ articleData.name }}</h3>
-			<span class="text-slate-500">Date: {{ getFormatedDate(articleData.userDate) }}</span>
+			<span class="text-slate-500">{{$t('date')}}: {{ getFormatedDate(articleData.userDate) }}</span>
 			<div class="text-slate-500">
-				<span>Tags:&nbsp;</span>
+				<span>{{$t('tags')}}:&nbsp;</span>
 				<span v-for="tag in articleData.tags" :key="articleData._id + '-' + tag">{{ tag }},&nbsp;</span>
 			</div>
 			<v-chip class="mt-auto" :color="articleData.isPublic ? 'success' : 'warning'" label small>
-				{{ articleData.isPublic ? "public" : "not public" }}
+				{{ $t(articleData.isPublic ? "public" : "not-public") }}
 			</v-chip>
 		</div>
 		<v-icon x-large class="ml-auto"> mdi-chevron-right </v-icon>

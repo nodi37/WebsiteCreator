@@ -23,7 +23,7 @@ export default {
 	mounted() {
 		this.topLayout = "topLayout";
 		this.bottomLayout = "bottomLayout";
-		store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t('globalLayout'));
+		store.dispatch("SET_NEW_TOOLBAR_TITLE", 'globalLayout');
 	},
 };
 </script>
@@ -34,7 +34,7 @@ export default {
 		<layout-manager v-on:error="layoutErrored = true" :layoutName="topLayout" />
 		<component-holder>
 			<div class="h-64 flex justify-center align-center font-Roboto font-semibold text-xl text-gray-500">
-				<span>Here will be the content of subpages</span>
+				<span>{{$t('content-of-supages')}}</span>
 			</div>
 		</component-holder>
 		<layout-manager v-on:error="layoutErrored = true" :layoutName="bottomLayout" />

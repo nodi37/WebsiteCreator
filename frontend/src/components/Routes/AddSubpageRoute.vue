@@ -15,7 +15,7 @@ export default {
     AddLayoutForm,
   },
   mounted() {
-    store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t("add-page-route"));
+    store.dispatch("SET_NEW_TOOLBAR_TITLE", "add-page-route");
   },
 };
 </script>

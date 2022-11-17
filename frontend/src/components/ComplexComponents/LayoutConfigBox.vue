@@ -16,7 +16,7 @@ export default {
 	methods: {
 		deleteHandler: async function () {
 			const ok = await this.$refs.deleteDialog.show({
-				text: "are-you-sure-to-delete",
+				text: "delete-layout-alert",
 				confirmBtnText: "delete",
 				cancelBtnText: "cancel",
 				confirmBtnColor: "error",
@@ -72,27 +72,27 @@ export default {
 </script>
 
 <template>
-	<titled-card title="component-settings">
+	<titled-card :title="$t('component-settings')">
 		<template>
 			<absolute-overlay :isVisible="isOverlayVisible">
 				<div class="flex items-center flex-col gap-4 pa-8 bg-white rounded-md shadow-lg">
 					<v-icon color="success" size="100">mdi-check-circle-outline</v-icon>
 					<h1 class="text-lg text-slate-500">
-						Layout and its data has been removed, redirect to global template in 5sec!
+						{{$t('layout-removed-redirect-in-5sec')}}!
 					</h1>
 					<v-btn color="success" @click="pushToGlobal">
 						<v-icon left> mdi-arrow-right-bold-outline </v-icon>
-						Redirect now!
+						{{$t('redirect-now')}}
 					</v-btn>
 				</div>
 			</absolute-overlay>
 			<v-card-text class="pa-2">
 				<confirm-dialog ref="deleteDialog" />
-				<v-text-field v-model="layoutData.name" disabled label="name" />
+				<v-text-field v-model="layoutData.name" disabled :label="$t('name')" />
 			</v-card-text>
 		</template>
 		<template v-slot:actions>
-			<v-btn color="error" @click="deleteHandler">Delete</v-btn>
+			<v-btn color="error" @click="deleteHandler">{{$t('delete')}}</v-btn>
 		</template>
 	</titled-card>
 </template>

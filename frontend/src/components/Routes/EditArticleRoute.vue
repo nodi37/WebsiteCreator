@@ -12,9 +12,9 @@ export default {
 	}),
 	mounted() {
 		if (!this.$route.query.id) {
-			store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t("add-article"));
+			store.dispatch("SET_NEW_TOOLBAR_TITLE", "add-article");
 		} else {
-			store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t("edit-article"));
+			store.dispatch("SET_NEW_TOOLBAR_TITLE", "edit-article");
 			this.articleId = this.$route.query.id;
 		}
 		this.loaded = true;

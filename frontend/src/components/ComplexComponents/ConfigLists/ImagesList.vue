@@ -23,7 +23,7 @@ export default {
 				<v-divider class="mb-1" />
 				<v-file-input
 					@change="prepareImage(image, value[image.name], $event)"
-					:label="image.name"
+					:label="$t(image.name)"
 					:suffix="!!value[image.name] ? $t('contains-image') : ''"
 					filled
 					prepend-icon="mdi-camera"
@@ -36,7 +36,7 @@ export default {
 					:disabled="!value[image.name]"
 					@click="prepareImage(image, value[image.name])"
 				>
-					delete-image
+					{{ $t("delete-image") }}
 				</v-btn>
 				<v-divider />
 			</div>

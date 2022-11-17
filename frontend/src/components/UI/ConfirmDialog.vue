@@ -45,7 +45,7 @@ export default {
                 {{ $t(title) }}
             </v-card-title>
             <v-card-text v-if="text">
-                {{ text }}
+                {{ $t(text) }}
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>

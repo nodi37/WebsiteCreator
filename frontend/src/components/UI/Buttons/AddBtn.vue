@@ -13,7 +13,7 @@ export default {
 <template>
 	<!-- <div class="flex h-full justify-center cursor-pointer hover:-translate-y-1" > -->
 	<v-btn :disabled="disabled" x-large color="blue-grey" @click="emitClick">
-		<span class="text-white"> add-new </span>
+		<span class="text-white"> {{$t('add-new')}} </span>
 	</v-btn>
 	<!-- </div> -->
 </template>

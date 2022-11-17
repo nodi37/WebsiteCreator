@@ -30,7 +30,7 @@ export default {
 	methods: {
 		loadNewLayout: function () {
 			this.currentLayout = this.$route.params.layoutName;
-			store.dispatch("SET_NEW_TOOLBAR_TITLE", this.$t(this.currentLayout));
+			store.dispatch("SET_NEW_TOOLBAR_TITLE", this.currentLayout);
 		},
 	},
 

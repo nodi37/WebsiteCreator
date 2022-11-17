@@ -12,7 +12,7 @@ export default {
         clearable
         filled
         rows="2"
-        :label="text.name"
+        :label="$t(text.name)"
         auto-grow
         v-model="value[text.name]"
         prepend-icon="mdi-text-box-edit-outline"

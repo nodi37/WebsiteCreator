@@ -10,7 +10,7 @@ export default {
 <template>
 	<div>
 		<div v-for="(color, i) in colors" :key="color + '-' + i">
-			<span class="mb-4">{{ color.name }}</span>
+			<span class="mb-4">{{ $t(color.name) }}</span>
 			<color-picker v-model="value[color.name]" @input="$emit('modified', color.name)" />
 		</div>
 	</div>

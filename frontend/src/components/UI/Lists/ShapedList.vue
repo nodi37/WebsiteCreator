@@ -6,7 +6,7 @@ export default {
 </script>
 <template>
 	<v-list shaped>
-		<v-subheader v-if="header">{{ header }}</v-subheader>
+		<v-subheader v-if="header">{{ $t(header) }}</v-subheader>
 		<v-list-item-group color="primary">
 			<v-list-item
 				v-for="(item, i) in items"
@@ -17,7 +17,7 @@ export default {
 					<v-icon v-text="item.icon"></v-icon>
 				</v-list-item-icon>
 				<v-list-item-content>
-					<v-list-item-title v-text="item.text"></v-list-item-title>
+					<v-list-item-title v-text="$t(item.text)"></v-list-item-title>
 				</v-list-item-content>
 			</v-list-item>
 		</v-list-item-group>

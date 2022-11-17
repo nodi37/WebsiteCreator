@@ -61,7 +61,7 @@ export default {
 </script>
 
 <template>
-	<titled-card :title="model.name">
+	<titled-card :title="model.visibleName">
 		<v-expansion-panels :disabled="queueBusy && !toSave">
 			<v-expansion-panel v-if="containsProps(model.props.texts)">
 				<v-expansion-panel-header>{{ $t("texts") }}</v-expansion-panel-header>
@@ -110,21 +110,21 @@ export default {
 		</v-expansion-panels>
 
 		<v-alert v-if="toSave" class="my-0 mt-2 mr-auto" type="error" elevation="4" icon="mdi-alert">
-			not-saved!
+			{{$t('not-saved')}}!
 		</v-alert>
 		<template v-slot:actions>
 			<v-btn @click="$emit('moveUp')" :disabled="!document._id || actionsDisabled || queueBusy" color="secondary">
-				Move Up
+				{{$t('move-up')}}
 			</v-btn>
 			<v-btn @click="$emit('delete')" :disabled="actionsDisabled || (queueBusy && !toSave)" color="error">
-				Delete
+				{{$t('delete')}}
 			</v-btn>
 			<v-btn
 				@click="$emit('save')"
 				:disabled="!toSave || (queueBusy && !toSave) || actionsDisabled"
 				color="success"
 			>
-				Save
+				{{$t('save')}}
 			</v-btn>
 		</template>
 	</titled-card>

@@ -164,7 +164,7 @@ export default {
 					:loading="formDataLoading"
 					v-model="imgFilesArr"
 					accept="image/png, image/jpeg, image/bmp"
-					label="gallery-images"
+					:label="$t('gallery-images')"
 					prepend-icon=""
 					outlined
 					counter
@@ -179,7 +179,7 @@ export default {
 				<images-preview-container v-if="imgFilesArr.length > 0" :toSave="true">
 					<image-miniature v-for="(img, i) in imgsReaded" :key="'not-saved-' + i" :imgSrc="img.src">
 						<template v-slot:actions>
-							<v-btn color="error" small @click="removeImgFile(img.imgFile)">Delete</v-btn>
+							<v-btn color="error" small @click="removeImgFile(img.imgFile)">{{$t('delete')}}</v-btn>
 						</template>
 					</image-miniature>
 				</images-preview-container>
@@ -189,8 +189,8 @@ export default {
 				<images-preview-container v-if="articleModel.galleryImgs.length > 0" :toSave="false">
 					<image-miniature v-for="(imgId, i) in articleModel.galleryImgs" :key="'saved-' + i" :imgId="imgId">
 						<template v-slot:actions>
-							<v-btn small color="error" @click="deleteImageBtnHandler(imgId)">delete</v-btn>
-							<v-btn small color="success" @click="setMainImageBtnHandler(imgId)">main</v-btn>
+							<v-btn small color="error" @click="deleteImageBtnHandler(imgId)">{{$t('delete')}}</v-btn>
+							<v-btn small color="success" @click="setMainImageBtnHandler(imgId)">{{$t('main')}}</v-btn>
 						</template>
 					</image-miniature>
 				</images-preview-container>
@@ -200,7 +200,7 @@ export default {
 				<v-combobox v-model="tagsComputed" label="tags" multiple outlined small-chips />
 
 				<div class="flex items-bottom">
-					<span class="mr-2 mt-1">Public: </span>
+					<span class="mr-2 mt-1">{{$t('public')}}: </span>
 					<v-checkbox
 						class="mt-0"
 						v-model="articleModel.isPublic"
@@ -210,8 +210,8 @@ export default {
 				</div>
 			</div>
 			<v-card-actions class="justify-end">
-				<v-btn @click="deleteBtnHandler" :disabled="!articleDocId" color="error">delete</v-btn>
-				<v-btn @click="saveBtnHandler" color="success">save</v-btn>
+				<v-btn @click="deleteBtnHandler" :disabled="!articleDocId" color="error">{{$t('delete')}}</v-btn>
+				<v-btn @click="saveBtnHandler" color="success">{{$t('save')}}</v-btn>
 			</v-card-actions>
 		</v-card>
 		<double-state-snackbar

@@ -8,7 +8,7 @@ export default {
 <template>
   <v-list flat>
     <v-list-item v-for="(bool,i) in booleans" :key="bool + '-' + i">
-      <v-switch :label="bool.name" v-model="value[bool.name]" @change="$emit('modified', bool.name)"/>
+      <v-switch :label="$t(bool.name)" v-model="value[bool.name]" @change="$emit('modified', bool.name)"/>
     </v-list-item>
   </v-list>
 </template>

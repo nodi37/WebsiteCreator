@@ -176,11 +176,11 @@ export default {
 			<confirm-dialog ref="confirmDeletionDialog" />
 
 			<!-- Dialog box to choose new component -->
-			<dialog-box v-model="addComponentsDialogVisible" title="select-component">
+			<dialog-box v-model="addComponentsDialogVisible" :title="$t('select-component')">
 				<title-description-card
 					v-for="(c, i) in componentsModels"
 					:key="i"
-					:title="c.name"
+					:title="c.visibleName"
 					:description="c.description"
 					@click="addComponentToLayout(c)"
 				/>
