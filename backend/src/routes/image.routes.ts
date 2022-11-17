@@ -6,17 +6,28 @@ import checkAuth from "../middlewares/authMiddleware";
 import { validateRequestBody, validateRequestParams, validateRequestQuery } from '../middlewares/requestValidationMiddlewares';
 import { idParamSchema } from '../validations/sharedValidations';
 import { addImgBodySchema, getImgQuerySchema } from '../validations/imageValidation';
+import { getManyArticles } from '../services/articleService';
+import IArticle from '../interfaces/IArticle';
 
+//Add auth check if gets images for not public articles
 router.get('/get/:id',
+
+    //Temp solution
+    async (req, res, next) => {
+        const article = await getManyArticles({galleryImgs: req.params.id}) as IArticle[];
+        console.log(!article[0] || article[0].isPublic)
+        if(!article[0] || article[0].isPublic) return next();
+        checkAuth(req, res, next);
+    },
     validateRequestParams(idParamSchema),
     validateRequestQuery(getImgQuerySchema),
     imageController.getOne
 );
 
-router.post('/add', 
-    checkAuth, 
+router.post('/add',
+    checkAuth,
     validateRequestBody(addImgBodySchema),
-    chunkingSystem, 
+    chunkingSystem,
     imageController.addImage
 );
 

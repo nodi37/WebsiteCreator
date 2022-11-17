@@ -5,7 +5,7 @@ const imageService = {
     methods: {
         getImageRequest: async function (imageId, size) {
             const sizeQuery = !size ? '' : `?size=${size}`;
-            const request = await axios.get(api + "image/get/" + imageId + sizeQuery);
+            const request = await axios.get(api + "image/get/" + imageId + sizeQuery, { withCredentials: true });
             return request.data.data ? request.data.data : null;
         },
 

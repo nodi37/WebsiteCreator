@@ -4,12 +4,12 @@ const api = process.env.VUE_APP_API_PATH;
 const articleService = {
     methods: {
         getArticleByIdRequest: async function (id) {
-            const req = await axios.get(api + "article/get-by-id/" + id);
+            const req = await axios.get(api + "article/get-by-id/" + id, { withCredentials: true });
             return req.data.data;
         },
 
         getManyArticles: async function (query) {
-            const req = await axios.get(api + "article/get-many?" + query);
+            const req = await axios.get(api + "article/get-many?" + query, { withCredentials: true });
             return req.data.data;
         },
 
