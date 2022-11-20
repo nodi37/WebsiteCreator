@@ -109,7 +109,7 @@ export default {
 <template>
   <v-app id="inspire" v-if="layoutsLoaded">
     <template v-if="userLoggedIn">
-      <v-navigation-drawer v-model="drawer" app>
+      <v-navigation-drawer v-model="drawer" app class="max-h-screen">
         <div class="w-full text-center">
           <p class="font-Roboto italic font-medium my-5">{{ pageTitle }}</p>
         </div>
@@ -118,7 +118,7 @@ export default {
         <v-divider />
         <shaped-list header="user-layouts" :items="additionalItems" />
         <v-divider />
-        <shaped-list header="settings" :items="settingsListItems" />
+        <shaped-list class="mb-32" header="settings" :items="settingsListItems" />
       </v-navigation-drawer>
 
       <v-app-bar app>
