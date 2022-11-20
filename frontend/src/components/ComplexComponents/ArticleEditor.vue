@@ -142,16 +142,16 @@ export default {
 <template>
 	<div class="pa-4">
 		<v-card elevation="1" :disabled="isLoading" :loading="isLoading">
-			<v-card-title>{{ !articleModel._id ? "create-article" : "edit article" }}</v-card-title>
+			<v-card-title>{{ $t(!articleModel._id ? "create-article" : "edit article") }}</v-card-title>
 			<div class="pa-2">
-				<v-text-field v-model="articleModel.name" :error="nameError" label="article-name" outlined />
-				<v-textarea v-model="articleModel.content" label="article-content" outlined no-resize auto-grow />
+				<v-text-field v-model="articleModel.name" :error="nameError" :label="$t('article-name')" outlined />
+				<v-textarea v-model="articleModel.content" :label="$t('article-content')" outlined no-resize auto-grow />
 
 				<!-- DATE INPUT -->
 				<v-text-field
 					v-model="articleModel.userDate"
 					@click="dateDialog = true"
-					label="article-date"
+					:label="$t('article-date')"
 					readonly
 					outlined
 				/>
@@ -197,7 +197,7 @@ export default {
 				<!-- Loaded IMAGES -->
 				<!-- Images -->
 
-				<v-combobox v-model="tagsComputed" label="tags" multiple outlined small-chips />
+				<v-combobox v-model="tagsComputed" :label="$t('tags')" multiple outlined small-chips />
 
 				<div class="flex items-bottom">
 					<span class="mr-2 mt-1">{{$t('public')}}: </span>

@@ -9,6 +9,7 @@ import { loginSchema } from '../validations/authValidation';
 router.post('/login', validateRequestBody(loginSchema), authController.login);
 router.get('/logout', checkAuth, authController.logout);
 router.get('/verify', checkAuth, authController.verify);
+router.post('/change-password', authController.changePassword); 
 //router.post('/reset-password', authController.resetPassword); 
 
 

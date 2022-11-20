@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import IUser from "../interfaces/IUser";
 import User from "../models/User";
 import { signByJwt, decodeJwt } from "../utils/jwt.utils";
-import { isPassRight } from "../utils/password.utils";
+import { encryptPassword, isPassRight } from "../utils/password.utils";
 import { authCookieConfig } from '../config/authConfig';
 
 // import sendEmail from "../utils/email.utils";
@@ -45,10 +45,40 @@ const verify = async (req: Request, res: Response) => {
         const token = await signByJwt(userData);
         res.status(200).cookie('access-token', token, authCookieConfig).json({ 'accessToken': token });
     } catch (error) {
-        res.status(500).json({error: 'Server error!'});
+        res.status(500).json({ error: 'Server error!' });
+    }
+}
+
+const changePassword = async (req: Request, res: Response) => {
+    try {
+        const { oldPassword, newPassword }: { oldPassword: string, newPassword: string } = req.body;
+
+        //This need to be changed if many user support will be added
+        const userData = await User.findOne<IUser>();
+
+        if (userData) {
+
+            const authenticated = await isPassRight(oldPassword, userData.passwordHash);
+
+            if (authenticated) {
+                //This need to be changed if many user support will be added
+                const passwordHash = await encryptPassword(newPassword)
+                await User.findOneAndUpdate({}, { passwordHash: passwordHash })
+                res.status(200).json({ success: true });
+            } else {
+                res.status(401).json({ error: 'Wrong credentials' });
+            }
+        } else {
+            res.status(200).json({ error: 'User not found' });
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
 
 }
+
 
 // const resetPassword = async (req: Request, res: Response) => {
 //     try {
@@ -78,6 +108,7 @@ const verify = async (req: Request, res: Response) => {
 export {
     login,
     logout,
-    verify
+    verify,
+    changePassword
     //resetPassword
 }

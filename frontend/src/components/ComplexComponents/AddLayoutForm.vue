@@ -60,8 +60,11 @@ export default {
         if (!this.nameValid) return;
 
         const isAvailable = await this.checkAvailability();
+        
+        //Check this later
+        const restrictedNames = ['panel']
 
-        if (isAvailable) {
+        if (isAvailable && !restrictedNames.includes(this.name.toLowerCase())) {
           this.nameAvailable = true;
         } else {
           this.nameAvailable = false;

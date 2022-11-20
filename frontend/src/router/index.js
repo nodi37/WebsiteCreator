@@ -6,7 +6,9 @@ import ArticlesRoute from '@/components/Routes/ArticlesRoute.vue';
 import GlobalRoute from '@/components/Routes/GlobalRoute.vue';
 import LayoutManagerRoute from '@/components/Routes/LayoutManagerRoute.vue';
 import EditArticleRoute from '@/components/Routes/EditArticleRoute.vue';
+import SettingsRoute from "@/components/Routes/SettingsRoute.vue";
 import MainView from '@/views/MainView';
+
 
 Vue.use(VueRouter)
 
@@ -40,6 +42,11 @@ const routes = [
         path: 'add-subpage',
         name: 'addSubpage',
         component: AddSubpageRoute
+      },
+      {
+        path: 'settings',
+        name: 'settingsRoute',
+        component: SettingsRoute
       },
     ]
   },

@@ -12,3 +12,7 @@ npm run serve
 ```
 
 App should open in web browser.
+
+//To do
+Values arr to component props
+Rich text editor

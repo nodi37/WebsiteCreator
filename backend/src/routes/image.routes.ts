@@ -15,7 +15,6 @@ router.get('/get/:id',
     //Temp solution
     async (req, res, next) => {
         const article = await getManyArticles({galleryImgs: req.params.id}) as IArticle[];
-        console.log(!article[0] || article[0].isPublic)
         if(!article[0] || article[0].isPublic) return next();
         checkAuth(req, res, next);
     },
