@@ -1,5 +1,6 @@
 const imageUtils = {
     methods: {
+        //Some better solution needed
         resizeImage: function (imageFile, width, imageFormat) {
             if (!imageFile) return;
             return new Promise(async (resolve, reject) => {

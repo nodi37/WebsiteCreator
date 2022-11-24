@@ -68,5 +68,11 @@
   "repeat-password":"Powtórz hasło",
   "language": "Język",
   "logout": "Wyloguj",
+  "arrays": "Listy danych",
+  "delete-image": "Usuń obraz",
+  "highlighted":"Wyróżniony",
+  "photo":"Zdjęcie",
+  "icon":"Ikona",
+  "href": "Link",
   "logo": "Logo"
 }

@@ -4,7 +4,7 @@ import * as icons from "@mdi/js";
 
 export default {
 	name: "OneLineList",
-	props: ["data", "header", "backgroundColor", "textColor"],
+	props: ["items","data", "header", "backgroundColor", "textColor"],
 	computed: {
 		itemsArr() {
 			return JSON.parse(this.data);
@@ -35,7 +35,7 @@ export default {
 		<div>
 			<ul class="flex flex-col gap-2">
 				<li
-					v-for="(item, i) in itemsArr"
+					v-for="(item, i) in items"
 					:key="i"
 					:class="[
 						!!item.href ? 'cursor-pointer hover:-translate-y-1' : 'cursor-default',

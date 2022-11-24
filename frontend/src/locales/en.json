@@ -64,5 +64,11 @@
   "repeat-password":"Repeat password",
   "language": "Language",
   "logout": "Logout",
+  "arrays": "Arrays",
+  "delete-image": "Delete image",
+  "highlighted":"Highlighted",
+  "photo":"Photo",
+  "icon":"Icon",
+  "href": "Link",
   "logo": "Logo"
 }
