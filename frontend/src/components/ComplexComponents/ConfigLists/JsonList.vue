@@ -10,7 +10,7 @@ export default {
 <template>
 	<v-list flat>
 		<v-list-item v-for="(json, i) in jsons" :key="json.name + '-' + i">
-			<json-editor :json="json" v-model="value[json.name]" @input="$emit('modified', json.name)" />
+			<json-editor :json="json" v-model="value[json.name].value" @input="$emit('modified', {type: 'json', name:json.name})" />
 		</v-list-item>
 	</v-list>
 </template>

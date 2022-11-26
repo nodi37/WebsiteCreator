@@ -8,15 +8,6 @@ import ErrorOverlay from "../ComplexComponents/ErrorOverlay.vue";
 import articleController from "@/controllers/article.controller";
 import store from "@/store";
 
-//	Probably FIXED
-////	I need to make it better
-////	Case:
-////	Filter is set and load more btn is clicked
-////	New articles are loaded but nothing shows because loaded documents not fits the filters
-////	Button stays active because more data is avaiable on server
-////	If there is a lot of documents and just last one fits filters, user need to click load more many times
-//	Probably FIXED
-
 export default {
 	name: "ArticlesRoute",
 	data: function () {

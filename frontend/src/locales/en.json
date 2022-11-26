@@ -70,5 +70,7 @@
   "photo":"Photo",
   "icon":"Icon",
   "href": "Link",
+  "not-saved":"Not saved",
+  "contains-image":"Contains image already",
   "logo": "Logo"
 }

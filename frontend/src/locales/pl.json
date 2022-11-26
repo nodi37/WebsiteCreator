@@ -74,5 +74,7 @@
   "photo":"Zdjęcie",
   "icon":"Ikona",
   "href": "Link",
+  "not-saved":"Niezapisany",
+  "contains-image":"Posiada zapisany obraz",
   "logo": "Logo"
 }

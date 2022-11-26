@@ -35,7 +35,17 @@ export default {
         this.document.propsToRemove.push(prop);
       }
     },
+    arrItemDeleteHandler(e) {
+      //Filters changes
+      const filtered = this.document.modifiedProps.filter((prop)=>{
+        if(!prop.element) return true;
+        if(prop.name == e.arrName && prop.element.index == e.itemIndex) return false;
+        return true;
+      });
+      this.document.modifiedProps = filtered;
+    },
     containsProps(propsArr) {
+      if (!propsArr) return false;
       return propsArr.length > 0;
     },
   },
@@ -65,22 +75,22 @@ export default {
 <template>
   <titled-card :title="model.visibleName">
     <v-expansion-panels :disabled="queueBusy && !toSave">
-      <v-expansion-panel v-if="containsProps(model.props.texts)">
+      <v-expansion-panel v-if="containsProps(model.props.text)">
         <v-expansion-panel-header>{{ $t("texts") }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <texts-list
-            :texts="model.props.texts"
+            :texts="model.props.text"
             v-model="document.props"
             @modified="pushModified"
           />
         </v-expansion-panel-content>
       </v-expansion-panel>
 
-      <v-expansion-panel v-if="containsProps(model.props.images)">
+      <v-expansion-panel v-if="containsProps(model.props.image)">
         <v-expansion-panel-header>{{ $t("images") }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <images-list
-            :images="model.props.images"
+            :images="model.props.image"
             v-model="document.props"
             @modified="pushModified"
             @toremove="pushToRemove"
@@ -88,11 +98,11 @@ export default {
         </v-expansion-panel-content>
       </v-expansion-panel>
 
-      <v-expansion-panel v-if="containsProps(model.props.colors)">
+      <v-expansion-panel v-if="containsProps(model.props.color)">
         <v-expansion-panel-header>{{ $t("colors") }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <colors-list
-            :colors="model.props.colors"
+            :colors="model.props.color"
             v-model="document.props"
             @modified="pushModified"
             @toremove="pushToRemove"
@@ -100,13 +110,13 @@ export default {
         </v-expansion-panel-content>
       </v-expansion-panel>
 
-      <v-expansion-panel v-if="containsProps(model.props.booleans)">
+      <v-expansion-panel v-if="containsProps(model.props.boolean)">
         <v-expansion-panel-header>{{
           $t("booleans")
         }}</v-expansion-panel-header>
         <v-expansion-panel-content>
           <booleans-list
-            :booleans="model.props.booleans"
+            :booleans="model.props.boolean"
             v-model="document.props"
             @modified="pushModified"
           />
@@ -120,6 +130,8 @@ export default {
             :arrayModel="model.props.array"
             v-model="document.props"
             @modified="pushModified"
+            @toremove="pushToRemove"
+            @itemDeleted="arrItemDeleteHandler"
           />
         </v-expansion-panel-content>
       </v-expansion-panel>

@@ -1,9 +1,9 @@
 # To install: 
 Copy content of env_template file to .env file.
 Set:
-- VUE_APP_API_PATH - API adress, 
+- VUE_APP_API_PATH - API address, 
 
-Leave other values as they are. This are language settings, not ready yet, i will work on it.
+Leave other values as they are. This are language settings.
 
 Run following commands:
 ```
@@ -14,5 +14,11 @@ npm run serve
 App should open in web browser.
 
 ### To do
-- Better images resizing
+- Recaptcha
+- Stats
+- Dynamic favicons
+
+- Fix saving small images multiple times
 - Rich text editor for articles and components
+- Better images resizing
+

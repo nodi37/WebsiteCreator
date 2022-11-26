@@ -14,9 +14,9 @@ export default {
         rows="2"
         :label="$t(text.name)"
         auto-grow
-        v-model="value[text.name]"
+        v-model="value[text.name].value"
         prepend-icon="mdi-text-box-edit-outline"
-        @input="$emit('modified', text.name)"
+        @input="$emit('modified', { type: 'text', name: text.name })"
       ></v-textarea>
     </v-list-item>
   </v-list>

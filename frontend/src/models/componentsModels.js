@@ -1,15 +1,14 @@
-// texts: [{ name: 'text' }, { name: 'text2' }], //Prop name
-// images: [{ name: 'logoImg', maxSize: 512, format: 'png' }], //maxSize = Width //keeps aspect ratio //minimal width 512px is recommended //maximal width recommended: 3840 for max 4K monitors, use false to return original image
-// booleans: [{ name: 'someBln' }], //Prop name
-// colors: [{ name: 'background' }], //Prop name
+// text: [{ name: 'text' }, { name: 'text2' }], //Prop name
+// image: [{ name: 'logoImg', maxSize: 512, format: 'png' }], //maxSize = Width //keeps aspect ratio //minimal width 512px is recommended //maximal width recommended: 3840 for max 4K monitors, use false to return original image
+// boolean: [{ name: 'someBln' }], //Prop name
+// color: [{ name: 'background' }], //Prop name
 // json: [{name: 'data'}] //Prop name
 // array: [
 //   {
 //     name: "items",
 //     values: {
-//       texts: [{ name: "icon" }, { name: "lineOne" }, { name: "lineTwo" }, { name: "lineThree" }, { name: "href" }],
-//       images: [{ name: "photo", maxSize: 512, format: "jpeg" }],
-//       booleans: [{ name: "highlighted" }],
+//       text: [{ name: "icon" }, { name: "lineOne" }, { name: "lineTwo" }, { name: "lineThree" }, { name: "href" }],
+//       boolean: [{ name: "highlighted" }],
 //     },
 //   },
 // ],
@@ -17,14 +16,23 @@
 const componentsModels = [
   {
     name: "LogoBar",
-    visibleName: "Belka z logo",
-    description: "Biała belka z obrazkiem logo",
+    visibleName: "Belka z przyciskami i logo",
+    description: "Biała belka z obrazkiem logo i menu nawigacją",
     props: {
-      texts: [{ name: "text" }],
-      images: [{ name: "logoImg", maxSize: 512, format: "png" }],
-      booleans: [{ name: "smallLogo" }, { name: "withText" }],
-      colors: [],
-      arrays: [],
+      text: [],
+      image: [{ name: "logoImg", maxSize: 512, format: "png" }],
+      boolean: [],
+      color: [],
+      array: [
+        {
+          name: "items",
+          values: {
+            text: [{ name: "name" }, { name: "href" }],
+            image: [],
+            boolean: [],
+          },
+        },
+      ],
       json: [],
     },
   },
@@ -33,11 +41,11 @@ const componentsModels = [
     visibleName: "Obrazek z nagłówkami",
     description: "Obrazek o pełnej szerokości okna przykryty gradientem z dwoma nagłówkami",
     props: {
-      texts: [{ name: "primaryText" }, { name: "secondaryText" }],
-      images: [{ name: "image", maxSize: 3840, format: "jpeg" }],
-      booleans: [],
-      colors: [],
-      arrays: [],
+      text: [{ name: "primaryText" }, { name: "secondaryText" }],
+      image: [{ name: "image", maxSize: 3840, format: "jpeg" }],
+      boolean: [],
+      color: [],
+      array: [],
       json: [],
     },
   },
@@ -46,11 +54,11 @@ const componentsModels = [
     visibleName: "Ciemna stopka",
     description: "Prosta stopka o ciemnym kolorze",
     props: {
-      texts: [],
-      images: [],
-      booleans: [],
-      colors: [],
-      arrays: [],
+      text: [],
+      image: [],
+      boolean: [],
+      color: [],
+      array: [],
       json: [],
     },
   },
@@ -59,36 +67,45 @@ const componentsModels = [
     visibleName: "Lista trzy stopniowa",
     description: "Lista z trzema stopniami tekstu dla każdego punktu oraz ikoną ze zbioru material icons",
     props: {
-      texts: [{ name: "header" }],
-      images: [],
-      booleans: [],
-      colors: [{ name: "backgroundColor" }, { name: "textColor" }],
+      text: [{ name: "header" }],
+      image: [],
+      boolean: [],
+      color: [{ name: "backgroundColor" }, { name: "textColor" }],
       array: [
         {
           name: "items",
           values: {
-            texts: [{ name: "icon" }, { name: "lineOne" }, { name: "lineTwo" }, { name: "lineThree" }, { name: "href" }],
-            images: [{ name: "photo", maxSize: 512, format: "jpeg" }],
-            booleans: [{ name: "highlighted" }],
+            image: [{ name: "image", maxSize: 1080, format: "jpeg" }],
+            text: [{ name: "icon" }, { name: "lineOne" }, { name: "lineTwo" }, { name: "lineThree" }, { name: "href" }],
+            boolean: [{ name: "highlighted" }],
           },
         },
       ],
       json: [{ name: "data" }],
     },
   },
-  {
-    name: "Navigation",
-    visibleName: "Menu nawigacyjne",
-    description: "Menu nawigacyjne",
-    props: {
-      texts: [],
-      images: [],
-      booleans: [],
-      colors: [],
-      arrays: [],
-      json: [{ name: "data" }],
-    },
-  },
+  // {
+  //   name: "Navigation",
+  //   visibleName: "Menu nawigacyjne",
+  //   description: "Menu nawigacyjne",
+  //   props: {
+  //     text: [],
+  //     image: [],
+  //     boolean: [],
+  //     color: [],
+  //     array: [
+  //         {
+  //           name: "items",
+  //           values: {
+  //             text: [{ name: "name" }, { name: "href" }],
+  //             image: [],
+  //             boolean: [],
+  //           },
+  //         },
+  //       ],
+  //     json: [],
+  //   },
+  // },
 ];
 
 export default componentsModels;

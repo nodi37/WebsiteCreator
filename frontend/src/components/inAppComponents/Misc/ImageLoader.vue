@@ -33,5 +33,5 @@ export default {
 </script>
 
 <template>
-	<img :src="imageData" />
+	<img @click="$emit('click')" :src="imageData" />
 </template>

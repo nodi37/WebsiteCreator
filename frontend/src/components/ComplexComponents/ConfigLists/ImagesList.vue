@@ -8,8 +8,8 @@ export default {
 		prepareImage: async function (model, imgId, file) {
 			const resized = !file ? null : await this.resizeImage(file, model.maxSize, model.format);
 			if (!!imgId) this.$emit("toremove", { type: "image", id: imgId });
-			this.value[model.name] = resized;
-			this.$emit("modified", model.name);
+			this.value[model.name].value = resized;
+			this.$emit("modified", {type:'image', name: model.name});
 		},
 	},
 	mixins: [imageUtils],
@@ -22,9 +22,9 @@ export default {
 			<div class="flex flex-col">
 				<v-divider class="mb-1" />
 				<v-file-input
-					@change="prepareImage(image, value[image.name], $event)"
+					@change="prepareImage(image, value[image.name].value, $event)"
 					:label="$t(image.name)"
-					:suffix="!!value[image.name] ? $t('contains-image') : ''"
+					:suffix="!!value[image.name].value ? $t('contains-image') : ''"
 					filled
 					prepend-icon="mdi-camera"
 					accept="image/png, image/jpeg, image/bmp"
@@ -33,8 +33,8 @@ export default {
 					class="self-end -mt-4 mb-1"
 					color="error"
 					small
-					:disabled="!value[image.name]"
-					@click="prepareImage(image, value[image.name])"
+					:disabled="!value[image.name].value"
+					@click="prepareImage(image, value[image.name].value, null)"
 				>
 					{{ $t("delete-image") }}
 				</v-btn>

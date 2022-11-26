@@ -18,39 +18,71 @@ const componentPropsCreator = {
 
       //Create null values
       for (const key in model.props) {
-        model.props[key].forEach((prop) => entries.set(prop.name, null));
+        model.props[key].forEach((prop) => entries.set(prop.name, { type: key, value: null }));
       }
 
       //Create empty arr
       //Change if support for more arrays added
-      if(model.props.array.length>0) {
-        entries.set(model.props.array[0].name, []);
+      if (model.props.array.length > 0) {
+        //console.log(model.props.array[0].values)
+        entries.set(model.props.array[0].name, { type: "array", value: [] });
       }
-        
+
       //Override existing/edited props
       for (const key in componentDoc.props) {
-        entries.set(key, componentDoc.props[key]);
+        entries.set(key, { type: componentDoc.props[key].type, value: componentDoc.props[key].value });
       }
 
       //Preupload images
       if (!!componentDoc.modifiedProps) {
-        const images = componentDoc.modifiedProps.filter((propName) => model.props.images.find((obj) => obj.name == propName));
+        const imgProps = [];
+        const arrProps = [];
+        for (const prop of componentDoc.modifiedProps) {
+          if (prop.type == "image") imgProps.push(prop.name);
+          if (prop.type == "array" && !!prop.element) arrProps.push(prop);
+        }
+
+        //Preupload for standard images
         let i = 0;
+        for (const img of imgProps) {
+          this.setTasksState("imageUploadState", i, imgProps.length, "uploading-images", true);
 
-        for (const img of images) {
-          this.setTasksState("imageUploadState", i, images.length, "uploading-images", true);
-
-          const imgData = componentDoc.props[img];
+          const imgData = componentDoc.props[img].value;
           let imageId = null;
 
           if (imgData) {
             imageId = await this.uploadImage(imgData, isGlobal);
           }
 
-          entries.set(img, imageId);
+          entries.set(img, { type: "image", value: imageId });
+          i++;
+        }
+
+        //Preupload for arrays
+        i = 0;
+        for (const prop of arrProps) {
+          this.setTasksState("imageUploadState", i, imgProps.length, "uploading-images", true);
+
+          if (prop.element) {
+            const currentArrContent = componentDoc.props[prop.name].value;
+            const updatedElementIndex = prop.element.index;
+            const updatedElementName = prop.element.value.name;
+            const updatedElementObject = currentArrContent[updatedElementIndex][updatedElementName];
+
+            const imgData = updatedElementObject.value;
+            let imageId = null;
+
+            if (imgData) {
+              imageId = await this.uploadImage(imgData, isGlobal);
+            }
+
+            updatedElementObject.value = imageId;
+            //No need to set entry because edited object is already in entries
+          }
           i++;
         }
       }
+
       return Object.fromEntries(entries);
     },
   },
