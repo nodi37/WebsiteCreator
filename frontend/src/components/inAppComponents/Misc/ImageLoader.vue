@@ -21,7 +21,7 @@ export default {
 			size = "xlarge";
 		} else if (windowWidth > 1024) {
 			size = "large";
-		} else if (windowWidth > 512) {
+		} else if (windowWidth > 300) {
 			size = "medium"
 		}
 

@@ -11,15 +11,14 @@ import IArticle from '../interfaces/IArticle';
 
 //Add auth check if gets images for not public articles
 router.get('/get/:id',
-
-    //Temp solution
-    async (req, res, next) => {
-        const article = await getManyArticles({galleryImgs: req.params.id}) as IArticle[];
-        if(!article[0] || article[0].isPublic) return next();
-        checkAuth(req, res, next);
-    },
     validateRequestParams(idParamSchema),
     validateRequestQuery(getImgQuerySchema),
+    //Temp solution
+    async (req, res, next) => {
+        const article = await getManyArticles({ galleryImgs: req.params.id }) as IArticle[];
+        if (!article[0] || article[0].isPublic) return next();
+        checkAuth(req, res, next);
+    },
     imageController.getOne
 );
 

@@ -32,16 +32,16 @@ router.delete('/delete/:id',
 );
 
 router.get('/get-by-id/:id',
-    checkAuthIfNotPublic,
     validateRequestParams(idParamSchema),
+    checkAuthIfNotPublic,
     ArticleController.getOneById
 );
 
 
 router.get('/get-many',
     //Auth check if requests all, not public only 
-    checkAuthIfNotPublic,
     validateRequestQuery(getManyQuerySchema),
+    checkAuthIfNotPublic,
     ArticleController.getMany
 );
 

@@ -162,7 +162,7 @@ export default {
     <template v-slot:actions>
       <v-btn
         @click="$emit('moveUp')"
-        :disabled="!document._id || actionsDisabled || queueBusy"
+        :disabled="!document._id || document.order<1 || actionsDisabled || queueBusy"
         color="secondary"
       >
         {{ $t("move-up") }}

@@ -63,7 +63,7 @@ const componentPropsCreator = {
         for (const prop of arrProps) {
           this.setTasksState("imageUploadState", i, imgProps.length, "uploading-images", true);
 
-          if (prop.element) {
+          if (prop.element && prop.element.value.type=='image') {
             const currentArrContent = componentDoc.props[prop.name].value;
             const updatedElementIndex = prop.element.index;
             const updatedElementName = prop.element.value.name;

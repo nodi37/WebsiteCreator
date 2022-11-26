@@ -14,7 +14,6 @@ npm run serve
 App should open in web browser.
 
 ### To do
-- Recaptcha
 - Stats
 - Dynamic favicons
 

@@ -5,6 +5,8 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         nav: "repeat(auto-fit, minmax(250px, 1fr))",
+        statementmd: "repeat(auto-fit, minmax(500px, 1fr))",
+        statementsm: "repeat(auto-fit, minmax(300px, 1fr))"
       },
       keyframes: {
         wiggle: {

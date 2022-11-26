@@ -21,7 +21,7 @@ const componentsModels = [
     props: {
       text: [],
       image: [{ name: "logoImg", maxSize: 512, format: "png" }],
-      boolean: [],
+      boolean: [{ name: "openInNewTab" }],
       color: [],
       array: [
         {
@@ -50,6 +50,28 @@ const componentsModels = [
     },
   },
   {
+    name: "Statement",
+    visibleName: "Ogłoszenie",
+    description: "Ogłoszenie z nagłówkiem, listą oraz zdjęciem",
+    props: {
+      text: [{ name: "header" }, { name: "content" }],
+      image: [{ name: "image", maxSize: 3840, format: "jpeg" }],
+      boolean: [{ name: "bold" }, { name: "textCenter" }],
+      color: [],
+      array: [
+        {
+          name: "items",
+          values: {
+            text: [{ name: "item" }],
+            image: [],
+            boolean: [],
+          },
+        },
+      ],
+      json: [],
+    },
+  },
+  {
     name: "DarkFooter",
     visibleName: "Ciemna stopka",
     description: "Prosta stopka o ciemnym kolorze",
@@ -62,28 +84,28 @@ const componentsModels = [
       json: [],
     },
   },
-  {
-    name: "UpToThreeLineList",
-    visibleName: "Lista trzy stopniowa",
-    description: "Lista z trzema stopniami tekstu dla każdego punktu oraz ikoną ze zbioru material icons",
-    props: {
-      text: [{ name: "header" }],
-      image: [],
-      boolean: [],
-      color: [{ name: "backgroundColor" }, { name: "textColor" }],
-      array: [
-        {
-          name: "items",
-          values: {
-            image: [{ name: "image", maxSize: 1080, format: "jpeg" }],
-            text: [{ name: "icon" }, { name: "lineOne" }, { name: "lineTwo" }, { name: "lineThree" }, { name: "href" }],
-            boolean: [{ name: "highlighted" }],
-          },
-        },
-      ],
-      json: [{ name: "data" }],
-    },
-  },
+  // {
+  //   name: "UpToThreeLineList",
+  //   visibleName: "Lista trzy stopniowa",
+  //   description: "Lista z trzema stopniami tekstu dla każdego punktu oraz ikoną ze zbioru material icons",
+  //   props: {
+  //     text: [{ name: "header" }],
+  //     image: [],
+  //     boolean: [],
+  //     color: [{ name: "backgroundColor" }, { name: "textColor" }],
+  //     array: [
+  //       {
+  //         name: "items",
+  //         values: {
+  //           image: [{ name: "image", maxSize: 1080, format: "jpeg" }],
+  //           text: [{ name: "icon" }, { name: "lineOne" }, { name: "lineTwo" }, { name: "lineThree" }, { name: "href" }],
+  //           boolean: [{ name: "highlighted" }],
+  //         },
+  //       },
+  //     ],
+  //     json: [{ name: "data" }],
+  //   },
+  // },
   // {
   //   name: "Navigation",
   //   visibleName: "Menu nawigacyjne",
