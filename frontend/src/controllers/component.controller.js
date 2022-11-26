@@ -40,8 +40,8 @@ const componentController = {
         deleteComponentWithDataFromServer: async function (component) {
             const cmpModel = this.getComponentModel(component.name);
 
-            for (const imgProp of cmpModel.props.images) {
-                const imgId = component.props[imgProp.name];
+            for (const imgProp of cmpModel.props.image) {
+                const imgId = component.props[imgProp.name].value;
                 if (!!imgId) this.deleteImage(imgId)
             }
 
