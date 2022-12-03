@@ -8,8 +8,8 @@ export default {
 };
 </script>
 <template>
-  <basic-container class="md:p-2 font-Roboto" backgroundColor="#fafafa">
-    <div class="m-3 p-4 bg-white rounded-md shadow">
+  <basic-container class="p-2 font-Roboto mb-4" backgroundColor="#fafafa">
+    <div class="p-4 bg-white rounded-md shadow select-none">
       <h3 class="text-center font-semibold text-2xl text-green-900 mb-4">
         {{ header.value }}
       </h3>

@@ -26,9 +26,9 @@ export default {
 			if (!ok) return;
 
 			const ok2 = await this.$refs.deleteDialog.show({
-				text: "all-components-will-be-deleted",
-				confirmBtnText: "im-sure-delete",
-				cancelBtnText: "cancel",
+				text: this.$t("all-components-will-be-deleted"),
+				confirmBtnText: this.$t("im-sure-delete"),
+				cancelBtnText: this.$t("cancel"),
 				confirmBtnColor: "error",
 				cancelBtnColor: "primary",
 			});

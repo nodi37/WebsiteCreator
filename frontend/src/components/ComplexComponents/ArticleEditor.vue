@@ -142,7 +142,7 @@ export default {
 <template>
 	<div class="pa-4">
 		<v-card elevation="1" :disabled="isLoading" :loading="isLoading">
-			<v-card-title>{{ $t(!articleModel._id ? "create-article" : "edit article") }}</v-card-title>
+			<v-card-title>{{ $t(!articleModel._id ? "create-article" : "edit-article") }}</v-card-title>
 			<div class="pa-2">
 				<v-text-field v-model="articleModel.name" :error="nameError" :label="$t('article-name')" outlined />
 				<v-textarea v-model="articleModel.content" :label="$t('article-content')" outlined no-resize auto-grow />
@@ -189,8 +189,8 @@ export default {
 				<images-preview-container v-if="articleModel.galleryImgs.length > 0" :toSave="false">
 					<image-miniature v-for="(imgId, i) in articleModel.galleryImgs" :key="'saved-' + i" :imgId="imgId">
 						<template v-slot:actions>
+							<v-btn small color="success" @click="setMainImageBtnHandler(imgId)">{{$t('main-img')}}</v-btn>
 							<v-btn small color="error" @click="deleteImageBtnHandler(imgId)">{{$t('delete')}}</v-btn>
-							<v-btn small color="success" @click="setMainImageBtnHandler(imgId)">{{$t('main')}}</v-btn>
 						</template>
 					</image-miniature>
 				</images-preview-container>

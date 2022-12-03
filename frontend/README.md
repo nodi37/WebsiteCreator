@@ -15,8 +15,11 @@ App should open in web browser.
 
 ### To do
 - Stats
-- Dynamic favicons
+- Add article viewer
+- Full view gallery
+- Fix image removing from article
 
+- Dynamic favicons
 - Fix saving small images multiple times
 - Rich text editor for articles and components
 - Better images resizing

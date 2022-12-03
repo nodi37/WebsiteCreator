@@ -37,9 +37,10 @@ export default {
     },
     arrItemDeleteHandler(e) {
       //Filters changes
-      const filtered = this.document.modifiedProps.filter((prop)=>{
-        if(!prop.element) return true;
-        if(prop.name == e.arrName && prop.element.index == e.itemIndex) return false;
+      const filtered = this.document.modifiedProps.filter((prop) => {
+        if (!prop.element) return true;
+        if (prop.name == e.arrName && prop.element.index == e.itemIndex)
+          return false;
         return true;
       });
       this.document.modifiedProps = filtered;
@@ -75,6 +76,15 @@ export default {
 <template>
   <titled-card :title="model.visibleName">
     <v-expansion-panels :disabled="queueBusy && !toSave">
+      <v-expansion-panel v-if="!!model.instructions">
+        <v-expansion-panel-header>{{
+          $t("instructions")
+        }}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <p>{{ model.instructions }}</p>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
       <v-expansion-panel v-if="containsProps(model.props.text)">
         <v-expansion-panel-header>{{ $t("texts") }}</v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -162,7 +172,9 @@ export default {
     <template v-slot:actions>
       <v-btn
         @click="$emit('moveUp')"
-        :disabled="!document._id || document.order<1 || actionsDisabled || queueBusy"
+        :disabled="
+          !document._id || document.order < 1 || actionsDisabled || queueBusy
+        "
         color="secondary"
       >
         {{ $t("move-up") }}

@@ -56,8 +56,8 @@ export default {
 };
 </script>
 <template>
-  <div>
-    <!-- need to add some loader -->
+  <div class="w-screen overflow-hidden bg-[#fafafa]">
+    <!-- need to add some loader and refactor -->
     <layout-view v-if="isLoaded" :isGlobal="true" layoutName="topLayout" />
     <layout-view v-if="isLoaded" :isGlobal="false" :layoutName="userLayout" />
     <layout-view v-if="isLoaded" :isGlobal="true" layoutName="bottomLayout" />

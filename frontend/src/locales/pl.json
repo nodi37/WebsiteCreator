@@ -76,5 +76,23 @@
   "href": "Link",
   "not-saved":"Niezapisany",
   "contains-image":"Posiada zapisany obraz",
+  "main-img":"Główne",
+  "not-found": "Nie znaleziono strony",
+  "content": "Zawartość",
+  "primaryText": "Tekst główny",
+  "secondaryText": "Tekst poboczny",
+  "image": "Obraz",
+  "logoImg": "Logo",
+  "openInNewTab":"Otwórz w nowej karcie",
+  "bold": "Tekst pogrubiony",
+  "textCenter": "Tekst wyśrodkowany",
+  "tag":"Tag",
+  "edit-article":"Edytuj artykuł",
+
+  "year": "Rok",
+  "weights": "Wagi",
+  "points": "Punkty",
+  "dates": "Daty",
+  "instructions": "Instrukcje",
   "logo": "Logo"
 }

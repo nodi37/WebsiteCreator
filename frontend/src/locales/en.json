@@ -72,5 +72,17 @@
   "href": "Link",
   "not-saved":"Not saved",
   "contains-image":"Contains image already",
+  "main-img":"Main",
+  "not-found": "Page not found",
+  "content": "Content",
+  "primaryText": "Primary text",
+  "secondaryText": "Secondary text",
+  "image": "Image",
+  "logoImg": "Logo",
+  "openInNewTab":"Open links in new tab",
+  "bold": "Tekst bold",
+  "textCenter": "Tekst centered",
+  "tag":"Tag",
+  "edit-article":"Edit article",
   "logo": "Logo"
 }

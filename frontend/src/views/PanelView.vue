@@ -111,7 +111,7 @@ export default {
     <template v-if="userLoggedIn">
       <v-navigation-drawer v-model="drawer" app class="max-h-screen">
         <div class="w-full text-center">
-          <p class="font-Roboto italic font-medium my-5">{{ pageTitle }}</p>
+          <p class="font-Roboto font-xs my-5">{{ pageTitle }}</p>
         </div>
         <v-divider />
         <shaped-list header="main-settings" :items="items" />

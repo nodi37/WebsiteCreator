@@ -62,7 +62,7 @@ export default {
         const isAvailable = await this.checkAvailability();
         
         //Check this later
-        const restrictedNames = ['panel']
+        const restrictedNames = ['panel', 'wpis']
 
         if (isAvailable && !restrictedNames.includes(this.name.toLowerCase())) {
           this.nameAvailable = true;
