@@ -11,15 +11,15 @@ import {
 import { idParamSchema } from '../validations/sharedValidations';
 
 router.post('/add',
-    checkAuth,
     validateRequestBody(saveNewArtBodySchema),
+    checkAuth,
     ArticleController.addArticle
 );
 
 router.patch('/edit/:id',
-    checkAuth,
     validateRequestParams(idParamSchema),
     validateRequestBody(updateArtBodySchema),
+    checkAuth,
     ArticleController.editArticle
 ); //Updates partial
 
@@ -47,7 +47,8 @@ router.get('/get-many',
 
 
 function checkAuthIfNotPublic(req: Request, res: Response, next: NextFunction) {
-    const isPublicBool = req.query.isPublic === "true";
+    const isPublic = req.query.isPublic;
+    const isPublicBool = isPublic === "true" || !!isPublic;
     if (isPublicBool) {
         next();
     } else {
