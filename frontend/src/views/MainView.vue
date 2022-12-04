@@ -1,7 +1,9 @@
 <script>
 import compsImporter from "@/helpers/inAppCompsImporter";
+import cookiesHelper from "@/helpers/cookiesHelper";
 import LayoutView from "@/views/LayoutView.vue";
 import settingController from "@/controllers/setting.controller";
+import statsService from "@/services/stats.service";
 import store from "@/store";
 
 export default {
@@ -24,7 +26,10 @@ export default {
 
       if (!!uLayout) {
         this.userLayout = uLayout;
-        store.dispatch("SET_PAGE_TITLE", uLayout.charAt(0).toUpperCase() + uLayout.slice(1));
+        store.dispatch(
+          "SET_PAGE_TITLE",
+          uLayout.charAt(0).toUpperCase() + uLayout.slice(1)
+        );
       }
 
       this.isLoaded = true;
@@ -40,8 +45,13 @@ export default {
 
     store.dispatch("SET_PAGE_LANG", settings.language);
     store.dispatch("SET_TITLE_SETTING", settings.title);
-
+    
     this.setUserLayout();
+
+    if(!this.getCookie('alreadyVisited')) {
+      this.setCookie('alreadyVisited', true, 999999);
+      this.incStatRequest('visitsCount');
+    } 
   },
   computed: {
     topByOrder() {
@@ -52,7 +62,7 @@ export default {
     },
   },
   components: { LayoutView },
-  mixins: [compsImporter, settingController],
+  mixins: [compsImporter, settingController, cookiesHelper, statsService],
 };
 </script>
 <template>

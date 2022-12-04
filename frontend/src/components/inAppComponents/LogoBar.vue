@@ -30,7 +30,8 @@ export default {
 };
 </script>
 <template>
-  <div class="w-full shadow relative">
+<!-- Add fixed prop -->
+  <div class="w-full shadow md:relative fixed bg-white z-20">
     <image-loader
       @click="goToIndex"
       :imageId="logoImg.value"
@@ -56,7 +57,6 @@ export default {
           @click="menuVisible = !menuVisible"
           :class="[
           'fixed grid grid-cols-3 grid-rows-3 group cursor-pointer md:hidden z-50 transition-all',
-          'bg-white p-1 rounded-md',
           menuVisible ? 'gap-0' : 'gap-1'
           ]
          

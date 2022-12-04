@@ -49,8 +49,8 @@ export default {
 </script>
 
 <template>
-  <basic-container>
-    <div class="bg-white rounded shadow mb-8 p-2 select-none">
+  <basic-container class="px-2">
+    <div class="bg-white rounded shadow mb-8 p-2 select-none font-sans">
       <div
         v-if="arr.length > 2"
         class="
@@ -85,7 +85,6 @@ export default {
             gap-2
             p-1
             text-slate-500
-            font-Kanit
           "
         >
           <p>Lp.</p>
@@ -103,7 +102,7 @@ export default {
               gap-2
               p-1
               text-slate-700
-              font-medium font-Kanit
+              font-semibold 
             "
           >
             <p

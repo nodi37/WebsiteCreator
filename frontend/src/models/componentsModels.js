@@ -192,6 +192,20 @@ const componentsModels = [
       json: [],
     },
   },
+
+  {
+    name: "CookiesComp",
+    visibleName: "Informacja o wykorzystaniu cookie",
+    description: "",
+    props: {
+      text: [],
+      image: [],
+      boolean: [],
+      color: [],
+      array: [],
+      json: [],
+    },
+  },
   // {
   //   name: "UpToThreeLineList",
   //   visibleName: "Lista trzy stopniowa",

@@ -48,6 +48,9 @@ app.use('/auth', authRoutes);
 import settingRoutes from './routes/settings.routes';
 app.use('/setting', settingRoutes);
 
+import statisticsRoutes from './routes/statistics.routes';
+app.use('/statistic', statisticsRoutes);
+
 
 //App init!
 startChunkingBufferCleaner();

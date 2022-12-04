@@ -23,9 +23,9 @@ export default {
       size = this.fixedSize;
     } else if (windowWidth > 2600) {
       size = null;
-    } else if (windowWidth > 1600) {
+    } else if (windowWidth > 1400) {
       size = "xlarge";
-    } else if (windowWidth > 1024) {
+    } else if (windowWidth > 900) {
       size = "large";
     } else if (windowWidth > 300) {
       size = "medium";

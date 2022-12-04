@@ -10,6 +10,7 @@ import CompetitionComponent from "@/components/inAppComponents/CompetitionCompon
 import ArticlesGrid from "@/components/inAppComponents/ArticlesGrid.vue";
 import CompetitionTable from "@/components/inAppComponents/CompetitionTable.vue";
 import CompetitionRules from "@/components/inAppComponents/CompetitionRules.vue";
+import CookiesComp from "@/components/inAppComponents/CookiesComp.vue";
 
 //import UpToThreeLineList from "@/components/inAppComponents/UpToThreeLineList.vue";
 //import Navigation from "@/components/inAppComponents/Navigation.vue";
@@ -29,7 +30,8 @@ export default {
     CompetitionComponent,
     ArticlesGrid,
     CompetitionTable,
-    CompetitionRules
+    CompetitionRules,
+    CookiesComp
 
     //UpToThreeLineList,
     //Navigation

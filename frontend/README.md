@@ -13,8 +13,7 @@ npm run serve
 
 App should open in web browser.
 
-### To do
-- Stats
+## To do
 - Add article viewer
 - Full view gallery
 - Fix image removing from article
@@ -23,4 +22,3 @@ App should open in web browser.
 - Fix saving small images multiple times
 - Rich text editor for articles and components
 - Better images resizing
-

@@ -32,31 +32,36 @@ export default {
 </script>
 
 <template>
-  <basic-container class="p-2 font-Roboto mb-16" backgroundColor="#fafafa">
+  <basic-container class="p-2 mb-16" backgroundColor="#fafafa">
     <div
       v-if="loaded && newArticles.length > 0"
-      class="grid grid-rows-[repeat(2,_auto);] grid-cols-1 gap-4 sm:md-8"
+      class="grid grid-cols-1 grid-rows-[repeat(2,_auto)] lg:grid-cols-2 gap-4"
     >
-      <article-card
-        v-if="!!newArticles[0]"
-        :name="newArticles[0].name"
-        :date="newArticles[0].userDate"
-        :href="newArticles[0].href"
-        :mainImageId="newArticles[0].mainImageId"
-      />
-
-      <div class="grid grid-rows-2 sm:grid-rows-1 sm:grid-cols-2 gap-4">
         <template v-for="index in 2">
           <article-card
-            v-if="!!newArticles[index]"
-            :key="newArticles[index].name + ' ' + newArticles[index].userDate"
-            :name="newArticles[index].name"
-            :date="newArticles[index].userDate"
-            :href="newArticles[index].href"
-            :mainImageId="newArticles[index].mainImageId"
+            v-if="!!newArticles[index-1]"
+            :key="newArticles[index-1].name + ' ' + newArticles[index-1].userDate"
+            :name="newArticles[index-1].name"
+            :date="newArticles[index-1].userDate"
+            :href="newArticles[index-1].href"
+            :mainImageId="newArticles[index-1].mainImageId"
+          />
+        </template>
+
+      <div class="col-span-full grid grid-rows-[repeat(3,_auto)] lg:grid-rows-1 lg:grid-cols-3 gap-4">
+        <template v-for="index in 2">
+          <article-card
+            v-if="!!newArticles[index+1]"
+            :key="newArticles[index+1].name + ' ' + newArticles[index+1].userDate"
+            :name="newArticles[index+1].name"
+            :date="newArticles[index+1].userDate"
+            :href="newArticles[index+1].href"
+            :mainImageId="newArticles[index+1].mainImageId"
           />
         </template>
       </div>
+
+
     </div>
   </basic-container>
 </template>

@@ -23,9 +23,9 @@ export default {
     <h3 v-if="!!header.value" class="mb-8 text-green-400">
       {{ header.value }}
     </h3>
-    <div class="flex flex-wrap sm:flex-nowrap px-2 gap-2 justify-between w-screen relative">
+    <div class="flex flex-wrap sm:flex-nowrap px-2 gap-2 justify-around sm:justify-between w-screen relative">
       <figure
-        class="flex-initial w-5/12 h-24 sm:h-24 sm:w-60 overflow-hidden hover:scale-[1.2] transition-all cursor-pointer"
+        class="flex-initial w-[45%] h-24 sm:h-24 sm:w-60 overflow-hidden hover:scale-[1.2] transition-all cursor-pointer"
         v-for="(item, index) in items.value"
         :key="'logo-' + index"
         @click="openLink(item.href.value)"

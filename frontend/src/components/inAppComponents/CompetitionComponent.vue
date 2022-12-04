@@ -8,7 +8,7 @@ export default {
     dateObj() {
       const dateArr = this.date.value.split("/");
       const [day, month, year] = dateArr;
-      return new Date(`${year} ${month} ${Number(day) + 1}`);
+      return new Date(`${year}/${month}/${Number(day) + 1}`);
     },
     dateString() {
       const options = {
